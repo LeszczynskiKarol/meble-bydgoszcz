@@ -1,0 +1,263 @@
+---
+import { Image } from 'astro:assets';
+import Carousel from '../../components/ui/Carousel';
+import Button from '../../components/ui/Button.astro';
+
+export interface Props {
+  title: string;
+  subtitle?: string;
+  description: string;
+  ctaPrimary?: {
+    text: string;
+    href: string;
+    icon?: string;
+  };
+  ctaSecondary?: {
+    text: string;
+    href: string;
+    icon?: string;
+  };
+  images?: Array<{
+    src: string;
+    alt: string;
+  }>;
+  variant?: 'default' | 'kitchen' | 'simple';
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  ctaPrimary,
+  ctaSecondary,
+  images = [],
+  variant = 'default',
+} = Astro.props;
+
+// Default images if none provided
+const defaultImages = [
+  {
+    src: 'https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394098858-Clipboard_06-22-2025_107_opt.webp',
+    alt: 'Kuchnia na wymiar Bydgoszcz',
+  },
+  {
+    src: 'https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991105-MEBLE-SYCZEN-89-of-91-scaled_opt.webp',
+    alt: 'Garderoba na wymiar Bydgoszcz',
+  },
+  {
+    src: 'https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1755073547211-szafgozdz-1_opt.webp',
+    alt: 'Zabudowa salonu Bydgoszcz',
+  },
+  {
+    src: 'https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1748596199233-1a,k%20(3)_opt.webp',
+    alt: 'Meble do sypialni Bydgoszcz',
+  },
+];
+
+const carouselImages = images.length > 0 ? images : defaultImages;
+---
+
+<section class="hero hero--{variant}">
+  <div class="hero__background">
+    <div class="hero__wave"></div>
+  </div>
+
+  <div class="hero__container">
+    <div class="hero__content">
+      <div class="hero__text">
+        {subtitle && <p class="hero__subtitle">{subtitle}</p>}
+        <h1 class="hero__title" set:html={title} />
+        <p class="hero__description">{description}</p>
+
+        {
+          (ctaPrimary || ctaSecondary) && (
+            <div class="hero__buttons">
+              {ctaPrimary && (
+                <Button
+                  href={ctaPrimary.href}
+                  variant="primary"
+                  size="large"
+                  icon={ctaPrimary.icon}
+                >
+                  {ctaPrimary.text}
+                </Button>
+              )}
+              {ctaSecondary && (
+                <Button
+                  href={ctaSecondary.href}
+                  variant="secondary"
+                  size="large"
+                  icon={ctaSecondary.icon}
+                >
+                  {ctaSecondary.text}
+                </Button>
+              )}
+            </div>
+          )
+        }
+      </div>
+
+      {
+        variant !== "simple" && (
+          <div class="hero__carousel">
+            <Carousel
+              client:load
+              images={carouselImages}
+              autoPlay={true}
+              interval={5000}
+              showDots={true}
+              showArrows={true}
+              className="hero-carousel"
+            />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Zaktualizowana sekcja <style> w pliku Hero.astro -->
+<style>
+  .hero {
+    @apply relative min-h-[90vh] flex items-center overflow-hidden;
+    margin-top: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .hero__background {
+    @apply absolute inset-0 pointer-events-none;
+  }
+
+  .hero__wave {
+    @apply absolute w-[200%] h-[200%] opacity-30;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff22' d='M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,154.7C672,160,768,192,864,197.3C960,203,1056,181,1152,165.3C1248,149,1344,139,1392,133.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E")
+      no-repeat;
+    background-size: cover;
+    animation: wave 20s linear infinite;
+  }
+
+  @keyframes wave {
+    0% {
+      transform: translateX(0) translateY(0);
+    }
+    100% {
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+
+  .hero__container {
+    @apply relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .hero__content {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center;
+  }
+
+  .hero__text {
+    @apply text-white space-y-6;
+  }
+
+  .hero__subtitle {
+    @apply text-lg opacity-90;
+  }
+
+  .hero__title {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight;
+    animation: slideInLeft 1s ease;
+  }
+
+  .hero__title :global(.highlight) {
+    @apply text-yellow-300;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__description {
+    @apply text-xl opacity-95;
+    animation: slideInLeft 1s ease 0.2s backwards;
+  }
+
+  .hero__buttons {
+    @apply flex flex-wrap gap-4;
+    animation: slideInLeft 1s ease 0.4s backwards;
+  }
+
+  .hero__carousel {
+    @apply relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Variant: Kitchen */
+  .hero--kitchen {
+    background: linear-gradient(135deg, #2d5016 0%, #5a8f2d 100%);
+  }
+
+  /* Variant: Simple */
+  .hero--simple {
+    @apply min-h-[60vh];
+  }
+
+  .hero--simple .hero__content {
+    @apply grid-cols-1 text-center;
+  }
+
+  .hero--simple .hero__buttons {
+    @apply justify-center;
+  }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .hero__content {
+      @apply text-center;
+    }
+
+    .hero__buttons {
+      @apply justify-center;
+    }
+
+    .hero__carousel {
+      @apply h-[350px] mt-8;
+    }
+  }
+
+  /* UKRYCIE KARUZELI NA MOBILE */
+  @media (max-width: 768px) {
+    .hero__carousel {
+      display: none !important;
+    }
+    
+    /* Dostosowanie hero gdy nie ma karuzeli */
+    .hero {
+      min-height: 80vh;
+    }
+    
+    .hero__content {
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: 3rem 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero__title {
+      @apply text-3xl;
+    }
+
+    .hero__description {
+      @apply text-base;
+    }
+    
+    .hero {
+      min-height: 70vh;
+    }
+  }
+</style>

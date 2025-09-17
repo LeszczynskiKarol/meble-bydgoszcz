@@ -1,0 +1,130 @@
+---
+import type { Service } from '../../lib/types';
+
+export interface Props {
+  title: string;
+  subtitle?: string;
+  services: Service[];
+}
+
+const { title, subtitle, services } = Astro.props;
+---
+
+<section class="services">
+  <div class="container">
+    <div class="section-header">
+      <h2>{title}</h2>
+      {subtitle && <p>{subtitle}</p>}
+    </div>
+    
+    <div class="services-grid">
+      {services.map((service) => (
+        <a href={service.href} class="service-card">
+          <img
+            src={service.image}
+            alt={service.title}
+            class="service-image"
+            loading="lazy"
+          />
+          <div class="service-content">
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+            <span class="service-link">
+              Zobacz więcej →
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    @apply py-20 px-4 sm:px-6 lg:px-8 bg-white;
+  }
+
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .section-header {
+    @apply text-center mb-16;
+  }
+
+  .section-header h2 {
+    @apply text-4xl font-bold text-primary mb-4 relative inline-block;
+  }
+
+  .section-header h2::after {
+    @apply content-[''] absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-secondary rounded-full;
+  }
+
+  .section-header p {
+    @apply text-xl text-gray-600 max-w-2xl mx-auto mt-6;
+  }
+
+  .services-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12;
+  }
+
+  .service-card {
+    @apply relative h-[350px] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 bg-gray-100 block no-underline;
+  }
+
+  .service-card::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10;
+  }
+
+  .service-card:hover {
+    @apply scale-105 shadow-2xl;
+  }
+
+  .service-image {
+    @apply w-full h-full object-cover transition-transform duration-300;
+  }
+
+  .service-card:hover .service-image {
+    @apply scale-110;
+  }
+
+  .service-content {
+    @apply absolute bottom-0 left-0 right-0 p-8 z-20 transform translate-y-5 transition-transform duration-300;
+  }
+
+  .service-card:hover .service-content {
+    @apply translate-y-0;
+  }
+
+  .service-content h3 {
+    @apply text-white text-2xl font-bold mb-2;
+  }
+
+  .service-content p {
+    @apply text-white/90 text-sm leading-relaxed mb-4 opacity-0 transition-opacity duration-300 delay-100;
+  }
+
+  .service-card:hover .service-content p {
+    @apply opacity-100;
+  }
+
+  .service-link {
+    @apply text-yellow-300 text-sm font-semibold inline-flex items-center gap-2 transition-all duration-300;
+  }
+
+  .service-card:hover .service-link {
+    @apply gap-4;
+  }
+
+  @media (max-width: 1200px) {
+    .services-grid {
+      @apply grid-cols-2;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .services-grid {
+      @apply grid-cols-1;
+    }
+  }
+</style>

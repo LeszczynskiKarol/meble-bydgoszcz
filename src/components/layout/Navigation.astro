@@ -1,0 +1,110 @@
+---
+import { navItems } from '../../content/navigation';
+
+const currentPath = Astro.url.pathname;
+---
+
+<ul class="nav-links" id="navLinks">
+  {navItems.map((item) => (
+    <li class={item.dropdown ? 'dropdown' : ''}>
+      <a
+        href={item.href}
+        class={`nav-link ${item.dropdown ? 'dropdown-toggle' : ''} ${
+          currentPath === item.href ? 'active' : ''
+        }`}
+      >
+        {item.label}
+      </a>
+      {item.dropdown && (
+        <ul class="dropdown-menu">
+          {item.dropdown.map((subItem) => (
+            <li>
+              <a
+                href={subItem.href}
+                class={currentPath === subItem.href ? 'active' : ''}
+              >
+                {subItem.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .nav-links {
+    @apply hidden lg:flex gap-2 list-none m-0;
+  }
+
+  .nav-links.active {
+    @apply flex fixed top-20 right-0 w-full h-[calc(100vh-80px)] bg-white flex-col items-center justify-start pt-8 shadow-lg;
+  }
+
+  .nav-link {
+    @apply text-gray-800 no-underline font-medium transition-all duration-300 px-4 py-2 block whitespace-nowrap relative;
+  }
+
+  .nav-link::after {
+    @apply content-[''] absolute bottom-0 left-4 right-4 h-0.5 bg-secondary scale-x-0 transition-transform duration-300;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply scale-x-100;
+  }
+
+  /* Dropdown */
+  .dropdown {
+    @apply relative;
+  }
+
+
+  .dropdown-menu {
+    @apply absolute top-full left-0 bg-white shadow-xl rounded-lg min-w-[200px] opacity-0 invisible -translate-y-2 transition-all duration-300 mt-2 py-2 z-50;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    @apply opacity-100 visible translate-y-0;
+  }
+
+  .dropdown-menu li {
+    @apply list-none;
+  }
+
+  .dropdown-menu a {
+    @apply px-6 py-3 border-b border-gray-50 text-sm text-gray-700 no-underline block transition-all duration-300;
+  }
+
+  .dropdown-menu a:hover {
+    @apply bg-gray-50 pl-8;
+  }
+
+  .dropdown-menu a.active {
+    @apply bg-secondary/10 text-secondary font-semibold;
+  }
+
+  .dropdown-menu li:last-child a {
+    @apply border-b-0 rounded-b-lg;
+  }
+
+  .dropdown-menu li:first-child a {
+    @apply rounded-t-lg;
+  }
+
+  /* Mobile styles */
+  @media (max-width: 968px) {
+    .dropdown-menu {
+      @apply static opacity-100 visible transform-none shadow-none m-0 bg-gray-50;
+    }
+
+    .nav-link {
+      @apply text-center;
+    }
+
+    .nav-link::after {
+      @apply hidden;
+    }
+  }
+</style>

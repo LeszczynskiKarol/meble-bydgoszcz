@@ -1,0 +1,45 @@
+---
+import type { Feature } from '../../lib/types';
+
+export interface Props {
+  feature: Feature;
+}
+
+const { feature } = Astro.props;
+---
+
+<div class="feature-card">
+  <div class="feature-icon">{feature.icon}</div>
+  <h3>{feature.title}</h3>
+  <p>{feature.description}</p>
+</div>
+
+<style>
+  .feature-card {
+    @apply bg-white p-8 rounded-2xl shadow-md transition-all duration-300 text-center relative overflow-hidden;
+  }
+
+  .feature-card::before {
+    @apply content-[''] absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary-400 to-secondary-600 scale-x-0 transition-transform duration-300;
+  }
+
+  .feature-card:hover::before {
+    @apply scale-x-100;
+  }
+
+  .feature-card:hover {
+    @apply -translate-y-2 shadow-xl;
+  }
+
+  .feature-icon {
+    @apply w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-secondary-400 to-secondary-600 rounded-full flex items-center justify-center text-3xl text-white shadow-lg;
+  }
+
+  .feature-card h3 {
+    @apply text-xl font-bold mb-4 text-primary;
+  }
+
+  .feature-card p {
+    @apply text-gray-600 leading-relaxed;
+  }
+</style>

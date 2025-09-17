@@ -1,0 +1,466 @@
+---
+import type { Review } from '../../lib/types';
+
+export interface Props {
+  title: string;
+  subtitle?: string;
+  apiEndpoint?: string;
+}
+
+const { 
+  title, 
+  subtitle,
+  apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT 
+} = Astro.props;
+
+// NIE pobieraj podczas buildu - tylko placeholder
+---
+
+<section class="reviews" data-api-endpoint={apiEndpoint}>
+  <div class="reviews-container">
+    <div class="section-header">
+      <h2>{title}</h2>
+      {subtitle && <p>{subtitle}</p>}
+    </div>
+
+    <div class="reviews-summary">
+      <div class="rating-badge">
+        <svg class="rating-circle" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="90" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+          <circle 
+            class="rating-progress"
+            cx="100" 
+            cy="100" 
+            r="90" 
+            fill="none" 
+            stroke="url(#gradient)" 
+            stroke-width="8"
+            stroke-dasharray="565 565"
+            stroke-linecap="round"
+            transform="rotate(-90 100 100)"
+          />
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="rating-content">
+          <div class="reviews-rating" data-rating>-.-</div>
+          <div class="reviews-stars" data-stars>
+            {[...Array(5)].map(() => (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#e5e7eb">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            ))}
+          </div>
+          <div class="reviews-count">
+            <strong data-total-reviews>-</strong> opinii Google
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-loading">
+      <div class="loading-spinner"></div>
+      <p>Ładowanie opinii z Google...</p>
+    </div>
+
+    <div class="reviews-grid" data-reviews-container style="display: none;">
+      <!-- Opinie będą załadowane przez JavaScript -->
+    </div>
+
+    <div class="reviews-footer" style="display: none;">
+      <button 
+        class="load-more-btn"
+        data-load-more
+        style="display: none;"
+      >
+        <span>Zobacz kolejne opinie</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M7 10l5 5 5-5z"/>
+        </svg>
+      </button>
+      <a 
+        href={`https://www.google.com/maps/place/?q=place_id:${import.meta.env.PUBLIC_GOOGLE_PLACE_ID}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="google-reviews-link"
+      >
+        <svg class="google-logo" viewBox="0 0 24 24" width="20" height="20">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Wszystkie opinie w Google
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Wszystko dzieje się po załadowaniu strony - nie podczas buildu!
+  let allReviews = [];
+  let currentIndex = 0;
+  const reviewsPerPage = 3;
+
+  function createReviewHTML(review) {
+    const shortText = review.text ? review.text.slice(0, 200) : '';
+    const needsExpand = review.text && review.text.length > 200;
+    
+    return `
+      <div class="review-card">
+        <div class="review-header">
+          ${review.profilePhoto ? 
+            `<img src="${review.profilePhoto}" alt="${review.author}" class="review-avatar-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+             <div class="review-avatar" style="display:none;">
+              <span>${review.avatar || 'U'}</span>
+            </div>` :
+            `<div class="review-avatar">
+              <span>${review.avatar || 'U'}</span>
+            </div>`
+          }
+          <div class="review-info">
+            <h4>${review.author}</h4>
+            <div class="review-meta">
+              <div class="review-stars" style="display: flex; flex-direction: row; gap: 2px;">
+                ${Array(5).fill('').map((_, i) => `
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="${i < review.rating ? '#fbbf24' : '#e5e7eb'}" style="display: inline-block;">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                `).join('')}
+              </div>
+              <span class="review-date">${review.date}</span>
+            </div>
+          </div>
+        </div>
+        <p class="review-text" data-full-text="${(review.text || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;')}">
+          <span class="text-content">${shortText}${needsExpand ? '...' : ''}</span>
+          ${needsExpand ? ' <button class="expand-btn" data-expand style="display: inline; margin-left: 8px;">Rozwiń</button>' : ''}
+        </p>
+        ${review.verified ? `
+          <div class="verified-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#22c55e">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+            </svg>
+            Zweryfikowana opinia Google
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  function handleExpandButtons() {
+    document.querySelectorAll('[data-expand]').forEach(btn => {
+      if (btn.hasListener) return;
+      btn.hasListener = true;
+      
+      btn.addEventListener('click', function() {
+        const textEl = this.parentElement;
+        const fullText = textEl.dataset.fullText;
+        const textContent = textEl.querySelector('.text-content');
+        
+        if (this.textContent === 'Rozwiń') {
+          textContent.textContent = fullText;
+          this.textContent = 'Zwiń';
+        } else {
+          textContent.textContent = fullText.slice(0, 200) + '...';
+          this.textContent = 'Rozwiń';
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const section = document.querySelector('.reviews');
+    const apiEndpoint = section?.getAttribute('data-api-endpoint');
+    const loadMoreBtn = document.querySelector('[data-load-more]');
+    const container = document.querySelector('[data-reviews-container]');
+    const loadingEl = document.querySelector('.reviews-loading');
+    const footerEl = document.querySelector('.reviews-footer');
+    
+    if (!apiEndpoint || !container) {
+      loadingEl.innerHTML = '<p class="error">Błąd konfiguracji API</p>';
+      return;
+    }
+
+    try {
+      const response = await fetch(apiEndpoint);
+      if (!response.ok) throw new Error('API Error');
+      
+      const data = await response.json();
+      allReviews = data.reviews || [];
+      
+      // Ukryj loading
+      loadingEl.style.display = 'none';
+      
+      // Aktualizuj rating
+      const ratingEl = document.querySelector('[data-rating]');
+      const totalEl = document.querySelector('[data-total-reviews]');
+      const progressCircle = document.querySelector('.rating-progress');
+      
+      if (ratingEl && data.rating) {
+        ratingEl.textContent = data.rating.toFixed(1);
+        
+        // Animacja progress circle
+        if (progressCircle) {
+          const progress = (data.rating / 5) * 565;
+          progressCircle.style.strokeDasharray = `${progress} 565`;
+        }
+        
+        // Aktualizuj gwiazdki
+        const starsContainer = document.querySelector('[data-stars]');
+        if (starsContainer) {
+          starsContainer.innerHTML = Array(5).fill('').map((_, i) => `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="${i < Math.floor(data.rating) ? '#fbbf24' : '#e5e7eb'}">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          `).join('');
+        }
+      }
+      
+      if (totalEl) {
+        totalEl.textContent = data.totalReviews || '0';
+      }
+      
+      // Wyświetl opinie
+      if (allReviews.length > 0) {
+        const initialReviews = allReviews.slice(0, 3);
+        container.innerHTML = initialReviews.map(review => createReviewHTML(review)).join('');
+        container.style.display = 'grid';
+        footerEl.style.display = 'flex';
+        currentIndex = 3;
+        
+        handleExpandButtons();
+        
+        // Pokaż przycisk jeśli jest więcej opinii
+        if (allReviews.length > 3) {
+          loadMoreBtn.style.display = 'inline-flex';
+        }
+      } else {
+        container.innerHTML = '<p class="no-reviews">Brak opinii do wyświetlenia</p>';
+        container.style.display = 'block';
+      }
+      
+    } catch (error) {
+      console.error('Error:', error);
+      loadingEl.innerHTML = '<p class="error">Nie udało się załadować opinii. Spróbuj później.</p>';
+    }
+
+    // Obsługa przycisku "Zobacz kolejne"
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        if (currentIndex < allReviews.length) {
+          const nextReviews = allReviews.slice(currentIndex, currentIndex + reviewsPerPage);
+          const newHTML = nextReviews.map(review => createReviewHTML(review)).join('');
+          container.insertAdjacentHTML('beforeend', newHTML);
+          currentIndex += reviewsPerPage;
+          handleExpandButtons();
+          
+          if (currentIndex >= allReviews.length) {
+            loadMoreBtn.style.display = 'none';
+          }
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .reviews {
+    @apply py-24 px-4 sm:px-6 lg:px-8;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%);
+    position: relative;
+  }
+
+  .reviews::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.92), rgba(255,255,255,0.95));
+  }
+
+  .reviews-container {
+    @apply max-w-7xl mx-auto relative z-10;
+  }
+
+  .section-header {
+    @apply text-center mb-16;
+  }
+
+  .section-header h2 {
+    @apply text-4xl font-bold text-primary mb-4 relative inline-block;
+  }
+
+  .section-header h2::after {
+    @apply content-[''] absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-secondary rounded-full;
+  }
+
+  .section-header p {
+    @apply text-xl text-gray-700 max-w-2xl mx-auto font-medium;
+  }
+
+  .reviews-summary {
+    @apply flex justify-center mb-16;
+  }
+
+  .rating-badge {
+    @apply relative w-48 h-48 p-2;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  }
+
+  .rating-circle {
+    @apply absolute inset-2;
+  }
+
+  .rating-progress {
+    transition: stroke-dasharray 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .rating-content {
+    @apply absolute inset-0 flex flex-col items-center justify-center;
+  }
+
+  .reviews-rating {
+    @apply text-5xl font-black;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .reviews-stars {
+    @apply flex flex-row items-center gap-1 my-2;
+  }
+
+  .reviews-count {
+    @apply text-gray-700 text-sm font-medium;
+  }
+
+  .reviews-count strong {
+    @apply font-bold text-gray-900;
+  }
+
+  .reviews-loading {
+    @apply flex flex-col items-center justify-center py-16;
+  }
+
+  .loading-spinner {
+    @apply w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4;
+  }
+
+  .reviews-loading p {
+    @apply text-gray-700 font-medium;
+  }
+
+  .error {
+    @apply text-red-600 font-semibold;
+  }
+
+  .reviews-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+  }
+
+  .review-card {
+    @apply bg-white p-8 rounded-2xl relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .review-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    border-radius: 2rem 2rem 0 0;
+  }
+
+  .review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+  }
+
+  .review-header {
+    @apply flex items-start gap-4 mb-4;
+  }
+
+  .review-avatar {
+    @apply w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .review-avatar-img {
+    @apply w-14 h-14 rounded-full object-cover border-2 border-purple-200 flex-shrink-0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .review-info {
+    @apply flex-1;
+  }
+
+  .review-info h4 {
+    @apply text-gray-900 font-bold text-lg mb-1;
+  }
+
+  .review-meta {
+    @apply flex flex-row items-center gap-3;
+  }
+
+  .review-stars {
+    @apply flex flex-row items-center gap-0.5;
+  }
+
+  .review-date {
+    @apply text-gray-500 text-sm font-medium;
+  }
+
+  .review-text {
+    @apply text-gray-700 leading-relaxed mb-4 text-base;
+  }
+
+  .expand-btn {
+    @apply text-purple-600 font-semibold ml-2 hover:text-purple-700 cursor-pointer transition-colors;
+  }
+
+  .verified-badge {
+    @apply inline-flex items-center gap-1.5 text-green-600 text-sm font-medium bg-green-50 px-3 py-1 rounded-full;
+  }
+
+  .reviews-footer {
+    @apply flex flex-col sm:flex-row items-center justify-center gap-4 mt-16;
+  }
+
+  .load-more-btn {
+    @apply inline-flex items-center gap-3 px-8 py-4 text-white font-bold rounded-full transition-all;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+
+  .load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+  }
+
+  .google-reviews-link {
+    @apply inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-gray-200 rounded-full text-gray-700 font-bold transition-all;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  }
+
+  .google-reviews-link:hover {
+    @apply border-purple-500 text-purple-600;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .no-reviews {
+    @apply text-center text-gray-600 py-12 font-medium;
+  }
+</style>

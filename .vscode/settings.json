@@ -1,0 +1,14 @@
+{
+  "typescript.validate.enable": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "astro.language-server.ls-path": "",
+  "files.associations": {
+    "*.astro": "astro"
+  },
+  "[astro]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}

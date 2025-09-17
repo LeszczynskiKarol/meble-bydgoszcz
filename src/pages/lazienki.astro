@@ -1,0 +1,715 @@
+---
+import Reviews from '../components/sections/Reviews.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import type { GalleryImage } from '../lib/types';
+
+// Bathroom types data
+const bathroomTypes = [
+  {
+    title: "Szafki podumywalkowe",
+    description: "Funkcjonalne rozwiązania z maksymalnym wykorzystaniem przestrzeni",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/ramiak-3_opt.webp",
+    features: ["Różne wymiary", "Ciche domykanie", "Pełny wysuw"]
+  },
+  {
+    title: "Szafki wiszące i słupki",
+    description: "Eleganckie i pojemne rozwiązania do przechowywania",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/bubla-3.jpg",
+    features: ["Optymalizacja przestrzeni", "Różne wykończenia", "Praktyczne"]
+  },
+  {
+    title: "Lustra z oświetleniem LED",
+    description: "Nowoczesne lustra z podświetleniem i funkcjami dodatkowymi",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-10_opt.webp",
+    features: ["LED", "Antypara", "Touch"]
+  },
+  {
+    title: "Blaty łazienkowe",
+    description: "Kamienne, kwarcowe i laminowane blaty na wymiar",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lazobokchelm-2-9.jpg",
+    features: ["Wodoodporność", "Trwałość", "Elegancja"]
+  },
+  {
+    title: "Zabudowy pralkowe",
+    description: "Sprytne rozwiązania ukrywające pralkę i suszarkę",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lazkorm-4.jpg",
+    features: ["Funkcjonalność", "Estetyka", "Wyciszenie"]
+  },
+  {
+    title: "Półki i akcesoria",
+    description: "Detale, które dopełniają wystrój łazienki",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-13_opt.webp",
+    features: ["Styl", "Organizacja", "Wykończenie"]
+  }
+];
+
+// Features data
+const features = [
+  {
+    icon: "🛁",
+    title: "Funkcjonalność",
+    description: "Optymalne wykorzystanie przestrzeni. Zaprojektujemy rozkład szafek, szuflad i innych mebli tak, aby wszystko mieściło się wygodnie."
+  },
+  {
+    icon: "💎",
+    title: "Trwałość",
+    description: "Najlepsze materiały i wykonanie. Stawiamy na jakość, dzięki czemu łazienka na wymiar będzie służyć Ci latami."
+  },
+  {
+    icon: "🎨",
+    title: "Dopasowanie do aranżacji",
+    description: "Idealne wkomponowanie mebli łazienkowych w przestrzeń. Stworzymy spójną całość z pozostałymi elementami."
+  },
+  {
+    icon: "⚡",
+    title: "Wyjątkowy design",
+    description: "Niepowtarzalny styl. Oferujemy projektowanie mebli, które wyglądają wyjątkowo i reprezentacyjnie."
+  },
+  {
+    icon: "📐",
+    title: "Personalizacja",
+    description: "Dopasowanie do Twojego stylu i potrzeb. Pełna swoboda projektowania, aby meble idealnie pasowały do Ciebie."
+  },
+  {
+    icon: "🏆",
+    title: "Kompleksowa realizacja",
+    description: "Od projektu przez produkcję po montaż. Koordynujemy wszystkie prace, aby zapewnić sprawny przebieg inwestycji."
+  }
+];
+
+// Process steps for bathroom
+const bathroomProcessSteps = [
+  {
+    number: 1,
+    title: "Konsultacja",
+    description: "Omawiamy Twoje potrzeby, zwyczaje i dostępną przestrzeń. Profesjonalne doradztwo przy wyborze rozwiązań."
+  },
+  {
+    number: 2,
+    title: "Pomiar",
+    description: "Precyzyjny pomiar pomieszczenia przed realizacją. Sprawdzamy media i analizujemy możliwości aranżacji."
+  },
+  {
+    number: 3,
+    title: "Projekt 3D",
+    description: "Konsultacje z projektantem i nanoszenie poprawek. Fotorealistyczny projekt z dokładną wyceną."
+  },
+  {
+    number: 4,
+    title: "Produkcja",
+    description: "Wysokiej jakości komponenty i staranne wykonanie w naszej stolarni. Czas realizacji: 3-4 tygodnie."
+  },
+  {
+    number: 5,
+    title: "Montaż",
+    description: "Montaż przez doświadczonych fachowców z dbałością o każdy detal. Podłączamy ceramikę, baterie, lustra."
+  }
+];
+
+// Gallery images
+const galleryImages: GalleryImage[] = [
+  {
+    id: "1",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/ramiak-3_opt.webp",
+    category: "lazienki"
+  },
+  {
+    id: "2",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/bubla-3.jpg",
+    category: "lazienki"
+  },
+  {
+    id: "3",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-10_opt.webp",
+    category: "lazienki"
+  },
+  {
+    id: "4",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lazobokchelm-2-9.jpg",
+    category: "lazienki"
+  },
+  {
+    id: "5",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lazkorm-4.jpg",
+    category: "lazienki"
+  },
+  {
+    id: "6",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-13_opt.webp",
+    category: "lazienki"
+  }
+];
+
+// Reviews data
+const reviews = [
+  {
+    name: "Anna Szczepańska",
+    initials: "AS",
+    rating: 5,
+    text: "Łazienka wyszła pięknie! Projekt 3D pozwolił nam dokładnie zaplanować każdy detal. Montażyści byli bardzo profesjonalni, wszystko dopasowane idealnie. Polecam gorąco!",
+    date: "Tydzień temu"
+  },
+  {
+    name: "Michał Nowak",
+    initials: "MN",
+    rating: 5,
+    text: "Świetne wykorzystanie małej przestrzeni! Projektant zaproponował rozwiązania, o których bym nie pomyślał. Szafki pojemne, wszystko się mieści, a łazienka wygląda przestronnie.",
+    date: "2 tygodnie temu"
+  },
+  {
+    name: "Katarzyna Wojciechowska",
+    initials: "KW",
+    rating: 5,
+    text: "Nasza łazienka jak z katalogu! Jakość wykonania mebli na najwyższym poziomie, okucia działają bezszelestnie. Lustro z podświetleniem LED to strzał w dziesiątkę!",
+    date: "Miesiąc temu"
+  }
+];
+
+// Fallback reviews dla łazienek
+const fallbackBathroomReviews = [
+  {
+    id: "bathroom-1",
+    author: "Anna Szczepańska",
+    avatar: "AS",
+    rating: 5,
+    text: "Łazienka wyszła pięknie! Projekt 3D pozwolił nam dokładnie zaplanować każdy detal. Montażyści byli bardzo profesjonalni, wszystko dopasowane idealnie. Polecam gorąco!",
+    date: "Tydzień temu",
+    verified: true
+  },
+  {
+    id: "bathroom-2",
+    author: "Michał Nowak",
+    avatar: "MN",
+    rating: 5,
+    text: "Świetne wykorzystanie małej przestrzeni! Projektant zaproponował rozwiązania, o których bym nie pomyślał. Szafki pojemne, wszystko się mieści, a łazienka wygląda przestronnie.",
+    date: "2 tygodnie temu",
+    verified: true
+  },
+  {
+    id: "bathroom-3",
+    author: "Katarzyna Wojciechowska",
+    avatar: "KW",
+    rating: 5,
+    text: "Nasza łazienka jak z katalogu! Jakość wykonania mebli na najwyższym poziomie, okucia działają bezszelestnie. Lustro z podświetleniem LED to strzał w dziesiątkę!",
+    date: "Miesiąc temu",
+    verified: true
+  }
+];
+
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+  }
+}
+
+const displayReviews = googleReviews || fallbackBathroomReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+---
+
+<BaseLayout 
+  title="Łazienki na wymiar Bydgoszcz - Projektowanie i Produkcja"
+  description="Projektujemy i wykonujemy wymarzone łazienki na wymiar idealnie dopasowane do Twojej przestrzeni. Od nowoczesnych minimalistycznych po klasyczne z charakterem."
+  keywords={[
+    "łazienki na wymiar Bydgoszcz",
+    "meble łazienkowe Bydgoszcz",
+    "szafki łazienkowe",
+    "lustra LED",
+    "zabudowy łazienkowe"
+  ]}
+>
+  <!-- Hero Section -->
+  <Hero
+    title="Łazienki na wymiar <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Projektujemy i wykonujemy wymarzone łazienki idealnie dopasowane do Twojej przestrzeni. Od nowoczesnych minimalistycznych po klasyczne z charakterem."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz realizacje łazienek →", href: "/realizacje#lazienki" }}
+    images={[
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-10_opt.webp", alt: "Nowoczesna łazienka na wymiar Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lazobokchelm-2-9.jpg", alt: "Łazienka minimalistyczna Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/ramiak-3_opt.webp", alt: "Łazienka klasyczna Bydgoszcz" },
+      { src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991050-Maj-89_opt.webp", alt: "Łazienka z wanną wolnostojącą Bydgoszcz" }
+    ]}
+    variant="default"
+  />
+
+  <!-- Bathroom Types Section -->
+  <section class="bathroom-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Rodzaje mebli łazienkowych w naszej ofercie</h2>
+        <p>Kompleksowe wyposażenie łazienki na wymiar dopasowane do Twoich potrzeb i stylu</p>
+      </div>
+      <div class="bathroom-types-grid">
+        {bathroomTypes.map((type) => (
+          <div class="bathroom-type-card" style={`background-image: url('${type.image}');`}>
+            <div class="bathroom-type-content">
+              <h3>{type.title}</h3>
+              <p>{type.description}</p>
+              <div class="bathroom-type-features">
+                {type.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Twoje korzyści z nowych mebli łazienkowych</h2>
+        <p>Gwarancja najwyższej jakości i estetyki wykonania</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Proces realizacji łazienki na wymiar</h2>
+        <p>Od pierwszego spotkania do gotowej łazienki marzeń</p>
+      </div>
+      <div class="process-grid">
+        {bathroomProcessSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <Gallery
+    title="Nasze realizacje łazienek"
+    subtitle="Zobacz łazienki, które stworzyliśmy dla naszych klientów w Bydgoszczy"
+    images={galleryImages}
+    viewAllLink="/realizacje#lazienki"
+  />
+
+<Reviews
+  title="Opinie o naszych łazienkach"
+  subtitle="Zobacz, co mówią klienci o naszych meblach łazienkowych na wymiar"
+  fallbackReviews={displayReviews}
+  rating={displayRating}
+  totalReviews={displayTotalReviews}
+  apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+/>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Łazienka jak z katalogu? Zleć nam wykonanie!</h2>
+      <p>Zadzwoń lub napisz do nas i daj znać, jakich mebli łazienkowych potrzebujesz!</p>
+      <div class="cta-buttons">
+        <Button
+          href="tel:+48576060832"
+          variant="primary"
+          size="large"
+          icon="📞"
+        >
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button
+          href="mailto:kontakt@meblesystem.pl"
+          variant="secondary"
+          size="large"
+        >
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Bathroom Types Section */
+  .bathroom-types {
+    padding: 5rem 5%;
+    background: var(--white);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color, #764ba2);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .bathroom-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .bathroom-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bathroom-types-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .bathroom-type-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .bathroom-type-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2)
+    );
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  .bathroom-type-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .bathroom-type-card:hover::before {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.1)
+    );
+  }
+
+  .bathroom-type-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white, #ffffff);
+  }
+
+  .bathroom-type-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .bathroom-type-card:hover .bathroom-type-content h3 {
+    transform: translateY(-5px);
+  }
+
+  .bathroom-type-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .bathroom-type-features {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .bathroom-type-features span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    background: var(--white, #ffffff);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white, #ffffff);
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .feature-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Process Section */
+  .process {
+    padding: 5rem 5%;
+    background: var(--white, #ffffff);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1200px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+  }
+
+  .process-card {
+    background: var(--white, #ffffff);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .process-card h3 {
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .process-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -150px;
+    right: -150px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .cta-content h2 {
+    color: var(--white, #ffffff);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Favicon Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      #output {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+      }
+      .favicon-item {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      canvas {
+        border: 1px solid #ddd;
+        display: block;
+        margin: 10px auto;
+      }
+      button {
+        background: #764ba2;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #5a3980;
+      }
+      #generate-all {
+        background: #28a745;
+        padding: 15px 30px;
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Generator Favicon - Meble Bydgoszcz</h1>
+    <button id="generate-all">🎨 Generuj wszystkie favicony</button>
+    <div id="output"></div>
+
+    <script>
+      const sizes = [16, 32, 48, 64, 128, 180, 192, 512];
+      const outputDiv = document.getElementById("output");
+
+      function generateFavicon(size) {
+        return new Promise((resolve) => {
+          const container = document.createElement("div");
+          container.className = "favicon-item";
+
+          const canvas = document.createElement("canvas");
+          canvas.width = size;
+          canvas.height = size;
+
+          const ctx = canvas.getContext("2d");
+
+          // Gradient tło
+          const gradient = ctx.createLinearGradient(0, 0, size, size);
+          gradient.addColorStop(0, "#667eea");
+          gradient.addColorStop(1, "#764ba2");
+
+          // Zaokrąglone rogi (dla większych rozmiarów)
+          if (size >= 32) {
+            const radius = size * 0.15;
+            ctx.beginPath();
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(size - radius, 0);
+            ctx.quadraticCurveTo(size, 0, size, radius);
+            ctx.lineTo(size, size - radius);
+            ctx.quadraticCurveTo(size, size, size - radius, size);
+            ctx.lineTo(radius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - radius);
+            ctx.lineTo(0, radius);
+            ctx.quadraticCurveTo(0, 0, radius, 0);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+          } else {
+            // Dla małych rozmiarów - bez zaokrągleń
+            ctx.fillStyle = "#764ba2";
+            ctx.fillRect(0, 0, size, size);
+          }
+
+          // Ikona
+          ctx.fillStyle = "white";
+          ctx.font = `bold ${size * 0.55}px Arial`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("▣", size / 2, size / 2 + size * 0.05);
+
+          // Dodaj do strony
+          const label = document.createElement("p");
+          label.textContent = `${size}x${size}px`;
+
+          const downloadBtn = document.createElement("button");
+          downloadBtn.textContent = `⬇ Pobierz`;
+          downloadBtn.onclick = () => {
+            canvas.toBlob((blob) => {
+              const a = document.createElement("a");
+              a.download =
+                size === 180
+                  ? "apple-touch-icon.png"
+                  : `favicon-${size}x${size}.png`;
+              a.href = URL.createObjectURL(blob);
+              a.click();
+            });
+          };
+
+          container.appendChild(label);
+          container.appendChild(canvas);
+          container.appendChild(downloadBtn);
+          outputDiv.appendChild(container);
+
+          resolve();
+        });
+      }
+
+      // Generuj wszystkie z opóźnieniem
+      document.getElementById("generate-all").onclick = async () => {
+        outputDiv.innerHTML = "";
+
+        for (const size of sizes) {
+          await generateFavicon(size);
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+
+        // Generuj także favicon.ico (multi-size)
+        const icoBtn = document.createElement("button");
+        icoBtn.style.width = "100%";
+        icoBtn.style.marginTop = "20px";
+        icoBtn.textContent =
+          "⬇ Pobierz favicon.ico (musisz skonwertować z PNG 32x32)";
+        icoBtn.onclick = () => {
+          alert(
+            "Użyj favicon-32x32.png i skonwertuj na .ico używając:\n\n" +
+              "1. https://www.icoconverter.com/\n" +
+              "2. https://favicon.io/favicon-converter/\n" +
+              "3. Lub narzędzia ImageMagick: convert favicon-32x32.png favicon.ico"
+          );
+        };
+        outputDiv.appendChild(icoBtn);
+
+        // Automatyczne pobieranie wszystkich
+        const downloadAllBtn = document.createElement("button");
+        downloadAllBtn.style.width = "100%";
+        downloadAllBtn.style.marginTop = "10px";
+        downloadAllBtn.style.background = "#dc3545";
+        downloadAllBtn.textContent =
+          "⬇⬇⬇ Pobierz wszystkie automatycznie (z opóźnieniem)";
+        downloadAllBtn.onclick = async () => {
+          const buttons = outputDiv.querySelectorAll(".favicon-item button");
+          for (const btn of buttons) {
+            btn.click();
+            await new Promise((resolve) => setTimeout(resolve, 500)); // 500ms opóźnienia między pobieraniami
+          }
+        };
+        outputDiv.appendChild(downloadAllBtn);
+      };
+
+      // Automatycznie generuj przy załadowaniu
+      window.onload = () => {
+        document.getElementById("generate-all").click();
+      };
+    </script>
+  </body>
+</html>

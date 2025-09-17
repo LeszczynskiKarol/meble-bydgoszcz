@@ -1,0 +1,51 @@
+{
+  "name": "meble-na-wymiar-bydgoszcz",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "// Deployment Scripts": "",
+    "deploy": "npm run deploy:build && npm run deploy:s3 && npm run deploy:invalidate",
+    "deploy:build": "astro build",
+    "deploy:s3": "aws s3 sync dist/ s3://$npm_config_s3_bucket --delete --cache-control 'public, max-age=31536000' --exclude '*.html' && aws s3 sync dist/ s3://$npm_config_s3_bucket --exclude '*' --include '*.html' --cache-control 'public, max-age=300, must-revalidate' --content-type 'text/html'",
+    "deploy:invalidate": "aws cloudfront create-invalidation --distribution-id $npm_config_cf_distribution --paths '/*'",
+    "deploy:lambda": "cd lambda && zip -r ../function.zip index.js && cd .. && aws lambda update-function-code --function-name google-reviews-api --zip-file fileb://function.zip",
+    "// Quick deployment": "",
+    "quick-deploy": "npm run build && npm run deploy:s3",
+    "full-deploy": "npm run deploy:lambda && npm run deploy",
+    "// Testing": "",
+    "test:api": "curl -s $(grep PUBLIC_REVIEWS_API_ENDPOINT .env | cut -d '=' -f2) | jq",
+    "test:lighthouse": "lighthouse https://d2zn9iio3uwyfn.cloudfront.net --output html --view",
+    "// Development with API": "",
+    "dev:with-api": "concurrently \"npm run dev\" \"npm run api:watch\"",
+    "api:watch": "nodemon --watch lambda/index.js --exec 'npm run deploy:lambda'",
+    "// Utilities": "",
+    "clean": "rm -rf dist/ .astro/",
+    "clean:cache": "aws cloudfront create-invalidation --distribution-id $npm_config_cf_distribution --paths '/*'",
+    "logs:lambda": "aws logs tail /aws/lambda/google-reviews-api --follow",
+    "stats": "aws s3 ls s3://$npm_config_s3_bucket --recursive --human-readable --summarize"
+  },
+  "config": {
+    "s3_bucket": "meble-bydgoszcz-static",
+    "cf_distribution": "E30D0R03T5Q0AH"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.3.0",
+    "@astrojs/sitemap": "^3.5.1",
+    "@astrojs/tailwind": "^5.0.0",
+    "astro": "^4.0.0",
+    "astro-compress": "^2.3.8",
+    "astro-seo": "^0.8.4",
+    "canvas": "^3.2.0",
+    "tailwindcss": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "concurrently": "^8.0.0",
+    "nodemon": "^3.0.0"
+  }
+}

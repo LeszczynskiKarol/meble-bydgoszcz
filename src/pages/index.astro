@@ -1,0 +1,127 @@
+---
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Features from '../components/sections/Features.astro';
+import TeamShowcase from '../components/sections/TeamShowcase.astro';
+import Services from '../components/sections/Services.astro';
+import Process from '../components/sections/Process.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import CTA from '../components/sections/CTA.astro';
+import { features } from '../content/features';
+import { services } from '../content/services';
+import { processSteps } from '../content/process';
+import { galleryImages } from '../content/gallery';
+import { reviews as fallbackReviews } from '../content/reviews';
+
+// Opcjonalnie: Pobierz opinie podczas budowania
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+// Tylko podczas produkcyjnego buildu
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+        
+        // Log dla debugowania podczas buildu
+        console.log(`Fetched ${googleReviews?.length || 0} reviews from Google Places API`);
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+    // Użyj fallback reviews
+  }
+}
+
+// Użyj Google reviews jeśli dostępne, w przeciwnym razie fallback
+const displayReviews = googleReviews || fallbackReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+---
+
+<BaseLayout
+  title="Meble na wymiar Bydgoszcz - Projektowanie i Produkcja Mebli"
+  description="Meble na wymiar Bydgoszcz - projektujemy i produkujemy kuchnie, szafy, garderoby, zabudowy wnęk. 15 lat doświadczenia, darmowy projekt 3D. Sprawdź nasze realizacje!"
+  keywords={[
+    "meble na wymiar Bydgoszcz",
+    "kuchnie na wymiar",
+    "szafy wnękowe",
+    "garderoby",
+    "meble kuchenne Bydgoszcz",
+    "zabudowy na wymiar",
+    "projektowanie mebli",
+    "produkcja mebli",
+  ]}
+>
+  <Hero
+    title="Meble na wymiar <span class='highlight'>Bydgoszcz</span>"
+    description="Tworzymy meble, które idealnie dopasowują się do Twojej przestrzeni i stylu życia. Od projektu do realizacji - wszystko pod jednym dachem."
+    ctaPrimary={{
+      text: "Darmowa wycena",
+      href: "/kontakt",
+      icon: "📞",
+    }}
+    ctaSecondary={{
+      text: "Zobacz realizacje",
+      href: "/realizacje",
+      icon: "→",
+    }}
+  />
+
+  <Features
+    title="Dlaczego możesz nam zaufać?"
+    subtitle="15 lat doświadczenia w tworzeniu mebli na wymiar w Bydgoszczy i okolicach"
+    features={features}
+  />
+
+  <Services
+    title="Nasze specjalizacje"
+    subtitle="Kompleksowo wyposażamy wnętrza mieszkań, domów i biur w Bydgoszczy"
+    services={services}
+  />
+
+  <Process
+    title="Jak pracujemy?"
+    subtitle="Od pomysłu do realizacji w 4 prostych krokach"
+    steps={processSteps}
+  />
+
+  <Gallery
+    title="Nasze realizacje"
+    subtitle="Zobacz, co stworzyliśmy dla naszych klientów w Bydgoszczy i okolicach"
+    images={galleryImages}
+    viewAllLink="/realizacje"
+  />
+      <TeamShowcase />
+  <Reviews
+    title="Opinie naszych klientów"
+    subtitle="Zaufało nam już kilkuset zadowolonych klientów - dołącz do nich!"
+    fallbackReviews={displayReviews}
+    rating={displayRating}
+    totalReviews={displayTotalReviews}
+    apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+  />
+
+  <CTA
+    title="Zamów teraz meble swoich marzeń!"
+    description="Skontaktuj się z nami już dziś i zleć meble na wymiar w Bydgoszczy lub okolicach"
+    ctaPrimary={{
+      text: "Zadzwoń: 576 060 832",
+      href: "tel:+48576060832",
+      icon: "📞",
+    }}
+    ctaSecondary={{
+      text: "Napisz do nas",
+      href: "/kontakt",
+    }}
+  />
+</BaseLayout>

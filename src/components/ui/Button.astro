@@ -1,0 +1,74 @@
+---
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'small' | 'medium' | 'large';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  icon?: string;
+  class?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+  rel?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'medium',
+  href,
+  type = 'button',
+  disabled = false,
+  icon,
+  class: className = '',
+  target,
+  rel,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+
+const baseClasses = 'inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2';
+
+const variantClasses = {
+  primary: 'bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 focus:ring-purple-500 shadow-lg hover:shadow-xl',
+  secondary: 'bg-white text-purple-700 border-2 border-purple-700 hover:bg-purple-50 focus:ring-purple-500',
+  outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
+  ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500'
+};
+
+const sizeClasses = {
+  small: 'px-3 py-1.5 text-sm gap-1.5',
+  medium: 'px-5 py-2.5 text-base gap-2',
+  large: 'px-7 py-3.5 text-lg gap-2.5'
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`;
+
+const linkProps = href ? {
+  href,
+  target,
+  rel: target === '_blank' ? 'noopener noreferrer' : rel,
+} : {};
+
+const buttonProps = !href ? {
+  type,
+  disabled,
+} : {};
+---
+
+<Tag
+  class={classes}
+  {...linkProps}
+  {...buttonProps}
+  {...rest}
+>
+  {icon && <span class="button-icon">{icon}</span>}
+  <slot />
+</Tag>
+
+<style>
+  .button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

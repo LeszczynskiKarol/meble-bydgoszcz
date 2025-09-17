@@ -1,0 +1,387 @@
+---
+// src/pages/polityka-prywatnosci.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lastUpdated = "1 stycznia 2025";
+const company = {
+  name: "Jacek Wichowski Msystem",
+  nip: "956-211-16-20",
+  regon: "389437853",
+  address: "ul. Witosa 4G/79, 87-100 Toruń",
+  email: "kontakt@meble-bydgoszcz.pl",
+  phone: "+48 576 060 832"
+};
+---
+
+<BaseLayout 
+  title="Polityka Prywatności"
+  description="Polityka prywatności serwisu meble-bydgoszcz.pl - dowiedz się jak przetwarzamy Twoje dane osobowe"
+  noindex={false}
+>
+  <section class="legal-page">
+    <div class="container">
+      <div class="legal-header">
+        <h1>Polityka Prywatności</h1>
+        <p class="last-updated">Ostatnia aktualizacja: {lastUpdated}</p>
+      </div>
+
+      <div class="legal-content">
+        <section class="legal-section">
+          <h2>§ 1. Postanowienia ogólne</h2>
+          <ol>
+            <li>Niniejsza Polityka Prywatności określa zasady przetwarzania i ochrony danych osobowych przekazanych przez Użytkowników w związku z korzystaniem przez nich z usług oferowanych przez serwis www.meble-bydgoszcz.pl</li>
+            <li>Administratorem danych osobowych zawartych w serwisie jest {company.name} z siedzibą w Toruniu, {company.address}, NIP: {company.nip}, REGON: {company.regon}, zwana dalej "Administratorem".</li>
+            <li>W trosce o bezpieczeństwo powierzonych nam danych opracowaliśmy wewnętrzne procedury i zalecenia, które mają zapobiec udostępnieniu danych osobom nieupoważnionym.</li>
+            <li>Administrator dokłada szczególnej staranności w celu ochrony interesów osób, których dane dotyczą, a w szczególności zapewnia, że zbierane przez niego dane są przetwarzane zgodnie z prawem, zbierane dla oznaczonych, zgodnych z prawem celów i niepoddawane dalszemu przetwarzaniu niezgodnemu z tymi celami.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 2. Podstawa prawna</h2>
+          <p>Administrator przetwarza dane osobowe zgodnie z:</p>
+          <ul>
+            <li>Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych (RODO)</li>
+            <li>Ustawą z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną</li>
+            <li>Ustawą z dnia 16 lipca 2004 r. Prawo telekomunikacyjne</li>
+            <li>Ustawą z dnia 10 maja 2018 r. o ochronie danych osobowych</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 3. Zakres zbieranych danych</h2>
+          <h3>3.1. Dane zbierane automatycznie</h3>
+          <p>Podczas wizyty w serwisie automatycznie zbierane są dane dotyczące wizyty, m.in.:</p>
+          <ul>
+            <li>Adres IP</li>
+            <li>Typ przeglądarki</li>
+            <li>System operacyjny</li>
+            <li>Czas wizyty</li>
+            <li>Przeglądane strony</li>
+            <li>Źródło przybycia na stronę (referrer)</li>
+            <li>Rozdzielczość ekranu</li>
+            <li>Lokalizacja (kraj, miasto - na podstawie IP)</li>
+          </ul>
+
+          <h3>3.2. Dane podawane dobrowolnie</h3>
+          <p>W formularzu kontaktowym zbieramy następujące dane:</p>
+          <ul>
+            <li>Imię i nazwisko</li>
+            <li>Adres e-mail</li>
+            <li>Numer telefonu (opcjonalnie)</li>
+            <li>Treść wiadomości</li>
+            <li>Załączniki (opcjonalnie)</li>
+          </ul>
+
+          <h3>3.3. Dane z narzędzi analitycznych</h3>
+          <p>Korzystamy z Google Analytics 4 i Google Tag Manager, które zbierają:</p>
+          <ul>
+            <li>Informacje o zachowaniu użytkowników (ścieżki konwersji, interakcje)</li>
+            <li>Wydarzenia na stronie (kliknięcia, przewijanie, pobrania)</li>
+            <li>Dane demograficzne (przybliżony wiek, płeć - jeśli dostępne)</li>
+            <li>Zainteresowania (na podstawie historii przeglądania)</li>
+            <li>Informacje o urządzeniu i przeglądarce</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 4. Cele przetwarzania danych</h2>
+          <p>Dane osobowe są przetwarzane w następujących celach:</p>
+          <ol>
+            <li><strong>Obsługa zapytań</strong> - odpowiadanie na pytania przesłane przez formularz kontaktowy (podstawa prawna: art. 6 ust. 1 lit. b RODO - wykonanie umowy)</li>
+            <li><strong>Przygotowanie oferty</strong> - sporządzenie wyceny i projektu mebli (podstawa prawna: art. 6 ust. 1 lit. b RODO)</li>
+            <li><strong>Marketing bezpośredni</strong> - przesyłanie informacji o promocjach i nowościach, jeśli wyrażono zgodę (podstawa prawna: art. 6 ust. 1 lit. a RODO - zgoda)</li>
+            <li><strong>Analiza i optymalizacja</strong> - ulepszanie serwisu na podstawie danych analitycznych (podstawa prawna: art. 6 ust. 1 lit. f RODO - prawnie uzasadniony interes)</li>
+            <li><strong>Archiwizacja</strong> - przechowywanie korespondencji dla celów dowodowych (podstawa prawna: art. 6 ust. 1 lit. f RODO)</li>
+            <li><strong>Dochodzenie roszczeń</strong> - ewentualne ustalenie, dochodzenie lub obrona przed roszczeniami (podstawa prawna: art. 6 ust. 1 lit. f RODO)</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 5. Pliki Cookies</h2>
+          <h3>5.1. Czym są pliki cookies?</h3>
+          <p>Cookies to małe pliki tekstowe zapisywane na urządzeniu użytkownika podczas przeglądania stron internetowych. Służą do zapamiętywania preferencji i ustawień.</p>
+
+          <h3>5.2. Rodzaje wykorzystywanych cookies</h3>
+          <div class="cookie-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Kategoria</th>
+                  <th>Cel</th>
+                  <th>Przykłady</th>
+                  <th>Okres przechowywania</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Niezbędne</strong></td>
+                  <td>Zapewnienie prawidłowego działania strony, zapamiętanie zgód</td>
+                  <td>userConsent, consentTimestamp</td>
+                  <td>365 dni</td>
+                </tr>
+                <tr>
+                  <td><strong>Analityczne</strong></td>
+                  <td>Zbieranie statystyk odwiedzin, analiza ruchu</td>
+                  <td>_ga, _gid, _ga_*, _gat_gtag_*</td>
+                  <td>2 lata (_ga), 24h (_gid)</td>
+                </tr>
+                <tr>
+                  <td><strong>Marketingowe</strong></td>
+                  <td>Personalizacja reklam, remarketing</td>
+                  <td>_gcl_au, IDE, fr</td>
+                  <td>90 dni - 2 lata</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>5.3. Zarządzanie cookies</h3>
+          <p>Użytkownik może w każdej chwili zmienić swoje preferencje dotyczące cookies:</p>
+          <ul>
+            <li>Klikając przycisk ustawień cookies w lewym dolnym rogu strony</li>
+            <li>Usuwając cookies w ustawieniach przeglądarki</li>
+            <li>Blokując cookies w ustawieniach przeglądarki (może to wpłynąć na funkcjonalność strony)</li>
+          </ul>
+
+          <h3>5.4. Google Analytics i Tag Manager</h3>
+          <p>Nasza strona wykorzystuje:</p>
+          <ul>
+            <li><strong>Google Analytics 4 (GA4)</strong> - ID pomiaru: G-T3S5RL41KV</li>
+            <li><strong>Google Tag Manager (GTM)</strong> - ID kontenera: GTM-TSGMGQLP</li>
+          </ul>
+          <p>Dane są przetwarzane zgodnie z Google Consent Mode v2. Więcej informacji: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Polityka Prywatności Google</a></p>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 6. Okres przechowywania danych</h2>
+          <ul>
+            <li><strong>Dane z formularza kontaktowego</strong> - przez okres realizacji usługi oraz 3 lata po jej zakończeniu (dla celów podatkowych i reklamacyjnych)</li>
+            <li><strong>Dane analityczne</strong> - zgodnie z ustawieniami Google Analytics (standardowo 14 miesięcy)</li>
+            <li><strong>Zgody na cookies</strong> - 365 dni od wyrażenia zgody</li>
+            <li><strong>Dane marketingowe</strong> - do momentu wycofania zgody</li>
+            <li><strong>Korespondencja e-mail</strong> - 5 lat od zakończenia współpracy</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 7. Udostępnianie danych</h2>
+          <p>Dane osobowe mogą być udostępniane następującym kategoriom odbiorców:</p>
+          <ol>
+            <li><strong>EmailJS</strong> - do obsługi formularza kontaktowego</li>
+            <li><strong>Cloudinary</strong> - do przechowywania załączników przesłanych przez formularz</li>
+            <li><strong>Google LLC</strong> - w zakresie usług Google Analytics i Google Ads</li>
+            <li><strong>Amazon Web Services</strong> - hosting strony (S3, CloudFront)</li>
+            <li><strong>Organy państwowe</strong> - na podstawie obowiązujących przepisów prawa</li>
+            <li><strong>Podmioty współpracujące</strong> - dostawcy, montażyści (tylko niezbędne dane do realizacji zamówienia)</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 8. Prawa użytkowników</h2>
+          <p>Każda osoba, której dane dotyczą, ma prawo do:</p>
+          <ul>
+            <li><strong>Dostępu do danych</strong> - uzyskania informacji o przetwarzanych danych oraz otrzymania ich kopii</li>
+            <li><strong>Sprostowania</strong> - poprawienia nieprawidłowych lub uzupełnienia niekompletnych danych</li>
+            <li><strong>Usunięcia danych</strong> ("prawo do bycia zapomnianym") - żądania usunięcia danych, gdy nie są już niezbędne</li>
+            <li><strong>Ograniczenia przetwarzania</strong> - żądania ograniczenia przetwarzania w określonych przypadkach</li>
+            <li><strong>Przenoszenia danych</strong> - otrzymania danych w formacie pozwalającym na przeniesienie do innego administratora</li>
+            <li><strong>Sprzeciwu</strong> - wniesienia sprzeciwu wobec przetwarzania opartego na prawnie uzasadnionym interesie</li>
+            <li><strong>Cofnięcia zgody</strong> - wycofania zgody w dowolnym momencie (bez wpływu na zgodność z prawem przetwarzania przed cofnięciem)</li>
+            <li><strong>Skargi do PUODO</strong> - wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych</li>
+          </ul>
+          <p>Aby skorzystać ze swoich praw, prosimy o kontakt: {company.email}</p>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 9. Bezpieczeństwo danych</h2>
+          <p>W celu zapewnienia bezpieczeństwa danych stosujemy:</p>
+          <ul>
+            <li>Szyfrowanie SSL/TLS podczas przesyłania danych</li>
+            <li>Regularne aktualizacje oprogramowania</li>
+            <li>Ograniczony dostęp do danych osobowych</li>
+            <li>Regularne kopie zapasowe</li>
+            <li>Monitoring systemów informatycznych</li>
+            <li>Pseudonimizację danych w systemach analitycznych</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 10. Przekazywanie danych poza EOG</h2>
+          <p>Niektóre z wykorzystywanych narzędzi (Google Analytics, EmailJS, Cloudinary) mogą przekazywać dane do USA. Przekazywanie odbywa się na podstawie:</p>
+          <ul>
+            <li>Standardowych klauzul umownych zatwierdzonych przez Komisję Europejską</li>
+            <li>Innych odpowiednich zabezpieczeń przewidzianych w RODO</li>
+          </ul>
+          <p>Użytkownik ma prawo do uzyskania kopii zabezpieczeń stosowanych przy przekazywaniu danych.</p>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 11. Zmiany polityki prywatności</h2>
+          <p>Administrator zastrzega sobie prawo do wprowadzania zmian w Polityce Prywatności. O wszelkich zmianach użytkownicy zostaną poinformowani poprzez komunikat na stronie głównej. Zmiany wchodzą w życie z dniem ich publikacji.</p>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 12. Kontakt</h2>
+          <p>W sprawach związanych z ochroną danych osobowych prosimy o kontakt:</p>
+          <div class="contact-info">
+            <p><strong>{company.name}</strong></p>
+            <p>E-mail: {company.email}</p>
+            <p>Telefon: {company.phone}</p>
+            <p>Adres: {company.address}</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding: 120px 5% 80px;
+    background: #f8f8f8;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .legal-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .legal-header h1 {
+    font-size: 3rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+  }
+
+  .last-updated {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .legal-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+  }
+
+  .legal-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .legal-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  h2 {
+    color: #1a1a1a;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #667eea;
+    display: inline-block;
+  }
+
+  h3 {
+    color: #333;
+    font-size: 1.3rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  p, li {
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 1rem;
+  }
+
+  ul, ol {
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  strong {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  a {
+    color: #667eea;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+
+  .cookie-table {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+  }
+
+  th {
+    background: #667eea;
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  td {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  tr:hover {
+    background: #f9f9f9;
+  }
+
+  .contact-info {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+
+  .contact-info p {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .legal-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .legal-header h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    table {
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 0.75rem 0.5rem;
+    }
+  }
+</style>

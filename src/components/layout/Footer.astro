@@ -1,0 +1,140 @@
+---
+import { company, contact } from '../../content/site-config';
+import { navItems } from '../../content/navigation';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>{company.name}</h3>
+      <p>
+        Tworzymy meble na wymiar od {company.established} roku. Zaufało nam
+        ponad {company.customersServed} klientów z Bydgoszczy i okolic. Jesteśmy częścią grupy <a href="https://www.meblesystem.pl">Meble System</a>.
+      </p>
+      <p class="mt-4">
+        <strong>NIP:</strong> {company.nip}<br />
+        <strong>REGON:</strong> {company.regon}
+      </p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Nasze usługi</h3>
+      <ul>
+        {navItems[0].dropdown?.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Informacje i usługi</h3>
+      <ul>
+        <li><a href="/proces">Strona główna</a></li>
+        <li><a href="/projektowanie">Projektowanie wnętrz</a></li>
+        <li><a href="/wykonczenia">Wykończenia wnętrz</a></li>
+        <li><a href="/realizacje">Portfolio realizacji</a></li>
+        <li><a href="/kontakt">Kontakt</a></li>
+        <li><a href="/regulamin">Regulamin</a></li>
+        <li><a href="/polityka-prywatnosci">Polityka prywatności</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Kontakt</h3>
+      <p>
+        📍 {contact.address.street}<br />
+        {contact.address.postalCode} {contact.address.city}<br /><br />
+        📞 Tel: <a href={`tel:+48${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a><br />        
+        ✉️ Email: <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      </p>
+      <p class="mt-4">
+        <strong>Godziny otwarcia:</strong><br />
+        Pon-Pt: {contact.hours.weekdays}<br />
+        Sobota: {contact.hours.saturday}
+      </p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>
+      &copy; {currentYear} {company.name} -  Made by <a href="https://www.karol-leszczynski.pl">Karol Leszczyński</a> |
+      <a href="/polityka-prywatnosci">Polityka prywatności</a> |
+      <a href="/regulamin">Regulamin</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    @apply bg-primary text-white pt-12 pb-4 px-4 sm:px-6 lg:px-8;
+  }
+
+  .footer-content {
+    @apply max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8;
+  }
+
+  .footer-column h3 {
+    @apply mb-6 text-white text-lg font-bold;
+  }
+
+  .footer-column p {
+    @apply text-gray-300 leading-relaxed;
+  }
+
+  .footer-column ul {
+    @apply list-none space-y-3;
+  }
+
+  .footer-column ul li a {
+    @apply text-gray-300 no-underline transition-all duration-300;
+  }
+
+  .footer-column ul li a:hover {
+    @apply text-white pl-2;
+  }
+
+  .footer-column a {
+    @apply text-gray-300 no-underline transition-colors duration-300;
+  }
+
+  .footer-column a:hover {
+    @apply text-white;
+  }
+
+  .footer-bottom {
+    @apply text-center pt-8 border-t border-gray-700;
+  }
+
+  .footer-bottom p {
+    @apply text-gray-400 text-sm;
+  }
+
+  .footer-bottom a {
+    @apply text-gray-400 no-underline transition-colors duration-300;
+  }
+
+  .footer-bottom a:hover {
+    @apply text-white;
+  }
+
+  .footer-link-underline {
+  @apply relative text-gray-300 no-underline transition-colors duration-300;
+}
+
+.footer-link-underline::after {
+  content: '';
+  @apply absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300;
+}
+
+.footer-link-underline:hover {
+  @apply text-white;
+}
+
+.footer-link-underline:hover::after {
+  @apply w-full;
+}
+</style>

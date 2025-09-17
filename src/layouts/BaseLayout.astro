@@ -1,0 +1,215 @@
+---
+import { SEO } from 'astro-seo';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import CookieConsent from '../components/layout/CookieConsent';
+import { seo, analytics } from '../content/site-config';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  canonical?: string;
+  noindex?: boolean;
+  ogImage?: string;
+}
+
+const {
+  title = seo.default.title,
+  description = seo.default.description,
+  keywords = seo.default.keywords,
+  canonical,
+  noindex = false,
+  ogImage = seo.default.openGraph.images[0].url,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const canonicalURL = canonical || new URL(currentPath, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicons -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#764ba2" />
+<meta name="msapplication-TileColor" content="#764ba2" />
+    <SEO
+      title={title}
+      titleTemplate={seo.default.titleTemplate}
+      description={description}
+      canonical={canonicalURL}
+      noindex={noindex}
+      nofollow={noindex}
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: ogImage,
+          url: canonicalURL,
+        },
+        optional: {
+          description: description,
+          locale: "pl_PL",
+          siteName: "Meble Bydgoszcz",
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@meblebydgoszcz",
+        creator: "@meblebydgoszcz",
+      }}
+      extend={{
+        meta: [
+          { name: "keywords", content: keywords.join(", ") },
+          { name: "author", content: "Meble Bydgoszcz" },
+          { name: "robots", content: noindex ? "noindex,nofollow" : "index,follow" },
+          { name: "googlebot", content: noindex ? "noindex,nofollow" : "index,follow" },
+        ],
+        link: [
+          { rel: "preconnect", href: "https://fonts.googleapis.com" },
+          { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: true },
+          { rel: "dns-prefetch", href: "https://www.googletagmanager.com" },
+          { rel: "dns-prefetch", href: "https://www.google-analytics.com" },
+        ],
+      }}
+    />
+
+    <!-- Google Consent Mode v2 -->
+    <script is:inline define:vars={{ gtmId: analytics.gtm }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      
+      const savedConsent = localStorage.getItem('userConsent');
+      const consentData = savedConsent ? JSON.parse(savedConsent) : null;
+      
+      gtag('consent', 'default', {
+        'ad_storage': consentData?.ad_storage || 'denied',
+        'analytics_storage': consentData?.analytics_storage || 'denied',
+        'ad_user_data': consentData?.ad_user_data || 'denied',
+        'ad_personalization': consentData?.ad_personalization || 'denied',
+        'functionality_storage': 'granted',
+        'security_storage': 'granted',
+        'wait_for_update': 500
+      });
+      
+      gtag('set', 'ads_data_redaction', true);
+      gtag('set', 'url_passthrough', true);
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script is:inline define:vars={{ gtmId: analytics.gtm }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',gtmId);
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FurnitureStore",
+      "name": "Meble na wymiar Bydgoszcz",
+      "image": "https://www.meble-bydgoszcz.pl/logo.png",
+      "@id": "https://www.meble-bydgoszcz.pl",
+      "url": "https://www.meble-bydgoszcz.pl",
+      "telephone": "+48 576 060 832",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ul. Gdańska 31",
+        "addressLocality": "Bydgoszcz",
+        "postalCode": "85-005",
+        "addressCountry": "PL"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "07:00",
+        "closes": "17:00"
+      },
+      "priceRange": "$$",
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61576849590169&ref=pl_edit_xav_ig_profile_page_web#",
+        "https://www.instagram.com/grandkuchnie"
+      ]
+    })} />
+
+    <slot name="head" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe 
+        src={`https://www.googletagmanager.com/ns.html?id=${analytics.gtm}`}
+        height="0" 
+        width="0" 
+        style="display:none;visibility:hidden">
+      </iframe>
+    </noscript>
+
+    <Header />
+    
+    <main id="main-content">
+      <slot />
+    </main>
+
+
+    <Footer />
+    
+    <CookieConsent client:idle />
+
+    <slot name="before-body-end" />
+  </body>
+</html>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  main {
+    flex: 1;
+  }
+
+  /* Preload critical fonts */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/inter-v13-latin-regular.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/inter-v13-latin-600.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/inter-v13-latin-700.woff2') format('woff2');
+  }
+</style>

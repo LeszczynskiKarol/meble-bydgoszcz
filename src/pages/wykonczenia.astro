@@ -1,0 +1,734 @@
+---
+import Reviews from '../components/sections/Reviews.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import type { GalleryImage } from '../lib/types';
+
+// Service types data
+const serviceTypes = [
+  {
+    title: "Gładzie i malowanie",
+    description: "Profesjonalne wykończenie ścian i sufitów, perfekcyjne gładzie",
+    image: "https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=800",
+    features: ["Gipsowanie", "Szpachlowanie", "Malowanie"]
+  },
+  {
+    title: "Podłogi i posadzki",
+    description: "Montaż paneli, parkietów, płytek - wszystkie rodzaje podłóg",
+    image: "https://images.unsplash.com/photo-1560440021-33f9b867899d?w=800",
+    features: ["Panele", "Parkiet", "Płytki"]
+  },
+  {
+    title: "Łazienki kompletnie",
+    description: "Glazura, terakota, biały montaż, kabiny prysznicowe",
+    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800",
+    features: ["Płytki", "Hydraulika", "Ceramika"]
+  },
+  {
+    title: "Instalacje elektryczne",
+    description: "Wymiana instalacji, montaż gniazdek, oświetlenia LED",
+    image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=800",
+    features: ["Elektryka", "LED", "Smart Home"]
+  },
+  {
+    title: "Sufity i ściany GK",
+    description: "Sufity podwieszane, ścianki działowe, zabudowy",
+    image: "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800",
+    features: ["Karton-gips", "LED", "Wnęki"]
+  },
+  {
+    title: "Montaż mebli",
+    description: "Profesjonalny montaż wszystkich mebli na wymiar i gotowych",
+    image: "https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=800",
+    features: ["Kuchnie", "Szafy", "Zabudowy"]
+  }
+];
+
+// Features data
+const features = [
+  {
+    icon: "🏗️",
+    title: "Kompleksowa realizacja",
+    description: "Zajmujemy się wszystkim - od stanu deweloperskiego do mieszkania gotowego do zamieszkania. Jeden wykonawca, pełna odpowiedzialność."
+  },
+  {
+    icon: "👷",
+    title: "Doświadczone ekipy",
+    description: "Współpracujemy tylko ze sprawdzonymi fachowcami. Każda ekipa specjalizuje się w swojej dziedzinie - gwarantujemy najwyższą jakość."
+  },
+  {
+    icon: "📋",
+    title: "Stały nadzór",
+    description: "Koordynator projektu czuwa nad całością prac. Regularne raporty z postępów, kontrola jakości na każdym etapie."
+  },
+  {
+    icon: "⏰",
+    title: "Terminowość",
+    description: "Szczegółowy harmonogram prac i dotrzymywanie terminów. Wiemy, jak ważne jest szybkie zakończenie remontu."
+  },
+  {
+    icon: "💰",
+    title: "Przejrzyste ceny",
+    description: "Dokładny kosztorys przed rozpoczęciem prac. Bez ukrytych kosztów i nieprzyjemnych niespodzianek."
+  },
+  {
+    icon: "✅",
+    title: "Gwarancja jakości",
+    description: "5 lat gwarancji na wykonane prace. Używamy tylko sprawdzonych, certyfikowanych materiałów."
+  }
+];
+
+// Process steps
+const processSteps = [
+  {
+    number: 1,
+    title: "Wizja lokalna",
+    description: "Oglądamy mieszkanie, omawiamy zakres prac, doradzamy najlepsze rozwiązania."
+  },
+  {
+    number: 2,
+    title: "Kosztorys",
+    description: "Szczegółowa wycena wszystkich prac i materiałów. Przejrzysty podział na etapy."
+  },
+  {
+    number: 3,
+    title: "Harmonogram",
+    description: "Ustalamy kolejność prac i terminy realizacji poszczególnych etapów."
+  },
+  {
+    number: 4,
+    title: "Realizacja",
+    description: "Profesjonalne ekipy realizują prace zgodnie z harmonogramem. Stały nadzór."
+  },
+  {
+    number: 5,
+    title: "Odbiór",
+    description: "Dokładny odbiór wszystkich prac, przekazanie dokumentacji, rozpoczęcie gwarancji."
+  }
+];
+
+// Gallery images
+const galleryImages: GalleryImage[] = [
+  {
+    id: "1",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Meble-Grudzien-48.jpg",
+    alt: "Salon po remoncie",
+    category: "wykonczenia"
+  },
+  {
+    id: "2",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-62-3.jpg",
+    alt: "Kuchnia wykończona",
+    category: "wykonczenia"
+  },
+  {
+    id: "3",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-czerwiec-lipiec-43-1.jpg",
+    alt: "Gładzie i malowanie",
+    category: "wykonczenia"
+  },
+  {
+    id: "4",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k-30-1.jpg",
+    alt: "Montaż podłóg",
+    category: "wykonczenia"
+  },
+  {
+    id: "5",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuchadam-1-1.jpg",
+    alt: "Łazienka po remoncie",
+    category: "wykonczenia"
+  },
+  {
+    id: "6",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Pawel-26-1.jpg",
+    alt: "Instalacje elektryczne",
+    category: "wykonczenia"
+  },
+  {
+    id: "7",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/12/Meble-Wrzesien-40.jpg",
+    alt: "Sufity podwieszane",
+    category: "wykonczenia"
+  },
+  {
+    id: "8",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/12/Meble-Wrzesien-52.jpg",
+    alt: "Montaż mebli",
+    category: "wykonczenia"
+  }
+];
+
+// Reviews data
+const reviews = [
+  {
+    name: "Jan Nowicki",
+    initials: "JN",
+    rating: 5,
+    text: "Kompleksowy remont mieszkania 65m2 wykonany perfekcyjnie! Wszystkie ekipy pracowały sprawnie, koordynator zawsze dostępny. Efekt przeszedł nasze oczekiwania!",
+    date: "Tydzień temu"
+  },
+  {
+    name: "Agnieszka Górska",
+    initials: "AG",
+    rating: 5,
+    text: "Stan deweloperski do pełnego wykończenia w 6 tygodni! Dotrzymali terminu, jakość na najwyższym poziomie. Szczególnie podoba nam się łazienka - jak z katalogu!",
+    date: "2 tygodnie temu"
+  },
+  {
+    name: "Piotr Zawadzki",
+    initials: "PZ",
+    rating: 5,
+    text: "Remont generalny domu 150m2. Profesjonalizm od początku do końca. Ceny uczciwe, zero ukrytych kosztów. Polecam każdemu kto szuka solidnego wykonawcy!",
+    date: "Miesiąc temu"
+  }
+];
+
+// Fallback reviews dla wykończeń
+const fallbackFinishingReviews = [
+  {
+    id: "finishing-1",
+    author: "Jan Nowicki",
+    avatar: "JN",
+    rating: 5,
+    text: "Kompleksowy remont mieszkania 65m2 wykonany perfekcyjnie! Wszystkie ekipy pracowały sprawnie, koordynator zawsze dostępny. Efekt przeszedł nasze oczekiwania!",
+    date: "Tydzień temu",
+    verified: true
+  },
+  {
+    id: "finishing-2",
+    author: "Agnieszka Górska",
+    avatar: "AG",
+    rating: 5,
+    text: "Stan deweloperski do pełnego wykończenia w 6 tygodni! Dotrzymali terminu, jakość na najwyższym poziomie. Szczególnie podoba nam się łazienka - jak z katalogu!",
+    date: "2 tygodnie temu",
+    verified: true
+  },
+  {
+    id: "finishing-3",
+    author: "Piotr Zawadzki",
+    avatar: "PZ",
+    rating: 5,
+    text: "Remont generalny domu 150m2. Profesjonalizm od początku do końca. Ceny uczciwe, zero ukrytych kosztów. Polecam każdemu kto szuka solidnego wykonawcy!",
+    date: "Miesiąc temu",
+    verified: true
+  }
+];
+
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+  }
+}
+
+const displayReviews = googleReviews || fallbackFinishingReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+---
+
+<BaseLayout 
+  title="Wykończenia wnętrz mieszkań i domów - Bydgoszcz"
+  description="Chcesz zlecić kompleksowe wykończenie wnętrza w Bydgoszczy? Powierz to nam!"
+  keywords={[
+    "Wykończenia wnętrz Bydgoszcz",
+    "Wykończenia mieszkań Bydgoszcz",
+    "Wykończenia domów Bydgoszcz",
+    "Kompleksowe Wykończenia wnętrz",
+    
+  ]}
+>
+
+
+  <!-- Hero Section -->
+  <Hero
+    title="Wykończenia wnętrz <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Kompleksowe remonty mieszkań i domów w Bydgoszczy. Od gładzi po montaż mebli - zajmujemy się wszystkim, abyś mógł cieszyć się pięknym wnętrzem."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz realizacje →", href: "/realizacje#wykonczenia" }}
+    images={[
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Meble-Grudzien-109.jpg", alt: "Wykończenia wnętrz Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-50-2-768x512-1.jpg", alt: "Remont mieszkania Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-czerwiec-lipiec-24.jpg", alt: "Malowanie ścian Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k-8-1.jpg", alt: "Montaż podłóg Bydgoszcz" }
+    ]}
+    variant="wykonczenia"
+  />
+
+  <!-- Service Types Section -->
+  <section class="service-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Zakres naszych usług wykończeniowych</h2>
+        <p>Kompleksowa realizacja - od stanu deweloperskiego do mieszkania gotowego do zamieszkania</p>
+      </div>
+      <div class="service-types-grid">
+        {serviceTypes.map((service) => (
+          <div class="service-type-card" style={`background-image: url('${service.image}');`}>
+            <div class="service-type-content">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+              <div class="service-type-features">
+                {service.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Dlaczego warto nam zaufać?</h2>
+        <p>Gwarancja profesjonalnego wykończenia</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Proces realizacji wykończeń</h2>
+        <p>Sprawdzona ścieżka do pięknego wnętrza</p>
+      </div>
+      <div class="process-grid">
+        {processSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <Gallery
+    title="Nasze realizacje wykończeń"
+    subtitle="Zobacz metamorfozy mieszkań i domów w Bydgoszczy"
+    images={galleryImages}
+    viewAllLink="/realizacje#wykonczenia"
+  />
+
+<Reviews
+  title="Opinie o naszych wykończeniach"
+  subtitle="Zobacz, co mówią klienci o naszych remontach"
+  fallbackReviews={displayReviews}
+  rating={displayRating}
+  totalReviews={displayTotalReviews}
+  apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+/>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Marzysz o pięknym wnętrzu?</h2>
+      <p>Zrealizujemy kompleksowe wykończenie Twojego mieszkania lub domu</p>
+      <div class="cta-buttons">
+        <Button
+          href="tel:+48576060832"
+          variant="primary"
+          size="large"
+          icon="📞"
+        >
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button
+          href="/kontakt"
+          variant="secondary"
+          size="large"
+        >
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Service Types Section */
+  .service-types {
+    padding: 5rem 5%;
+    background: var(--white);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color, #764ba2);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .service-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .service-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .service-types-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .service-type-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .service-type-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2)
+    );
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  .service-type-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .service-type-card:hover::before {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.1)
+    );
+  }
+
+  .service-type-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white, #ffffff);
+  }
+
+  .service-type-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .service-type-card:hover .service-type-content {
+    transform: translateY(-5px);
+  }
+
+  .service-type-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .service-type-features {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .service-type-features span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    background: var(--white, #ffffff);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #2d5016, #5a8f2d);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white, #ffffff);
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .feature-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Process Section */
+  .process {
+    padding: 5rem 5%;
+    background: var(--white, #ffffff);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1200px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+  }
+
+  .process-card {
+    background: var(--white, #ffffff);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .process-card h3 {
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .process-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -150px;
+    right: -150px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .cta-content h2 {
+    color: var(--white, #ffffff);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

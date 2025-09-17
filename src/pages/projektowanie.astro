@@ -1,0 +1,838 @@
+---
+import Reviews from '../components/sections/Reviews.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import type { GalleryImage } from '../lib/types';
+
+// Design types data
+const designTypes = [
+  {
+    title: "Salony i przestrzenie dzienne",
+    description: "Miejsca spontanicznych spotkań rodzinnych i relaksu",
+    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+    features: ["Strefa TV", "Komfort", "Światło"]
+  },
+  {
+    title: "Sypialnie i strefy prywatne",
+    description: "Oazy spokoju wspierające regenerację i wypoczynek",
+    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800",
+    features: ["Relaks", "Cisza", "Harmonia"]
+  },
+  {
+    title: "Kuchnie i jadalni",
+    description: "Serce domu - miejsce kulinarnych inspiracji i spotkań",
+    image: "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?w=800",
+    features: ["Funkcjonalność", "Ergonomia", "Styl"]
+  },
+  {
+    title: "Łazienki i strefy wellness",
+    description: "Domowe SPA - przestrzenie wellness wspierające zdrowie",
+    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800",
+    features: ["Wellness", "Relaks", "Luksus"]
+  },
+  {
+    title: "Pokoje dziecięce",
+    description: "Kreatywne przestrzenie stymulujące rozwój i wyobraźnię",
+    image: "https://images.unsplash.com/photo-1572048572872-2394404cf1f3?w=800",
+    features: ["Kreatywność", "Bezpieczeństwo", "Radość"]
+  },
+  {
+    title: "Home office",
+    description: "Strefy koncentracji eliminujące bodźce rozpraszające",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800",
+    features: ["Produktywność", "Skupienie", "Balans"]
+  }
+];
+
+// Features data
+const features = [
+  {
+    icon: "🎨",
+    title: "Autorskie projekty",
+    description: "Każde zlecenie to fascynująca podróż odkrywania osobowości klienta. Nie narzucamy gotowych schematów - szukamy rozwiązań idealnych dla Ciebie."
+  },
+  {
+    icon: "🧠",
+    title: "Psychologia przestrzeni",
+    description: "Łączymy architekturę z psychologią. Badamy wpływ przestrzeni na samopoczucie, stosujemy neuroarchitekturę i zasady wellbeing."
+  },
+  {
+    icon: "🌿",
+    title: "Biofilia i ekologia",
+    description: "Wprowadzamy naturę do wnętrz. Stosujemy materiały z certyfikatami zdrowotnymi i ekologicznymi, dbamy o jakość powietrza."
+  },
+  {
+    icon: "💡",
+    title: "Światło i akustyka",
+    description: "Badamy światło o różnych porach dnia, projektujemy oświetlenie wspierające biorytm. Dbamy o komfort akustyczny."
+  },
+  {
+    icon: "🔄",
+    title: "Adaptowalne przestrzenie",
+    description: "Projektujemy z myślą o przyszłości. Przestrzenie transformowalne, które rosną wraz z rodziną i zmieniającymi się potrzebami."
+  },
+  {
+    icon: "✨",
+    title: "Harmonia i balans",
+    description: "Mistrzowskie proporcje, złoty podział, teoria kolorów. Tworzymy przestrzenie, które uspokajają i inspirują."
+  }
+];
+
+// Process steps
+const processSteps = [
+  {
+    number: 1,
+    title: "Konsultacja",
+    description: "Rozmowa o tym, jak chcesz żyć, pracować, odpoczywać. Analiza codziennych rytuałów i nawyków."
+  },
+  {
+    number: 2,
+    title: "Analiza przestrzeni",
+    description: "Badamy światło, akustykę, przepływ powietrza. Mapujemy ścieżki poruszania się."
+  },
+  {
+    number: 3,
+    title: "Koncepcja",
+    description: "Studia koncepcyjne, moodboardy, próbki materiałów. Całe doświadczenie przyszłej przestrzeni."
+  },
+  {
+    number: 4,
+    title: "Projekt",
+    description: "Szczegółowe rysunki, wizualizacje 3D, dobór materiałów i mebli. Symfonia detali."
+  },
+  {
+    number: 5,
+    title: "Realizacja",
+    description: "Nadzór nad wykonaniem, koordynacja ekip, dbałość o każdy szczegół projektu."
+  }
+];
+
+// Team members
+const teamMembers = [
+  {
+    initials: "CM",
+    name: "Cezary Mazurkiewicz",
+    role: "Architekt wnętrz z 15-letnim doświadczeniem",
+    quote: "Tworzę przestrzenie, które odpowiadają na indywidualne potrzeby. Nie trzymam się jednego stylu - ważniejsza jest atmosfera niż estetyczna etykieta. Liczy się to, co buduje sens miejsca i wspiera rytm życia mieszkańców.",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2025/06/IMG_3445_VSCO-1024x1024.jpeg"
+  },
+  {
+    initials: "DS",
+    name: "Dorota Stefańska",
+    role: "Projektantka wnętrz specjalizująca się w przestrzeniach mieszkalnych",
+    quote: "Łączę kreatywność z praktycznymi rozwiązaniami, dbając o każdy detal - od koncepcji po finalną realizację. Moim celem jest tworzenie wnętrz, w których chce się żyć, pracować i odpoczywać.",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2025/06/20250611053358-1-2.jpg"
+  }
+];
+
+
+// Gallery images
+const galleryImages: GalleryImage[] = [
+  
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/06/IMG_1803.jpeg", 
+    category: "projekty"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/06/IMG_4412.jpeg", 
+    category: "projekty"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektPROJEKT_JASKOLCZA_TORUN_27_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektPROJEKT_SALON_Z_ANEKSEM_SZABAT_12_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektRESTAURACJA_PANORAMA_10_opt.webp", 
+    category: "projekty"
+  },
+  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektSYPIALNIA_PRF_2_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-10_1_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-17_1_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-3_1_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-6_1-2_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektSLIWY_POKOJ_DZIECIECY_13_opt.webp", 
+    category: "projekty"
+  },
+];
+
+// Fallback reviews dla projektowania
+const fallbackDesignReviews = [
+  {
+    id: "design-1",
+    author: "Magdalena Grabowska",
+    avatar: "MG",
+    rating: 5,
+    text: "Projekt naszego mieszkania przeszedł najśmielsze oczekiwania! Każdy detal przemyślany, funkcjonalność połączona z estetyką. Wizualizacje 3D były identyczne z rzeczywistością!",
+    date: "Tydzień temu",
+    verified: true
+  },
+  {
+    id: "design-2",
+    author: "Rafał Ostrowski",
+    avatar: "RO",
+    rating: 5,
+    text: "Profesjonalne podejście od pierwszego spotkania. Projektant wysłuchał wszystkich naszych potrzeb i stworzył przestrzeń idealną dla naszej rodziny. Gorąco polecam!",
+    date: "2 tygodnie temu",
+    verified: true
+  },
+  {
+    id: "design-3",
+    author: "Ewa Kaczmarek",
+    avatar: "EK",
+    rating: 5,
+    text: "Aranżacja domu przekroczyła nasze marzenia! Każde pomieszczenie ma swój charakter, a całość tworzy spójną kompozycję. Projekt uwzględnił wszystkie nasze uwagi.",
+    date: "Miesiąc temu",
+    verified: true
+  }
+];
+
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+  }
+}
+
+const displayReviews = googleReviews || fallbackDesignReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+---
+
+<BaseLayout 
+title="Projektowanie wnętrz Bydgoszcz - Aranżacje mieszkań i domów"
+description="Poszukujesz doświadczonych projektantów wnętrz w Bydgoszczy? Skontaktuj się z nami!"
+keywords={[
+    "Projektowanie wnętrz Bydgoszcz",    
+    "Aranżacje wnętrz Bydgoszcz",
+    "Projektowanie mieszkań i domów Bydgoszcz",
+    "Projektowanie wnętrz mieszkań Bydgoszcz",
+    "Projektowanie wnętrz domów Bydgoszcz"
+    ]}
+>
+  <!-- Hero Section -->
+  <Hero
+    title="Projektowanie wnętrz <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Aranżacje mieszkań i domów z pasją i doświadczeniem. Tworzymy przestrzenie, które odpowiadają na Twoje indywidualne potrzeby."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz nasze projekty →", href: "/realizacje#projekty" }}
+    images={[
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2025/06/IMG_1806.jpeg", alt: "Nowoczesne wnętrze Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2025/06/IMG_2786.jpeg", alt: "Salon projekt Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektHARMONIA_JAR_TORUN_9_opt.webp", alt: "Sypialnia aranżacja Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektMIESZKANIE_CIECHOCINEK_21_opt.webp", alt: "Kuchnia projekt Bydgoszcz" }
+    ]}
+    variant="projektowanie"
+  />
+
+  <!-- Design Types Section -->
+  <section class="design-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Rodzaje projektowanych wnętrz</h2>
+        <p>Od luksusowych rezydencji po kameralne apartamenty - każde wnętrze to dzieło sztuki</p>
+      </div>
+      <div class="design-types-grid">
+        {designTypes.map((type) => (
+          <div class="design-type-card" style={`background-image: url('${type.image}');`}>
+            <div class="design-type-content">
+              <h3>{type.title}</h3>
+              <p>{type.description}</p>
+              <div class="design-type-features">
+                {type.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Nasza filozofia projektowania</h2>
+        <p>Przestrzeń stworzona wokół Ciebie</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Proces projektowania</h2>
+        <p>Od wizji do realizacji - krok po kroku</p>
+      </div>
+      <div class="process-grid">
+        {processSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+<section class="team">
+  <div class="container">
+    <div class="section-header">
+      <h2>Nasi projektanci</h2>
+      <p>Zespół pasjonatów tworzących wyjątkowe przestrzenie</p>
+    </div>
+    <div class="team-grid">
+      {teamMembers.map((member) => (
+        <div class="team-member">
+          <div class="team-avatar">
+            <img src={member.image} alt={member.name} />
+          </div>
+          <h3>{member.name}</h3>
+          <p>{member.role}</p>
+          <div class="team-quote">{member.quote}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+  <!-- Gallery Section -->
+  <Gallery
+    title="Nasze realizacje"
+    subtitle="Zobacz projekty wnętrz, które stworzyliśmy dla klientów w Bydgoszczy"
+    images={galleryImages}
+    viewAllLink="/realizacje#projekty"
+  />
+  
+  <Reviews
+  title="Opinie o naszych projektach"
+  subtitle="Zobacz, co mówią klienci o naszych aranżacjach wnętrz"
+  fallbackReviews={displayReviews}
+  rating={displayRating}
+  totalReviews={displayTotalReviews}
+  apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+/>
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Stwórzmy Twoją wymarzoną przestrzeń</h2>
+      <p>Rozpocznij swoją historię - umów się na bezpłatną konsultację</p>
+      <div class="cta-buttons">
+        <Button
+          href="tel:+48576060832"
+          variant="primary"
+          size="large"
+          icon="📞"
+        >
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button
+          href="mailto:kontakt@meblesystem.pl"
+          variant="secondary"
+          size="large"
+        >
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Design Types Section */
+  .design-types {
+    padding: 5rem 5%;
+    background: var(--white);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color, #764ba2);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .design-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .design-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .design-types-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .design-type-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .design-type-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2)
+    );
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  .design-type-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .design-type-card:hover::before {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.1)
+    );
+  }
+
+  .design-type-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white, #ffffff);
+  }
+
+  .design-type-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .design-type-card:hover .design-type-content {
+    transform: translateY(-5px);
+  }
+
+  .design-type-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .design-type-features {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .design-type-features span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    background: var(--white, #ffffff);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #2d5016, #5a8f2d);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white, #ffffff);
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .feature-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Process Section */
+  .process {
+    padding: 5rem 5%;
+    background: var(--white, #ffffff);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1200px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+  }
+
+  .process-card {
+    background: var(--white, #ffffff);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .process-card h3 {
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .process-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Team Section */
+  .team {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    max-width: 900px;
+    margin: 3rem auto 0;
+  }
+
+  @media (max-width: 768px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .team-member {
+    background: var(--white, #ffffff);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .team-avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.team-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.team-member:hover .team-avatar {
+  transform: scale(1.05);
+}
+
+.team-member:hover .team-avatar img {
+  transform: scale(1.1);
+}
+
+
+  .team-member h3 {
+    color: var(--primary-color, #1a1a1a);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .team-member p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .team-quote {
+    font-style: italic;
+    color: var(--text-dark, #333);
+    padding-top: 1rem;
+    border-top: 1px solid var(--accent-color, #f4f4f4);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -150px;
+    right: -150px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .cta-content h2 {
+    color: var(--white, #ffffff);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

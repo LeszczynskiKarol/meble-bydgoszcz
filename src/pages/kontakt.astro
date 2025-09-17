@@ -1,0 +1,1218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+
+// Contact info data
+const contactInfo = {
+  phone: "+48 576 060 832",  
+  email: "kontakt@meble-bydgoszcz.pl",
+  address: {
+    street: "ul. Gdańska 31",
+    city: "85-005 Bydgoszcz",
+    province: "kujawsko-pomorskie"
+  },
+  hours: {
+    weekdays: "7:00 - 17:00",
+    saturday: "Nieczynne",
+    sunday: "Nieczynne"
+  },
+  company: {
+    name: "Msystem",
+    nip: "956-211-16-20",
+    regon: "389437853"    
+  }
+};
+
+// Reasons to contact
+const contactReasons = [
+  { icon: "📐", title: "Darmowy pomiar", description: "Umów się na bezpłatny pomiar u Ciebie w domu" },
+  { icon: "🎨", title: "Projekt 3D", description: "Zamów wizualizację swoich mebli na wymiar" },
+  { icon: "💰", title: "Wycena", description: "Otrzymaj szczegółową wycenę Twojego projektu" },
+  { icon: "🛠️", title: "Serwis", description: "Zgłoś problem lub umów serwis pogwarancyjny" }
+];
+
+// KONFIGURACJA CLOUDINARY
+// Musisz się zarejestrować na cloudinary.com (darmowe konto)
+// i wstawić swoje dane poniżej:
+const CLOUDINARY_CLOUD_NAME = "drpll3ho2"; // Zmień na swoją
+const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz"; // Utwórz unsigned preset w Cloudinary
+---
+
+<BaseLayout title="Kontakt - Meble na wymiar Bydgoszcz">
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="hero-bg"></div>
+    <div class="contact-hero-content">
+      <h1 class="hero-title">Skontaktuj się z nami</h1>
+      <p class="hero-subtitle">
+        Odpowiemy na wszystkie pytania i pomożemy zrealizować Twoje marzenia o idealnych meblach
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Contact Section -->
+  <section class="contact-main">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Contact Form -->
+        <div class="contact-form-wrapper">
+          <div class="form-header">
+            <h2>Wyślij wiadomość</h2>
+            <p class="form-subtitle">Wypełnij formularz, a odpowiemy najszybciej jak to możliwe</p>
+          </div>
+          
+          <form id="contact-form" class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="user_name">
+                  <span class="label-text">Imię i nazwisko</span>
+                  <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="user_name" 
+                  name="user_name" 
+                  required 
+                  placeholder="Jan Kowalski"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="user_phone">
+                  <span class="label-text">Telefon</span>
+                  <span class="optional">(opcjonalnie)</span>
+                </label>
+                <input 
+                  type="tel" 
+                  id="user_phone" 
+                  name="user_phone" 
+                  placeholder="601 234 567"
+                />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="user_email">
+                <span class="label-text">Email</span>
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="email" 
+                id="user_email" 
+                name="user_email" 
+                required 
+                placeholder="jan.kowalski@email.pl"
+              />
+            </div>
+            
+           {/* <div class="form-group">
+              <label for="subject">
+                <span class="label-text">Temat</span>
+              </label>
+              <select id="subject" name="subject">
+                <option value="Wycena">Prośba o wycenę</option>
+                <option value="Pomiar">Umówienie pomiaru</option>
+                <option value="Projekt">Zapytanie o projekt</option>
+                <option value="Realizacja">Pytanie o realizację</option>
+                <option value="Serwis">Zgłoszenie serwisowe</option>
+                <option value="Inne">Inne</option>
+              </select>
+            </div> */}
+            
+            <div class="form-group">
+              <label for="message">
+                <span class="label-text">Wiadomość</span>
+                <span class="required">*</span>
+              </label>
+              <textarea 
+                id="message" 
+                name="message" 
+                rows="5" 
+                required 
+                placeholder="Opisz czego potrzebujesz..."
+              ></textarea>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="form-group">
+              <label>
+                <span class="label-text">Załączniki</span>
+                <span class="optional">(max. 5 plików, 10MB każdy)</span>
+              </label>
+              <div class="file-upload-area" id="file-upload-area">
+                <div class="file-upload-content">
+                  <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" stroke-width="2"/>
+                    <path d="M17 8l-5-5-5 5" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 3v12" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  <p class="upload-text">Przeciągnij pliki tutaj lub kliknij aby wybrać</p>
+                  <p class="upload-info">JPG, PNG, PDF, DOC, DOCX (max. 10MB)</p>
+                  <button type="button" class="upload-btn" id="upload-btn">
+                    Wybierz pliki
+                  </button>
+                </div>
+                <div class="uploaded-files" id="uploaded-files"></div>
+              </div>
+              <input type="hidden" id="attachment_urls" name="attachment_urls" />
+            </div>
+            
+          
+            
+            <button type="submit" class="submit-btn">
+              <span class="btn-text">Wyślij wiadomość</span>
+              <span class="btn-loading" style="display: none;">
+                <span class="spinner"></span>
+                Wysyłanie...
+              </span>
+            </button>
+            
+            <div id="form-status" class="form-status"></div>
+          </form>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="contact-info-wrapper">
+          <div class="info-section">
+            <h3>Godziny otwarcia</h3>
+            <div class="hours-grid">
+              <div class="hours-row">
+                <span class="day">Poniedziałek - Piątek</span>
+                <span class="time">{contactInfo.hours.weekdays}</span>
+              </div>
+              <div class="hours-row">
+                <span class="day">Sobota</span>
+                <span class="time">{contactInfo.hours.saturday}</span>
+              </div>
+              <div class="hours-row">
+                <span class="day">Niedziela</span>
+                <span class="time">{contactInfo.hours.sunday}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="info-section">
+            <h3>Dane kontaktowe</h3>
+            <div class="contact-details">
+              <div class="detail-row">
+                <span class="icon">📞</span>
+                <div>
+                  <span class="label">Telefon</span>
+                  <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}>{contactInfo.phone}</a>
+                </div>
+              </div>              
+              <div class="detail-row">
+                <span class="icon">✉️</span>
+                <div>
+                  <span class="label">Email</span>
+                  <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+                </div>
+              </div>
+              <div class="detail-row">
+                <span class="icon">📍</span>
+                <div>
+                  <span class="label">Adres</span>
+                  <address>
+                    {contactInfo.address.street}<br />
+                    {contactInfo.address.city}<br />
+                    woj. {contactInfo.address.province}
+                  </address>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="info-section">
+            <h3>Dane firmy</h3>
+            <div class="company-details">
+              <p><strong>{contactInfo.company.name}</strong></p>
+              <p>NIP: {contactInfo.company.nip}</p>
+              <p>REGON: {contactInfo.company.regon}</p>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<!-- EmailJS Script -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- Cloudinary Upload Widget -->
+<script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+
+<script define:vars={{ CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET }}>
+  // Initialize EmailJS
+  emailjs.init("gjau8dneW58l9l3tz");
+  document.addEventListener('DOMContentLoaded', function() {
+  // Znajdź wszystkie linki telefoniczne
+  const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+  
+  phoneLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      const phoneNumber = this.href.replace('tel:', '');
+      
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'phone_click',
+        'phone_number': phoneNumber,
+        'click_location': window.location.pathname,
+        'engagement_type': 'call_intent'
+      });
+    });
+  });
+});
+
+  // Store uploaded file URLs
+  let uploadedFiles = [];
+  
+  // Initialize Cloudinary Upload Widget
+  const myWidget = cloudinary.createUploadWidget(
+    {
+      cloudName: CLOUDINARY_CLOUD_NAME,
+      uploadPreset: CLOUDINARY_UPLOAD_PRESET,
+      sources: ['local', 'url', 'camera'],
+      multiple: true,
+      maxFiles: 5,
+      maxFileSize: 10485760, // 10MB
+      resourceType: 'auto',
+      clientAllowedFormats: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
+      showPoweredBy: false,
+      language: 'pl',
+      text: {
+        pl: {
+          or: 'Lub',
+          back: 'Wstecz',
+          close: 'Zamknij',
+          upload_successful: 'Upload zakończony!',
+          upload_files: 'Wybierz pliki',
+          drag_files: 'Przeciągnij pliki tutaj',
+          browse: 'Przeglądaj',
+          uploading: 'Przesyłanie...',
+          upload_complete: 'Przesłano pomyślnie',
+          upload_cropped: 'Przesłano i przycięto',
+          processing: 'Przetwarzanie...',
+          max_files_title: 'Przekroczono limit plików',
+          max_files_text: 'Możesz przesłać maksymalnie 5 plików.',
+          max_file_size_title: 'Plik jest za duży',
+          max_file_size_text: 'Maksymalny rozmiar pliku to 10MB.'
+        }
+      },
+      styles: {
+        palette: {
+          window: "#1a1a1a",
+          windowBorder: "#667eea",
+          tabIcon: "#667eea",
+          menuIcons: "#764ba2",
+          textDark: "#000000",
+          textLight: "#FFFFFF",
+          link: "#667eea",
+          action: "#667eea",
+          inactiveTabIcon: "#666666",
+          error: "#ef4444",
+          inProgress: "#667eea",
+          complete: "#10b981",
+          sourceBg: "#0a0a0a"
+        }
+      }
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        // Add file to list
+        const fileInfo = {
+          url: result.info.secure_url,
+          name: result.info.original_filename,
+          size: result.info.bytes,
+          format: result.info.format
+        };
+        uploadedFiles.push(fileInfo);
+        
+        // Update hidden input
+        document.getElementById('attachment_urls').value = uploadedFiles.map(f => f.url).join(',');
+        
+        // Display uploaded file
+        displayUploadedFile(fileInfo);
+      }
+    }
+  );
+  
+  // Display uploaded file
+  function displayUploadedFile(fileInfo) {
+    const container = document.getElementById('uploaded-files');
+    const fileElement = document.createElement('div');
+    fileElement.className = 'uploaded-file';
+    fileElement.innerHTML = `
+      <div class="file-info">
+        <span class="file-icon">📎</span>
+        <span class="file-name">${fileInfo.name}.${fileInfo.format}</span>
+        <span class="file-size">${formatFileSize(fileInfo.size)}</span>
+      </div>
+      <button type="button" class="remove-file" data-url="${fileInfo.url}">✕</button>
+    `;
+    container.appendChild(fileElement);
+    
+    // Add remove handler
+    fileElement.querySelector('.remove-file').addEventListener('click', function() {
+      removeFile(this.dataset.url, fileElement);
+    });
+  }
+  
+  // Remove file
+  function removeFile(url, element) {
+    uploadedFiles = uploadedFiles.filter(f => f.url !== url);
+    document.getElementById('attachment_urls').value = uploadedFiles.map(f => f.url).join(',');
+    element.remove();
+  }
+  
+  // Format file size
+  function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  }
+  
+  // Open upload widget
+  document.getElementById('upload-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    myWidget.open();
+  });
+  
+  // Drag and drop
+  const uploadArea = document.getElementById('file-upload-area');
+  
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('drag-over');
+  });
+  
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('drag-over');
+  });
+  
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('drag-over');
+    myWidget.open();
+  });
+  
+  // Handle form submission
+  document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const submitBtn = this.querySelector('.submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoading = submitBtn.querySelector('.btn-loading');
+    const formStatus = document.getElementById('form-status');
+    
+    // Show loading state
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'flex';
+    submitBtn.disabled = true;
+    
+    // Get form data
+    const formData = new FormData(this);
+    
+    // Prepare template params
+    const templateParams = {
+      user_name: formData.get('user_name'),
+      user_email: formData.get('user_email'),
+      user_phone: formData.get('user_phone') || 'Nie podano',
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+      attachments: uploadedFiles.length > 0 
+        ? uploadedFiles.map(f => `${f.name}.${f.format}: ${f.url}`).join('\n')
+        : 'Brak załączników'
+    };
+    
+    // Send email via EmailJS
+    emailjs.send('service_drhh95v', 'template_jf3tlfx', templateParams)
+      .then(function() {
+        // Success
+            window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'form_submit_success',
+      'form_type': 'contact',
+      'form_location': 'contact_page',
+      'form_details': {
+        'has_phone': templateParams.user_phone !== 'Nie podano',
+        'has_attachments': uploadedFiles.length > 0,
+        'attachment_count': uploadedFiles.length
+      }
+    });
+
+        formStatus.innerHTML = `
+          <div class="alert success">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <div>
+              <strong>Wiadomość została wysłana!</strong>
+              <p>Odpowiemy najszybciej jak to możliwe.</p>
+            </div>
+          </div>
+        `;
+        
+        // Reset form
+        document.getElementById('contact-form').reset();
+        uploadedFiles = [];
+        document.getElementById('uploaded-files').innerHTML = '';
+        document.getElementById('attachment_urls').value = '';
+        
+        // Reset button
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
+        submitBtn.disabled = false;
+        
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          formStatus.innerHTML = '';
+        }, 5000);
+      }, function(error) {
+        // Error
+        formStatus.innerHTML = `
+          <div class="alert error">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <div>
+              <strong>Wystąpił błąd</strong>
+              <p>Spróbuj ponownie lub zadzwoń do nas.</p>
+            </div>
+          </div>
+        `;
+        
+        // Reset button
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
+        submitBtn.disabled = false;
+        
+        console.error('EmailJS error:', error);
+      });
+  });
+</script>
+
+<style>
+  /* Hero Section */
+  .contact-hero {
+    margin-top: 80px;
+    padding: 6rem 5% 4rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.1;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    animation: float 20s linear infinite;
+  }
+
+  @keyframes float {
+    to { transform: translate(-60px, -60px); }
+  }
+
+  .contact-hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-title {
+    color: white;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.6s ease;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    animation: fadeInUp 0.6s ease 0.1s backwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Main Contact Section */
+  .contact-main {
+    padding: 5rem 5%;
+    background: #f8f8f8;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+  }
+
+  @media (max-width: 1024px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  /* Modern Form Design */
+  .contact-form-wrapper {
+    background: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 30px;
+    padding: 3rem;
+    position: relative;
+  }
+
+  .form-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .form-subtitle {
+    color: #666;
+    margin-bottom: 2rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 600px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-group {
+    position: relative;
+  }
+
+  .form-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .label-text {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+  }
+
+  .required {
+    color: #ef4444;
+  }
+
+  .optional {
+    color: #999;
+    font-size: 0.8rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    color: #333;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #999;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.1);
+  }
+
+  .form-group select option {
+    background: white;
+    color: #333;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
+
+  /* File Upload Section */
+  .file-upload-area {
+    background: rgba(102, 126, 234, 0.1);
+    border: 2px dashed rgba(102, 126, 234, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .file-upload-area:hover,
+  .file-upload-area.drag-over {
+    background: rgba(102, 126, 234, 0.15);
+    border-color: #667eea;
+  }
+
+  .file-upload-content {
+    text-align: center;
+  }
+
+  .upload-icon {
+    stroke: #667eea;
+    margin-bottom: 1rem;
+  }
+
+  .upload-text {
+    
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-info {
+    
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-btn {
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+
+  .uploaded-files {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .uploaded-file {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    animation: slideInUp 0.3s ease;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .file-icon {
+    font-size: 1.2rem;
+  }
+
+  .file-name {
+    color: white;
+    font-weight: 500;
+  }
+
+  .file-size {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+  }
+
+  .remove-file {
+    width: 24px;
+    height: 24px;
+    background: rgba(239, 68, 68, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .remove-file:hover {
+    background: rgba(239, 68, 68, 0.3);
+    transform: scale(1.1);
+  }
+
+  /* Checkbox */
+  .form-group.checkbox label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-weight: normal;
+    cursor: pointer;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .form-group.checkbox input[type="checkbox"] {
+    margin-top: 0.25rem;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    accent-color: #667eea;
+  }
+
+  .form-group.checkbox a {
+    color: #667eea;
+    text-decoration: underline;
+  }
+
+  /* Submit Button */
+  .submit-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 1.2rem 3rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.2);
+    transition: left 0.3s ease;
+  }
+
+  .submit-btn:hover::before {
+    left: 100%;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .btn-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Form Status */
+  .form-status {
+    margin-top: 1rem;
+  }
+
+  .alert {
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    font-weight: 500;
+    animation: slideInUp 0.3s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .alert svg {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+  }
+
+  .alert.success {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #10b981;
+  }
+
+  .alert.error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+  }
+
+  .alert strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .alert p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  /* Contact Info */
+  .contact-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .info-section {
+    background: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    padding: 2rem;
+  }
+
+  .info-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+    position: relative;
+    padding-bottom: 0.75rem;
+  }
+
+  .info-section h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+  }
+
+  .hours-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .hours-row:last-child {
+    border-bottom: none;
+  }
+
+  .hours-row .day {
+    color: #666;
+  }
+
+  .hours-row .time {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .detail-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .detail-row .icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .detail-row .label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+  }
+
+  .detail-row a {
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .detail-row a:hover {
+    color: #667eea;
+  }
+
+  .detail-row address {
+    font-style: normal;
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  .company-details {
+    line-height: 1.8;
+    color: #333;
+  }
+
+  .company-details strong {
+    color: #1a1a1a;
+  }
+
+  /* Why Contact Section */
+  .why-contact {
+    padding: 5rem 5%;
+    background: white;
+  }
+
+  .why-contact h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1024px) {
+    .reasons-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .reasons-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .reason-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 20px;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+  }
+
+  .reason-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+
+  .reason-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1rem;
+  }
+
+  .reason-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+  }
+
+  .reason-card p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* Map Section */
+  .map-section {
+    position: relative;
+    height: 450px;
+    overflow: hidden;
+  }
+
+  .map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-container iframe {
+    width: 100%;
+    height: 100%;
+    filter: grayscale(20%) brightness(0.8);
+  }
+
+  .map-overlay {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    max-width: 350px;
+  }
+
+  @media (max-width: 600px) {
+    .map-overlay {
+      left: 15px;
+      right: 15px;
+      max-width: none;
+    }
+  }
+
+  .map-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+
+  .map-info p {
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Contact CTA */
+  .contact-cta {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    color: white;
+  }
+
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  }
+
+  .contact-cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .contact-cta p {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .contact-form-wrapper {
+      padding: 2rem;
+    }
+
+    .form-header h2 {
+      font-size: 2rem;
+    }
+  }
+</style>

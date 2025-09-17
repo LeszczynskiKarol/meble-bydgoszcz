@@ -1,0 +1,741 @@
+---
+// src/pages/kuchnie.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import { processSteps } from '../content/process';
+import type { GalleryImage } from '../lib/types';
+
+const fallbackKitchenReviews = [
+  {
+    id: "kitchen-1",
+    author: "Magdalena Wiśniewska",
+    avatar: "MW",
+    rating: 5,
+    text: "Kuchnia wykonana perfekcyjnie! Projekt 3D pozwolił nam zobaczyć dokładnie jak będzie wyglądać. Jakość wykonania przeszła nasze oczekiwania, a system szuflad z pełnym wysuwem to cudo!",
+    date: "Tydzień temu",
+    verified: true
+  },
+  {
+    id: "kitchen-2",
+    author: "Piotr Kamiński",
+    avatar: "PK",
+    rating: 5,
+    text: "Profesjonalne podejście od początku do końca. Pan projektant świetnie doradzał, montażyści pracowali czysto i szybko. Kuchnia wygląda dokładnie tak jak na wizualizacji. Polecam!",
+    date: "2 tygodnie temu",
+    verified: true
+  },
+  {
+    id: "kitchen-3",
+    author: "Joanna Szymańska",
+    avatar: "JS",
+    rating: 5,
+    text: "Nasza kuchnia z wyspą to spełnienie marzeń! Świetne wykorzystanie przestrzeni, mnóstwo miejsca do przechowywania. Okucia Blum działają bezszelestnie. Super jakość w rozsądnej cenie.",
+    date: "Miesiąc temu",
+    verified: true
+  }
+];
+
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+        console.log(`Fetched ${googleReviews?.length || 0} reviews from Google Places API for kitchen page`);
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+  }
+}
+
+const displayReviews = googleReviews || fallbackKitchenReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+
+
+// Kitchen types data
+const kitchenTypes = [
+  {
+    title: "Kuchnie płyta laminowana",
+    description: "Funkcjonalne i trwałe rozwiązanie w atrakcyjnej cenie",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1ak-1_opt.webp",
+    features: ["Ekonomiczne", "Odporne", "Trwałe"]
+  },
+  {
+    title: "Kuchnie MDF lakierowany",
+    description: "Eleganckie wykończenie z możliwością personalizacji koloru",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-5.jpg",
+    features: ["Dowolny kolor", "Gładka powierzchnia", "Elegancja"]
+  },
+  {
+    title: "Kuchnie akryl/lakier + płyta",
+    description: "Nowoczesne połączenie wysokiego połysku z praktyczną płytą",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuchsow-2-scaled.jpg",
+    features: ["Wysoki połysk", "Łatwe czyszczenie", "Nowoczesność"]
+  },
+  {
+    title: "Kuchnie akrylowe / mata",
+    description: "Ekskluzywne wykończenie o wyjątkowej głębi koloru",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k11-8_opt.webp",
+    features: ["Głębia koloru", "Odporność", "Luksus"]
+  },
+  {
+    title: "Kuchnie blaty HPL",
+    description: "Wytrzymałe i odporne na uszkodzenia powierzchnie",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/gras-1.jpg",
+    features: ["Odporność", "Wytrzymałość", "Praktyczność"]
+  },
+  {
+    title: "Kuchnie z fornirem",
+    description: "Naturalne piękno kuchni w nowoczesnym wydaniu",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kurambi-1_opt.webp",
+    features: ["Naturalność", "Unikalny wzór", "Elegancja"]
+  }
+];
+
+// Features data
+const features = [
+  {
+    icon: "🍳",
+    title: "Wycena gratis",
+    description: "Zadzwoń lub napisz do nas i daj znać, jakiej kuchni na wymiar potrzebujesz, a zaproponjemy darmową wycenę."
+  },
+  {
+    icon: "💎",
+    title: "Materiały premium",
+    description: "Używamy tylko najlepszych materiałów i rozwiązań, m.in. Blum, Peka, Egger, Sevroll, Swiss Krono."
+  },
+  {
+    icon: "🎨",
+    title: "Wybór kolorów i wzorów",
+    description: "Ogromny wybór frontów, blatów i korpusów. Od matowych, przez połyskowe, po klasyczne formy."
+  },
+  {
+    icon: "⏰",
+    title: "Terminowość",
+    description: "Szanujemy Ciebie i Twój czas, dlatego ustalone terminy realizacji traktujemy jak świętość i dotrzymujemy ich."
+  },
+  {
+    icon: "✅",
+    title: "Rzetelność i uczciwość",
+    description: "Zaufanie to najważniejsza waluta w relacjach z klientami, do której przykładamy ogromną wagę. Stawiamy na uczciwość i rzetelność."
+  },
+  {
+    icon: "🏆",
+    title: "Konkurencyjne ceny",
+    description: "Łączymy wysoką jakość kuchni na wymiar z dobrą ceną. Konkurencyjne stawki sprawiają, że nasze meble kuchenne są szeroko dostępne."
+  }
+];
+
+// Process steps for kitchen
+const kitchenProcessSteps = [
+  {
+    number: 1,
+    title: "Konsultacja",
+    description: "Omawiamy Twoje potrzeby, zwyczaje kulinarne i dostępną przestrzeń. Doradzamy optymalne rozwiązania."
+  },
+  {
+    number: 2,
+    title: "Pomiar",
+    description: "Dokładnie mierzymy pomieszczenie, sprawdzamy media, analizujemy możliwości aranżacji."
+  },
+  {
+    number: 3,
+    title: "Projekt",
+    description: "Tworzymy projekt, do którego możesz wprowadzać zmiany. Możemy też bazować na gotowym już projekcie."
+  },
+  {
+    number: 4,
+    title: "Produkcja",
+    description: "W naszym zakładzie od podstaw produkujemy meble do kuchni według najlepszych standardów."
+  },
+  {
+    number: 5,
+    title: "Montaż",
+    description: "Profesjonalny montaż mebli kuchennych na wymiar w dowolnym mejscu w Bydgoszczy wykonują nasi doświadczeni montażyści."
+  }
+];
+
+// Gallery images
+const galleryImages: GalleryImage[] = [
+  {
+    id: "1",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k6-8_opt.webp",
+    alt: "Kuchnia nowoczesna biała",
+    category: "kuchnie"
+  },
+  {
+    id: "2",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuziel-6_opt.webp",
+    alt: "Kuchnia z wyspą",
+    category: "kuchnie"
+  },
+  {
+    id: "3",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k5-4_opt.webp",
+    alt: "Kuchnia klasyczna drewniana",
+    category: "kuchnie"
+  },
+  {
+    id: "4",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kiu-1_opt.webp",
+    alt: "Kuchnia minimalistyczna",
+    category: "kuchnie"
+  },
+  {
+    id: "5",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1ak-1_opt.webp",
+    alt: "Kuchnia szara nowoczesna",
+    category: "kuchnie"
+  },
+  {
+    id: "6",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-5.jpg",
+    alt: "Kuchnia w stylu angielskim",
+    category: "kuchnie"
+  },
+  {
+    id: "7",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuchsow-2-scaled.jpg",
+    alt: "Kuchnia z barkiem",
+    category: "kuchnie"
+  },
+  {
+    id: "8",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k11-8_opt.webp",
+    alt: "Kuchnia skandynawska",
+    category: "kuchnie"
+  }
+];
+
+// Reviews data
+const reviews = [
+  {
+    name: "Magdalena Wiśniewska",
+    initials: "MW",
+    rating: 5,
+    text: "Kuchnia wykonana perfekcyjnie! Projekt 3D pozwolił nam zobaczyć dokładnie jak będzie wyglądać. Jakość wykonania przeszła nasze oczekiwania, a system szuflad z pełnym wysuwem to cudo!",
+    date: "Tydzień temu"
+  },
+  {
+    name: "Piotr Kamiński",
+    initials: "PK",
+    rating: 5,
+    text: "Profesjonalne podejście od początku do końca. Pan projektant świetnie doradzał, montażyści pracowali czysto i szybko. Kuchnia wygląda dokładnie tak jak na wizualizacji. Polecam!",
+    date: "2 tygodnie temu"
+  },
+  {
+    name: "Joanna Szymańska",
+    initials: "JS",
+    rating: 5,
+    text: "Nasza kuchnia z wyspą to spełnienie marzeń! Świetne wykorzystanie przestrzeni, mnóstwo miejsca do przechowywania. Okucia Blum działają bezszelestnie. Super jakość w rozsądnej cenie.",
+    date: "Miesiąc temu"
+  }
+];
+---
+
+<BaseLayout
+  title="Kuchnie na wymiar Bydgoszcz - Projektowanie i Produkcja"
+  description="Projektujemy i produkujemy kuchnie idealnie dopasowane do Twojej przestrzeni. Od nowoczesnych minimalistycznych po klasyczne z charakterem."
+  keywords={[
+    "kuchnie na wymiar Bydgoszcz",
+    "meble kuchenne Bydgoszcz",
+    "projektowanie kuchni",
+    "kuchnie nowoczesne",
+    "kuchnie klasyczne",
+    "zabudowa kuchenna",
+    "fronty kuchenne",
+    "blaty kuchenne"
+  ]}
+>
+  <!-- Hero Section -->
+  <Hero
+    title="Kuchnie na wymiar <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Projektujemy i produkujemy kuchnie idealnie dopasowane do Twojej przestrzeni. Od nowoczesnych minimalistycznych po klasyczne z charakterem."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz realizacje kuchni →", href: "/realizacje#kuchnie" }}
+    images={[
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k6-8_opt.webp", alt: "Nowoczesna kuchnia na wymiar Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuziel-6_opt.webp", alt: "Kuchnia biała połysk Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k5-4_opt.webp", alt: "Kuchnia klasyczna Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kiu-1_opt.webp", alt: "Kuchnia z wyspą Bydgoszcz" }
+    ]}
+    variant="kitchen"
+  />
+
+  <!-- Kitchen Types Section -->
+  <section class="kitchen-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Rodzaje kuchni w naszej ofercie</h2>
+        <p>Wybierz styl, który najlepiej pasuje do Twojego wnętrza i trybu życia</p>
+      </div>
+      <div class="kitchen-types-grid">
+        {kitchenTypes.map((type) => (
+          <div class="kitchen-type-card" style={`background-image: url('${type.image}');`}>
+            <div class="kitchen-type-content">
+              <h3>{type.title}</h3>
+              <p>{type.description}</p>
+              <div class="kitchen-type-features">
+                {type.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Dlaczego nasze kuchnie?</h2>
+        <p>Gwarancja jakości i funkcjonalności na lata</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Proces realizacji mebli do kuchni</h2>
+        <p>Od pierwszego spotkania do gotowej kuchni marzeń</p>
+      </div>
+      <div class="process-grid">
+        {kitchenProcessSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <Gallery
+    title="Nasze realizacje kuchni na wymiar"
+    subtitle="Zobacz kuchnie, które stworzyliśmy dla naszych klientów w Bydgoszczy"
+    images={galleryImages}
+    viewAllLink="/realizacje#kuchnie"
+  />
+
+<!-- Reviews Section - używamy komponentu Reviews jak na index.astro -->
+<Reviews
+  title="Opinie o naszych meblach kuchennych"
+  subtitle="Zobacz, co mówią klienci o naszych meblach kuchennych"
+  fallbackReviews={displayReviews}
+  rating={displayRating}
+  totalReviews={displayTotalReviews}
+  apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+/>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Zacznij swoją nową kuchnię marzeń</h2>
+      <p>Zadzwoń lub napisz do nas już teraz i uzyskaj darmową wycenę</p>
+      <div class="cta-buttons">
+        <Button
+          href="tel:+48576060832"
+          variant="primary"
+          size="large"
+          icon="📞"
+        >
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button
+          href="/kontakt"
+          variant="secondary"
+          size="large"
+        >
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Kitchen Types Section */
+  .kitchen-types {
+    padding: 5rem 5%;
+    background: var(--white);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color, #764ba2);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .kitchen-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .kitchen-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .kitchen-types-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .kitchen-type-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .kitchen-type-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2)
+    );
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  .kitchen-type-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .kitchen-type-card:hover::before {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.1)
+    );
+  }
+
+  .kitchen-type-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white, #ffffff);
+  }
+
+  .kitchen-type-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .kitchen-type-card:hover .kitchen-type-content h3 {
+    transform: translateY(-5px);
+  }
+
+  .kitchen-type-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .kitchen-type-features {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .kitchen-type-features span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    background: var(--white, #ffffff);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #2d5016, #5a8f2d);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white, #ffffff);
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .feature-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Process Section */
+  .process {
+    padding: 5rem 5%;
+    background: var(--white, #ffffff);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1200px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+  }
+
+  .process-card {
+    background: var(--white, #ffffff);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px rgba(45, 80, 22, 0.4);
+  }
+
+  .process-card h3 {
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .process-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -150px;
+    right: -150px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .cta-content h2 {
+    color: var(--white, #ffffff);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

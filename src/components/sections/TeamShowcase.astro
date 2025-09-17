@@ -1,0 +1,631 @@
+<!-- src/components/sections/TeamShowcase.astro -->
+---
+const teamImages = [
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-124-of-172-2048x1366.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-124-of-172-2048x1366.jpg",
+    alt: "Montaż mebli kuchennych",
+    caption: "Precyzyjny montaż mebli w zakładzie produkcyjnym"
+  },
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-4-of-172.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-4-of-172.jpg",
+    alt: "Precyzyjne cięcie drewna",
+    caption: "Praca na profesjonalnych maszynach CNC"
+  },
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-96-of-172.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-96-of-172.jpg",
+    alt: "Szlifowanie powierzchni",
+    caption: "Dbałość o każdy detal wykończenia"
+  },
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-112-of-172.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-112-of-172.jpg",
+    alt: "Projektowanie mebli",
+    caption: "Praca nad nowymi projektami mebli"
+  },
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-113-of-172.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-113-of-172.jpg",
+    alt: "Kontrola jakości",
+    caption: "Sprawdzanie jakości wykonania każdego elementu"
+  },
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-147-of-172-2048x1366.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-147-of-172-2048x1366.jpg",
+    alt: "Lakierowanie frontów",
+    caption: "Profesjonalne lakierowanie frontów meblowych"
+  },
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-110-of-172-1-2048x1366.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-110-of-172-1-2048x1366.jpg",
+    alt: "Praca w warsztacie",
+    caption: "Nasza ekipa w pełnej koncentracji"
+  },
+  {
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-123-of-172-2048x1366.jpg",
+    thumb: "https://www.meblesystem.pl/wp-content/uploads/2025/08/Meble-czerwiec-2025-123-of-172-2048x1366.jpg",
+    alt: "Praca zespołowa",
+    caption: "Zespół doświadczonych fachowców przy pracy"
+  }
+];
+
+// Duplikujemy zdjęcia dla płynnego infinity scroll
+const allImages = [...teamImages, ...teamImages, ...teamImages];
+---
+
+<section class="team-showcase">
+  <div class="team-showcase__container">
+    <div class="team-showcase__header">
+      <h2 class="team-showcase__title">Nasza ekipa w akcji</h2>
+      <p class="team-showcase__subtitle">10 lat doświadczenia • Ponad 500 realizacji • Zespół 20+ specjalistów</p>
+    </div>
+    
+    <div class="team-showcase__slider">
+      <!-- Strzałka w lewo -->
+      <button class="team-showcase__arrow team-showcase__arrow--prev" aria-label="Poprzednie">
+        ‹
+      </button>
+      
+      <div class="team-showcase__track" data-images={JSON.stringify(teamImages)}>
+        {teamImages.map((image, index) => (
+          <div 
+            class="team-showcase__item" 
+            data-index={index}
+            data-src={image.src}
+            data-caption={image.caption}
+          >
+            <img 
+              src={image.thumb} 
+              alt={image.alt}
+              loading="lazy"
+              class="team-showcase__image"
+            />
+            {/* Usunięta lupa */}
+          </div>
+        ))}
+      </div>
+      
+      <!-- Strzałka w prawo -->
+      <button class="team-showcase__arrow team-showcase__arrow--next" aria-label="Następne">
+        ›
+      </button>
+    </div>
+    
+    <!-- Kropki nawigacyjne -->
+    <div class="team-showcase__dots">
+      {teamImages.map((_, index) => (
+        <button 
+          class="team-showcase__dot" 
+          data-index={index}
+          aria-label={`Przejdź do zdjęcia ${index + 1}`}
+        />
+      ))}
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="team-lightbox">
+    <button class="lightbox__close" aria-label="Zamknij">&times;</button>
+    <button class="lightbox__prev" aria-label="Poprzednie">‹</button>
+    <button class="lightbox__next" aria-label="Następne">›</button>
+    <div class="lightbox__content">
+      <img class="lightbox__image" src="" alt="">
+      <div class="lightbox__caption"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Slideshow functionality
+  const track = document.querySelector('.team-showcase__track') as HTMLElement;
+  const items = document.querySelectorAll('.team-showcase__item');
+  const dots = document.querySelectorAll('.team-showcase__dot');
+  const prevArrow = document.querySelector('.team-showcase__arrow--prev') as HTMLButtonElement;
+  const nextArrow = document.querySelector('.team-showcase__arrow--next') as HTMLButtonElement;
+  
+  const itemWidth = 280; // szerokość elementu
+  const gap = 24; // gap między elementami
+  let currentIndex = 0;
+  let isPaused = false;
+  let slideInterval: NodeJS.Timeout;
+
+  function getVisibleCount() {
+    const containerWidth = track.parentElement?.offsetWidth || window.innerWidth;
+    return Math.floor(containerWidth / (itemWidth + gap));
+  }
+
+  function updateDots() {
+    dots.forEach((dot, index) => {
+      if (index === currentIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+
+  function goToSlide(index: number) {
+    const visibleCount = getVisibleCount();
+    const maxIndex = Math.max(0, items.length - visibleCount);
+    
+    currentIndex = Math.min(Math.max(0, index), maxIndex);
+    const offset = currentIndex * (itemWidth + gap);
+    track.style.transform = `translateX(-${offset}px)`;
+    updateDots();
+  }
+
+  function nextSlide() {
+    const visibleCount = getVisibleCount();
+    const maxIndex = Math.max(0, items.length - visibleCount);
+    
+    if (currentIndex >= maxIndex) {
+      goToSlide(0); // Wróć do początku
+    } else {
+      goToSlide(currentIndex + 1);
+    }
+  }
+
+  function prevSlide() {
+    const visibleCount = getVisibleCount();
+    const maxIndex = Math.max(0, items.length - visibleCount);
+    
+    if (currentIndex <= 0) {
+      goToSlide(maxIndex); // Idź na koniec
+    } else {
+      goToSlide(currentIndex - 1);
+    }
+  }
+
+  function startAutoSlide() {
+    slideInterval = setInterval(() => {
+      if (!isPaused) nextSlide();
+    }, 4000);
+  }
+
+  function stopAutoSlide() {
+    clearInterval(slideInterval);
+  }
+
+  // Inicjalizacja
+  updateDots();
+  startAutoSlide();
+
+  // Event listeners dla strzałek
+  prevArrow.addEventListener('click', () => {
+    prevSlide();
+    stopAutoSlide();
+    startAutoSlide(); // Reset timer
+  });
+
+  nextArrow.addEventListener('click', () => {
+    nextSlide();
+    stopAutoSlide();
+    startAutoSlide(); // Reset timer
+  });
+
+  // Event listeners dla kropek
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      goToSlide(index);
+      stopAutoSlide();
+      startAutoSlide(); // Reset timer
+    });
+  });
+
+  // Pause on hover
+  track.addEventListener('mouseenter', () => {
+    isPaused = true;
+  });
+
+  track.addEventListener('mouseleave', () => {
+    isPaused = false;
+  });
+
+  // Lightbox functionality
+  const lightbox = document.getElementById('team-lightbox') as HTMLElement;
+  const lightboxImage = lightbox.querySelector('.lightbox__image') as HTMLImageElement;
+  const lightboxCaption = lightbox.querySelector('.lightbox__caption') as HTMLElement;
+  const closeBtn = lightbox.querySelector('.lightbox__close') as HTMLButtonElement;
+  const prevBtn = lightbox.querySelector('.lightbox__prev') as HTMLButtonElement;
+  const nextBtn = lightbox.querySelector('.lightbox__next') as HTMLButtonElement;
+  
+  let currentLightboxIndex = 0;
+  const images = JSON.parse(track.dataset.images || '[]');
+
+  function openLightbox(index: number) {
+    currentLightboxIndex = index;
+    updateLightboxContent();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightboxContent() {
+    const image = images[currentLightboxIndex];
+    lightboxImage.src = image.src;
+    lightboxImage.alt = image.alt;
+    if (lightboxCaption) {
+      lightboxCaption.textContent = image.caption || '';
+    }
+  }
+
+  function nextImage() {
+    currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
+    updateLightboxContent();
+  }
+
+  function prevImage() {
+    currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
+    updateLightboxContent();
+  }
+
+  // Event listeners
+  items.forEach((item, index) => {
+    item.addEventListener('click', () => openLightbox(index));
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+  prevBtn.addEventListener('click', prevImage);
+  nextBtn.addEventListener('click', nextImage);
+
+  // Zamknij lightbox po kliknięciu tła
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+  });
+
+  // Responsywność
+  window.addEventListener('resize', () => {
+    // Reset pozycji przy zmianie rozmiaru
+    goToSlide(0);
+  });
+</script>
+
+<style>
+  .team-showcase {
+    position: relative;
+    padding: 6rem 0;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    overflow: hidden;
+  }
+
+  .team-showcase::before,
+  .team-showcase::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+  }
+
+  .team-showcase::before { top: 0; }
+  .team-showcase::after { bottom: 0; }
+
+  .team-showcase__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .team-showcase__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .team-showcase__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .team-showcase__title::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+  }
+
+  .team-showcase__subtitle {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+
+  .team-showcase__slider {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .team-showcase__track {
+    display: flex;
+    gap: 1.5rem;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Strzałki nawigacyjne */
+  .team-showcase__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 2rem;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .team-showcase__arrow:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .team-showcase__arrow--prev {
+    left: 1rem;
+  }
+
+  .team-showcase__arrow--next {
+    right: 1rem;
+  }
+
+  /* Kropki nawigacyjne */
+  .team-showcase__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .team-showcase__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d0d0d0;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .team-showcase__dot:hover {
+    background: #999;
+    transform: scale(1.2);
+  }
+
+  .team-showcase__dot.active {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transform: scale(1.3);
+  }
+
+  .team-showcase__item {
+    flex-shrink: 0;
+    width: 280px;
+    height: 200px;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .team-showcase__item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .team-showcase__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: filter 0.3s ease;
+  }
+
+  .team-showcase__item:hover .team-showcase__image {
+    filter: grayscale(0%);
+  }
+
+  /* Overlay i lupa usunięte */
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    padding: 2rem;
+  }
+
+  .lightbox.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .lightbox__content {
+    max-width: 90vw;
+    max-height: 90vh;
+    text-align: center;
+  }
+
+  .lightbox__image {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    animation: zoomIn 0.3s ease;
+  }
+
+  @keyframes zoomIn {
+    from { transform: scale(0.9); }
+    to { transform: scale(1); }
+  }
+
+  .lightbox__caption {
+    color: white;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .lightbox__close,
+  .lightbox__prev,
+  .lightbox__next {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox__close {
+    top: 2rem;
+    right: 2rem;
+  }
+
+  .lightbox__prev {
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox__next {
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox__close:hover,
+  .lightbox__prev:hover,
+  .lightbox__next:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1) translateY(-50%);
+  }
+
+  .lightbox__close:hover {
+    transform: scale(1.1);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .team-showcase__container {
+      padding: 0 1rem;
+    }
+
+    .team-showcase__item {
+      width: 220px;
+      height: 160px;
+    }
+
+    .team-showcase__arrow {
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+    }
+
+    .team-showcase__arrow--prev {
+      left: 0.5rem;
+    }
+
+    .team-showcase__arrow--next {
+      right: 0.5rem;
+    }
+
+    .team-showcase__dot {
+      width: 10px;
+      height: 10px;
+    }
+
+    .lightbox__close,
+    .lightbox__prev,
+    .lightbox__next {
+      width: 50px;
+      height: 50px;
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .team-showcase__item {
+      width: 180px;
+      height: 130px;
+    }
+
+    .team-showcase__title {
+      font-size: 1.5rem;
+    }
+
+    .team-showcase__arrow {
+      width: 35px;
+      height: 35px;
+      font-size: 1.2rem;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .team-showcase__dots {
+      margin-top: 1.5rem;
+      gap: 0.5rem;
+    }
+
+    .team-showcase__dot {
+      width: 8px;
+      height: 8px;
+    }
+
+    .lightbox {
+      padding: 1rem;
+    }
+
+    .lightbox__close {
+      top: 1rem;
+      right: 1rem;
+    }
+  }
+</style>
+

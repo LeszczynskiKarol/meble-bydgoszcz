@@ -1,0 +1,726 @@
+---
+import Reviews from '../components/sections/Reviews.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import type { GalleryImage } from '../lib/types';
+
+// Bed types data
+const bedTypes = [
+  {
+    title: "Łóżka tapicerowane",
+    description: "Miękki zagłówek, eleganckie wykończenie, najwyższy komfort wypoczynku",
+    image: "https://images.unsplash.com/photo-1505693314120-0d443867891c?w=800",
+    features: ["Aksamit", "Welur", "Skóra"]
+  },
+  {
+    title: "Łóżka z płyt MDF",
+    description: "Uniwersalna, stylowa klasyka, która nigdy nie wychodzi z mody",
+    image: "https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=800",
+    features: ["Naturalne", "Trwałe", "Eleganckie"]
+  },
+  {
+    title: "Łóżka z pojemnikiem",
+    description: "Praktyczne rozwiązanie z miejscem na pościel i sezonowe rzeczy",
+    image: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800",
+    features: ["Pojemność", "Podnoszenie", "Organizacja"]
+  },
+  {
+    title: "Łóżka z szufladami",
+    description: "Dodatkowa przestrzeń na ubrania, bieliznę i drobiazgi",
+    image: "https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=800",
+    features: ["2-4 szuflady", "Pełny wysuw", "Soft-close"]
+  },
+  {
+    title: "Łóżka metalowe",
+    description: "Nowoczesny design, trwałość i łatwość utrzymania czystości",
+    image: "https://images.unsplash.com/photo-1540835870862-53fc66d65abf?w=800",
+    features: ["Stal", "Mosiądz", "Aluminium"]
+  },
+  {
+    title: "Łóżka kontynentalne",
+    description: "Luksusowy komfort z materacem sprężynowym i topperem",
+    image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800",
+    features: ["Box spring", "Topper", "Premium"]
+  }
+];
+
+// Features data
+const features = [
+  {
+    icon: "🛏️",
+    title: "Precyzyjne dopasowanie",
+    description: "Idealne wymiary do sypialni, wzrostu i innych wymagań. Dowolna długość, szerokość i wysokość z dokładnością do centymetra."
+  },
+  {
+    icon: "🎨",
+    title: "Wybór materiałów",
+    description: "Drewno, metal, tkaniny, skóra - ogromny wybór faktur i kolorów. Możliwości personalizacji są nieograniczone."
+  },
+  {
+    icon: "📐",
+    title: "Nietypowe kształty",
+    description: "Zaokrąglone narożniki, wycięcie na schody, dopasowanie do skosów. Idealne wpasowanie w każdą przestrzeń."
+  },
+  {
+    icon: "💎",
+    title: "Wysoki komfort",
+    description: "Ergonomia i dopasowanie do preferencji dotyczących snu. Podniesiony zagłówek do czytania, odpowiednia wysokość."
+  },
+  {
+    icon: "✨",
+    title: "Centralna ozdoba",
+    description: "Łóżko jako centralny punkt sypialni podkreślający jej styl. Stworzenie wymarzonej aranżacji wnętrza."
+  },
+  {
+    icon: "🏆",
+    title: "Trwałość na lata",
+    description: "Najwyższa jakość wykonania z solidnych materiałów. Sztywna konstrukcja odporna na odkształcenia."
+  }
+];
+
+// Process steps for beds
+const bedProcessSteps = [
+  {
+    number: 1,
+    title: "Konsultacja",
+    description: "Omawiamy Twoje potrzeby, preferencje dotyczące snu i styl sypialni. Doradzamy optymalne rozwiązania."
+  },
+  {
+    number: 2,
+    title: "Pomiar",
+    description: "Dokładnie mierzymy przestrzeń sypialni. Analizujemy rozmieszczenie mebli i dostępną przestrzeń."
+  },
+  {
+    number: 3,
+    title: "Projekt 3D",
+    description: "Wizualizacja pozwala zobaczyć dokładnie jak będzie wyglądać łóżko. Wprowadzamy zmiany do akceptacji."
+  },
+  {
+    number: 4,
+    title: "Produkcja",
+    description: "W naszej stolarni produkujemy łóżko według projektu. Najwyższa jakość materiałów i wykonania."
+  },
+  {
+    number: 5,
+    title: "Montaż",
+    description: "Profesjonalny montaż i regulacja wszystkich elementów. Dbałość o każdy detal wykończenia."
+  }
+];
+
+// Gallery images
+const galleryImages: GalleryImage[] = [
+  {
+    id: "1",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1a-3_opt-1.webp",
+    category: "lozka"
+  },
+  {
+    id: "2",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lo-1_opt.webp",
+    category: "lozka"
+  },
+  {
+    id: "3",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Grudzien-64_opt.webp",
+    category: "lozka"
+  },
+  {
+    id: "4",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-39_opt.webp",
+    category: "lozka"
+  },
+  {
+    id: "5",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-48-of-91-scaled.jpg",
+    category: "lozka"
+  },
+  {
+    id: "6",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Batorego-11.jpg",
+    category: "lozka"
+  },
+  {
+    id: "7",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Batorego-20.jpg",
+    category: "lozka"
+  },
+  {
+    id: "8",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-29.jpg",
+    category: "lozka"
+  },
+  
+];
+
+// Reviews data
+const reviews = [
+  {
+    name: "Patrycja Lewandowska",
+    initials: "PL",
+    rating: 5,
+    text: "Łóżko tapicerowane wyszło przepięknie! Idealnie dopasowane do naszej sypialni, pojemnik na pościel to strzał w dziesiątkę. Jakość wykonania na najwyższym poziomie!",
+    date: "Tydzień temu"
+  },
+  {
+    name: "Krzysztof Dąbrowski",
+    initials: "KD",
+    rating: 5,
+    text: "Zamówiliśmy łóżko drewniane z dębu - wygląda obłędnie! Solidne wykonanie, piękne wykończenie. Projekt 3D pozwolił dokładnie zobaczyć efekt końcowy. Polecam!",
+    date: "2 tygodnie temu"
+  },
+  {
+    name: "Monika Jabłońska",
+    initials: "MJ",
+    rating: 5,
+    text: "Łóżko kontynentalne to najlepsza inwestycja! Komfort snu niesamowity, wykonanie perfekcyjne. Montażyści bardzo profesjonalni. Jestem zachwycona!",
+    date: "Miesiąc temu"
+  }
+];
+
+// Fallback reviews dla łóżek
+const fallbackBedReviews = [
+  {
+    id: "bed-1",
+    author: "Patrycja Lewandowska",
+    avatar: "PL",
+    rating: 5,
+    text: "Łóżko tapicerowane wyszło przepięknie! Idealnie dopasowane do naszej sypialni, pojemnik na pościel to strzał w dziesiątkę. Jakość wykonania na najwyższym poziomie!",
+    date: "Tydzień temu",
+    verified: true
+  },
+  {
+    id: "bed-2",
+    author: "Krzysztof Dąbrowski",
+    avatar: "KD",
+    rating: 5,
+    text: "Zamówiliśmy łóżko drewniane z dębu - wygląda obłędnie! Solidne wykonanie, piękne wykończenie. Projekt 3D pozwolił dokładnie zobaczyć efekt końcowy. Polecam!",
+    date: "2 tygodnie temu",
+    verified: true
+  },
+  {
+    id: "bed-3",
+    author: "Monika Jabłońska",
+    avatar: "MJ",
+    rating: 5,
+    text: "Łóżko kontynentalne to najlepsza inwestycja! Komfort snu niesamowity, wykonanie perfekcyjne. Montażyści bardzo profesjonalni. Jestem zachwycona!",
+    date: "Miesiąc temu",
+    verified: true
+  }
+];
+
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+  }
+}
+
+const displayReviews = googleReviews || fallbackBedReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+---
+
+<BaseLayout title="Łóżka na wymiar Bydgoszcz - Tapicerowane, drewniane, z pojemnikiem" 
+description="Chcesz zlecić wykonanie łóżka na wymiar w Bydgoszczy? Powierz nam to zadanie!"
+keywords={[
+    "Łóżka na wymiar Bydgoszcz",    
+    "Łóżka Bydgoszcz",
+    "Projektowanie łóżek Bydgoszcz",
+    "Montaż i projektowanie łóżek Bydgoszcz",
+    "Montaż łóżek Bydgoszcz"
+    ]}
+>
+  <!-- Hero Section -->
+  <Hero
+    title="Łóżka na wymiar <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Zachwycające piękno, niezrównany komfort. Tworzymy łóżka na wymiar idealnie dopasowane do Twojej przestrzeni - metalowe, z MDF, tapicerowane, z pojemnikami na pościel."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz realizacje łóżek →", href: "/realizacje#lozka" }}
+    images={[
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1a-3_opt-1.webp", alt: "Łóżko tapicerowane na wymiar Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Grudzien-64_opt.webp", alt: "Łóżko na wymiar Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-45-of-91-scaled-1.jpg", alt: "Łóżko z pojemnikiem Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/elJoABvndJo6EH4R.jpeg", alt: "Łóżko nowoczesne Bydgoszcz" }
+    ]}
+    variant="bedroom"
+  />
+
+  <!-- Bed Types Section -->
+  <section class="bed-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Rodzaje łóżek na wymiar w naszej ofercie</h2>
+        <p>Różne typy konstrukcji dopasowane do Twoich potrzeb i stylu wnętrza</p>
+      </div>
+      <div class="bed-types-grid">
+        {bedTypes.map((type) => (
+          <div class="bed-type-card" style={`background-image: url('${type.image}');`}>
+            <div class="bed-type-content">
+              <h3>{type.title}</h3>
+              <p>{type.description}</p>
+              <div class="bed-type-features">
+                {type.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Najważniejsze korzyści z łóżka na wymiar</h2>
+        <p>Inwestycja w komfort i satysfakcję na długie lata</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Proces realizacji łóżka</h2>
+        <p>Od pomysłu do gotowego łóżka Twoich marzeń</p>
+      </div>
+      <div class="process-grid">
+        {bedProcessSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <Gallery
+    title="Nasze realizacje łóżek na wymiar"
+    subtitle="Zobacz łóżka, które wykonaliśmy dla naszych klientów w Bydgoszczy i okolicach"
+    images={galleryImages}
+    viewAllLink="/realizacje#lozka"
+  />
+
+  <Reviews
+  title="Opinie o naszych łóżkach"
+  subtitle="Zobacz, co mówią klienci o naszych łóżkach na wymiar"
+  fallbackReviews={displayReviews}
+  rating={displayRating}
+  totalReviews={displayTotalReviews}
+  apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+/>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Łóżko Twoich marzeń czeka!</h2>
+      <p>Zadzwoń lub napisz do nas i uzyskaj darmową wycenę</p>
+      <div class="cta-buttons">
+        <Button
+          href="tel:+48576060832"
+          variant="primary"
+          size="large"
+          icon="📞"
+        >
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button
+          href="mailto:kontakt@meblesystem.pl"
+          variant="secondary"
+          size="large"
+        >
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Bed Types Section */
+  .bed-types {
+    padding: 5rem 5%;
+    background: var(--white);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color, #764ba2);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .bed-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .bed-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bed-types-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .bed-type-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .bed-type-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2)
+    );
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  .bed-type-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .bed-type-card:hover::before {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.1)
+    );
+  }
+
+  .bed-type-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white, #ffffff);
+  }
+
+  .bed-type-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .bed-type-card:hover .bed-type-content h3 {
+    transform: translateY(-5px);
+  }
+
+  .bed-type-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .bed-type-features {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .bed-type-features span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    background: var(--white, #ffffff);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #2d5016, #5a8f2d);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white, #ffffff);
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .feature-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Process Section */
+  .process {
+    padding: 5rem 5%;
+    background: var(--white, #ffffff);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1200px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+  }
+
+  .process-card {
+    background: var(--white, #ffffff);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px rgba(45, 80, 22, 0.4);
+  }
+
+  .process-card h3 {
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .process-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -150px;
+    right: -150px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .cta-content h2 {
+    color: var(--white, #ffffff);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

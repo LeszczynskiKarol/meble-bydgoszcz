@@ -1,0 +1,768 @@
+---
+import Reviews from '../components/sections/Reviews.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import type { GalleryImage } from '../lib/types';
+
+// Wardrobe types data
+const wardrobeTypes = [
+  {
+    title: "Szafy przesuwne",
+    description: "Oszczędność miejsca dzięki drzwiom przesuwnym",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-czerwiec-lipiec-43.jpg",
+    features: ["Oszczędność miejsca", "Cicha praca", "Duże lustra"]
+  },
+  {
+  title: "Szafy uchylne",
+    description: "Klasyczne rozwiązanie z pełnym dostępem do wnętrza szafy",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-63_opt.webp",
+    features: ["Pełny dostęp", "Tradycyjny styl", "Trwałość"]  
+  },
+  {
+    title: "Garderoby",
+    description: "Nowoczesne garderoby na wymiar - wszystko na wyciągnięcie ręki",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/mebelki-54.jpg",
+    features: ["Łatwy dostęp", "Przejrzystość", "Nowoczesność"]
+  },
+  {
+    title: "Szafki wiszące",
+    description: "Łatwa organizacja przestrzeni i oszczędność miejsca",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1r-3_opt.webp",
+    features: ["Przestronność", "Komfort", "Organizacja"]
+  },
+  {
+    title: "Szafy narożne",
+    description: "Optymalne wykorzystanie narożników - maksimum pojemności",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kasszaf-5.jpg",
+    features: ["Wykorzystanie rogu", "Pojemność", "Ergonomia"]
+  },
+  {
+    title: "Szafy do zabudowy",
+    description: "Szafy idealnie wpasowane w niszę lub wnękę - od ściany do ściany",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kasza-3-scaled.jpg",
+    features: ["100% przestrzeni", "Dopasowanie", "Estetyka"]
+  }
+];
+
+// Features data
+const features = [
+  {
+    icon: "👔",
+    title: "Systemy organizacji",
+    description: "Drążki na różnych wysokościach, półki regulowane, szuflady z organiazerami, wieszaki na krawaty i paski - wszystko przemyślane do najmniejszego szczegółu."
+  },
+  {
+    icon: "🪞",
+    title: "Lustra i oświetlenie",
+    description: "Duże lustra powiększające optycznie przestrzeń. Oświetlenie LED z czujnikami ruchu - zawsze widzisz, co wybierasz z szafy czy garderoby."
+  },
+  {
+    icon: "🔇",
+    title: "Ciche domykanie",
+    description: "Systemy soft-close w każdych drzwiach i szufladzie. Amortyzatory i prowadnice najwyższej jakości Blum lub Hettich. Wszystko z myślą o Twojej wygodzie."
+  },
+  {
+    icon: "📱",
+    title: "Smart rozwiązania",
+    description: "Opcjonalne systemy smart home - sterowanie oświetleniem przez aplikację, wentylacja automatyczna, czujniki wilgoci."
+  },
+  {
+    icon: "🎯",
+    title: "Personalizacja",
+    description: "Każda szafa projektowana indywidualnie. Uwzględniamy Twój styl życia, ilość ubrań, preferencje dotyczące układu."
+  },
+  {
+    icon: "🛡️",
+    title: "Trwałość na lata",
+    description: "Używamy tylko sprawdzonych materiałów - płyty laminowane Egger, Kronopol. Okucia z dożywotnią gwarancją producenta."
+  }
+];
+
+// Process steps for wardrobes
+const wardrobeProcessSteps = [
+  {
+    number: 1,
+    title: "Analiza potrzeb",
+    description: "Daj znać, ile i jakich ubrań posiadasz, jak się ubierasz, czego potrzebujesz."
+  },
+  {
+    number: 2,
+    title: "Pomiar przestrzeni",
+    description: "Dokładne pomiary pomieszczenia, analiza możliwości montażu, sprawdzenie pionów i poziomów."
+  },
+  {
+    number: 3,
+    title: "Projekt wnętrza",
+    description: "Projektujemy rozkład wnętrza - ilość półek, drążków, szuflad. Wizualizacja do akceptacji."
+  },
+  {
+    number: 4,
+    title: "Wybór materiałów",
+    description: "Pomagamy wybrać fronty, kolory, uchwyty. Doradzamy najlepsze rozwiązania w Twojej cenie."
+  },
+  {
+    number: 5,
+    title: "Realizacja i montaż",
+    description: "Od A do Z produkujemy szafy i garderoby na wymiar w naszym zakładzie, po czym montujemy je u Ciebie."
+  }
+];
+
+// Gallery images
+const galleryImages: GalleryImage[] = [
+  {
+    id: "1",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/warszaf-4.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "2",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kasza-4-scaled.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "3",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1ak-2_opt-1.webp",
+    
+    category: "szafy"
+  },
+  {
+    id: "4",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Zabudowy-2.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "5",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lamszaf-2.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "6",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/sdf-2_opt.webp",
+    
+    category: "szafy"
+  },
+  {
+    id: "7",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Biuro-Nieruchomosci-9.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "8",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k3-4_opt.webp",
+    
+    category: "szafy"
+  },
+    {
+    id: "9",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-Meble-II-zestaw-20.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "10",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/s78-2_opt.webp",
+    
+    category: "szafy"
+  },
+  {
+    id: "11",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-marzec-6-scaled.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "12",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-Meble-II-zestaw-23.jpg",
+    
+    category: "szafy"
+  },
+  {
+    id: "13",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/luk4-2_opt.webp",
+    
+    category: "szafy"
+  },
+  {
+    id: "14",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-12-scaled.jpg",
+        category: "szafy"
+  },
+
+];
+
+// Reviews data
+const reviews = [
+  {
+    name: "Anna Kowalczyk",
+    initials: "AK",
+    rating: 5,
+    text: "Szafa przesuwna w sypialni to strzał w dziesiątkę! Lustro optycznie powiększa pokój, a wnętrze jest perfekcyjnie zorganizowane. Mieści się wszystko, czego potrzebujemy!",
+    date: "3 dni temu"
+  },
+  {
+    name: "Tomasz Nowicki",
+    initials: "TN",
+    rating: 5,
+    text: "Garderoba walk-in spełniła moje marzenia. Panowie świetnie doradzili rozkład wnętrza, oświetlenie LED z czujnikiem ruchu to super rozwiązanie. Jakość wykonania bezbłędna.",
+    date: "Tydzień temu"
+  },
+  {
+    name: "Katarzyna Wiśniewska",
+    initials: "KW",
+    rating: 5,
+    text: "Szafa w przedpokoju wykorzystuje każdy centymetr. Ma miejsce na kurtki, buty, odkurzacz, wszystko! Fronty w kolorze idealnie dobranym do ścian. Bardzo polecam!",
+    date: "2 tygodnie temu"
+  }
+];
+
+// Fallback reviews dla szaf
+const fallbackWardrobeReviews = [
+  {
+    id: "wardrobe-1",
+    author: "Anna Kowalczyk",
+    avatar: "AK",
+    rating: 5,
+    text: "Szafa przesuwna w sypialni to strzał w dziesiątkę! Lustro optycznie powiększa pokój, a wnętrze jest perfekcyjnie zorganizowane. Mieści się wszystko, czego potrzebujemy!",
+    date: "3 dni temu",
+    verified: true
+  },
+  {
+    id: "wardrobe-2",
+    author: "Tomasz Nowicki",
+    avatar: "TN",
+    rating: 5,
+    text: "Garderoba walk-in spełniła moje marzenia. Panowie świetnie doradzili rozkład wnętrza, oświetlenie LED z czujnikiem ruchu to super rozwiązanie. Jakość wykonania bezbłędna.",
+    date: "Tydzień temu",
+    verified: true
+  },
+  {
+    id: "wardrobe-3",
+    author: "Katarzyna Wiśniewska",
+    avatar: "KW",
+    rating: 5,
+    text: "Szafa w przedpokoju wykorzystuje każdy centymetr. Ma miejsce na kurtki, buty, odkurzacz, wszystko! Fronty w kolorze idealnie dobranym do ścian. Bardzo polecam!",
+    date: "2 tygodnie temu",
+    verified: true
+  }
+];
+
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+  }
+}
+
+const displayReviews = googleReviews || fallbackWardrobeReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+
+---
+
+<BaseLayout title="Szafy i garderoby na wymiar Bydgoszcz - Projektowanie"
+description="Chcesz zlecić wykonanie szafy czy garderoby na wymiar w Bydgoszczy? Powierz to nam!"
+keywords={[
+    "Szafy na wymiar Bydgoszcz",
+    "Garderoby na wymiar Bydgoszcz",
+    "Szafy i garderoby Bydgoszcz",
+    "Szafy i garderoby na wymiar Bydgoszcz",
+    ]}
+>
+  <!-- Hero Section -->
+  <Hero
+    title="Szafy i garderoby na wymiar <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Projektujemy i produkujemy szafy oraz garderoby idealnie dopasowane do Twojej przestrzeni i potrzeb. Maksymalna funkcjonalność, perfekcyjna organizacja."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz realizacje szaf →", href: "/realizacje#szafy" }}
+    images={[
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szafsitow-3.jpg", alt: "Szafa przesuwna na wymiar Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szuchdl-2_opt.webp", alt: "Garderoba walk-in Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-12.jpg", alt: "Szafa uchylna Bydgoszcz" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/warszaf-3.jpg", alt: "Garderoba otwarta Bydgoszcz" }
+    ]}
+    variant="wardrobe"
+  />
+
+  <!-- Wardrobe Types Section -->
+  <section class="wardrobe-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Rodzaje szaf i garderób</h2>
+        <p>Znajdź idealne rozwiązanie do przechowywania przedmiotów i ubrań dla swojego domu</p>
+      </div>
+      <div class="wardrobe-types-grid">
+        {wardrobeTypes.map((type) => (
+          <div class="wardrobe-type-card" style={`background-image: url('${type.image}');`}>
+            <div class="wardrobe-type-content">
+              <h3>{type.title}</h3>
+              <p>{type.description}</p>
+              <div class="wardrobe-type-features">
+                {type.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Dlaczego nasze szafy i garderoby na wymiar?</h2>
+        <p>Perfekcyjna organizacja przestrzeni i najwyższa jakość wykonania</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Jak powstaje Twoja szafa na wymiar?</h2>
+        <p>5 kroków do idealnej organizacji przestrzeni</p>
+      </div>
+      <div class="process-grid">
+        {wardrobeProcessSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <Gallery
+    title="Nasze realizacje szaf i garderób"
+    subtitle="Zobacz szafy i garderoby, które zaprojektowaliśmy dla klientów w Bydgoszczy"
+    images={galleryImages}
+    viewAllLink="/realizacje#szafy"
+  />
+
+<Reviews
+  title="Opinie o naszych szafach i garderobach"
+  subtitle="Zobacz, co mówią klienci o naszych szafach na wymiar"
+  fallbackReviews={displayReviews}
+  rating={displayRating}
+  totalReviews={displayTotalReviews}
+  apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+/>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Zamów swoją idealną szafę</h2>
+      <p>Zadzwoń lub napisz - stworzymy szafę Twoich marzeń</p>
+      <div class="cta-buttons">
+        <Button
+          href="tel:+48576060832"
+          variant="primary"
+          size="large"
+          icon="📞"
+        >
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button
+          href="/kontakt"
+          variant="secondary"
+          size="large"
+        >
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Wardrobe Types Section */
+  .wardrobe-types {
+    padding: 5rem 5%;
+    background: var(--white);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color, #764ba2);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .wardrobe-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .wardrobe-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .wardrobe-types-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .wardrobe-type-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .wardrobe-type-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2)
+    );
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  .wardrobe-type-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .wardrobe-type-card:hover::before {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.1)
+    );
+  }
+
+  .wardrobe-type-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white, #ffffff);
+  }
+
+  .wardrobe-type-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .wardrobe-type-card:hover .wardrobe-type-content {
+    transform: translateY(-5px);
+  }
+
+  .wardrobe-type-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .wardrobe-type-features {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .wardrobe-type-features span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    background: var(--white, #ffffff);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #2d5016, #5a8f2d);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white, #ffffff);
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .feature-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Process Section */
+  .process {
+    padding: 5rem 5%;
+    background: var(--white, #ffffff);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1200px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+  }
+
+  .process-card {
+    background: var(--white, #ffffff);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px rgba(45, 80, 22, 0.4);
+  }
+
+  .process-card h3 {
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .process-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -150px;
+    right: -150px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .cta-content h2 {
+    color: var(--white, #ffffff);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

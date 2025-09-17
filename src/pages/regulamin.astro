@@ -1,0 +1,386 @@
+---
+// src/pages/regulamin.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lastUpdated = "1 stycznia 2025";
+const company = {
+  name: "Jacek Wichowski Msystem",
+  nip: "956-211-16-20",
+  regon: "389437853",
+  address: "ul. Witosa 4G/79, 87-100 Toruń",
+  email: "kontakt@meble-bydgoszcz.pl",
+  phone: "+48 576 060 832"
+};
+---
+
+<BaseLayout 
+  title="Regulamin strony internetowej"
+  description="Regulamin korzystania ze strony internetowej meble-bydgoszcz.pl"
+  noindex={false}
+>
+  <section class="legal-page">
+    <div class="container">
+      <div class="legal-header">
+        <h1>Regulamin strony internetowej</h1>
+        <p class="last-updated">Obowiązuje od: {lastUpdated}</p>
+      </div>
+
+      <div class="legal-content">
+        <section class="legal-section">
+          <h2>§ 1. Postanowienia ogólne</h2>
+          <ol>
+            <li>Niniejszy Regulamin określa zasady korzystania ze strony internetowej dostępnej pod adresem www.meble-bydgoszcz.pl (zwanej dalej "Serwisem").</li>
+            <li>Właścicielem i administratorem Serwisu jest {company.name}, {company.address}, NIP: {company.nip}, REGON: {company.regon} (zwany dalej "Administratorem").</li>
+            <li>Korzystanie z Serwisu oznacza akceptację niniejszego Regulaminu.</li>
+            <li>Regulamin dostępny jest nieodpłatnie pod adresem www.meble-bydgoszcz.pl/regulamin w formie umożliwiającej jego pobranie, odtwarzanie i utrwalanie.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 2. Definicje</h2>
+          <ul>
+            <li><strong>Serwis</strong> - strona internetowa dostępna pod adresem www.meble-bydgoszcz.pl wraz ze wszystkimi podstronami</li>
+            <li><strong>Administrator</strong> - {company.name}, właściciel Serwisu</li>
+            <li><strong>Użytkownik</strong> - każda osoba korzystająca z Serwisu</li>
+            <li><strong>Formularz kontaktowy</strong> - elektroniczny formularz umożliwiający przesłanie zapytania do Administratora</li>
+            <li><strong>Cookies</strong> - dane informatyczne zapisywane na urządzeniu Użytkownika</li>
+            <li><strong>Newsletter</strong> - usługa dystrybucji informacji handlowych drogą elektroniczną (jeśli dostępna)</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 3. Wymagania techniczne</h2>
+          <p>Do prawidłowego korzystania z Serwisu niezbędne jest:</p>
+          <ul>
+            <li>Urządzenie z dostępem do sieci Internet</li>
+            <li>Przeglądarka internetowa z włączoną obsługą JavaScript i cookies (Chrome, Firefox, Safari, Edge w aktualnych wersjach)</li>
+            <li>Minimalna rozdzielczość ekranu 1024x768 pikseli</li>
+            <li>Aktywny adres e-mail (do korzystania z formularza kontaktowego)</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 4. Zasady korzystania z Serwisu</h2>
+          <ol>
+            <li>Serwis ma charakter informacyjny i prezentuje ofertę Administratora.</li>
+            <li>Treści publikowane w Serwisie mają charakter poglądowy i nie stanowią oferty w rozumieniu Kodeksu Cywilnego.</li>
+            <li>Użytkownik zobowiązany jest do:
+              <ul>
+                <li>Korzystania z Serwisu zgodnie z jego przeznaczeniem</li>
+                <li>Niepodejmowania działań mogących zakłócić funkcjonowanie Serwisu</li>
+                <li>Niedostarczania treści o charakterze bezprawnym</li>
+                <li>Podawania prawdziwych danych w formularzach</li>
+              </ul>
+            </li>
+            <li>Zabronione jest:
+              <ul>
+                <li>Kopiowanie i rozpowszechnianie treści bez zgody Administratora</li>
+                <li>Wykorzystywanie Serwisu do rozsyłania spamu</li>
+                <li>Podejmowanie prób nieuprawnionego dostępu do zasobów Serwisu</li>
+                <li>Umieszczanie w formularzach treści wulgarnych, obraźliwych lub naruszających prawo</li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 5. Formularz kontaktowy</h2>
+          <ol>
+            <li>Formularz kontaktowy służy wyłącznie do przesyłania zapytań związanych z ofertą Administratora.</li>
+            <li>Wysłanie formularza nie jest równoznaczne z zawarciem umowy.</li>
+            <li>Użytkownik może załączyć do formularza pliki (max. 5 plików, 10MB każdy) w formatach: JPG, PNG, PDF, DOC, DOCX.</li>
+            <li>Administrator zastrzega sobie prawo do pozostawienia bez odpowiedzi wiadomości zawierających:
+              <ul>
+                <li>Treści niezwiązane z działalnością Administratora</li>
+                <li>Treści o charakterze spamu</li>
+                <li>Treści obraźliwe lub wulgarne</li>
+              </ul>
+            </li>
+            <li>Administrator dąży do odpowiedzi na zapytania w ciągu 3 dni roboczych, jednak nie gwarantuje tego terminu.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 6. Pliki Cookies</h2>
+          <ol>
+            <li>Serwis wykorzystuje pliki cookies w celu:
+              <ul>
+                <li>Zapewnienia prawidłowego działania Serwisu</li>
+                <li>Zapamiętania preferencji i ustawień Użytkownika</li>
+                <li>Zbierania anonimowych statystyk (Google Analytics)</li>
+                <li>Realizacji funkcji marketingowych (za zgodą Użytkownika)</li>
+              </ul>
+            </li>
+            <li>Szczegółowe informacje o cookies znajdują się w Polityce Prywatności.</li>
+            <li>Użytkownik może zarządzać ustawieniami cookies poprzez:
+              <ul>
+                <li>Panel ustawień cookies dostępny na stronie</li>
+                <li>Ustawienia przeglądarki internetowej</li>
+              </ul>
+            </li>
+            <li>Wyłączenie cookies może ograniczyć funkcjonalność Serwisu.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 7. Prawa autorskie</h2>
+          <ol>
+            <li>Wszelkie treści zamieszczone w Serwisie (teksty, zdjęcia, grafiki, logo, układy stron) stanowią własność Administratora lub są używane na podstawie licencji.</li>
+            <li>Zabronione jest kopiowanie, modyfikowanie, rozpowszechnianie treści bez pisemnej zgody Administratora.</li>
+            <li>Dozwolone jest cytowanie fragmentów treści z podaniem źródła.</li>
+            <li>Nazwy produktów, usług, firm mogą być zastrzeżonymi znakami towarowymi.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 8. Linki zewnętrzne</h2>
+          <ol>
+            <li>Serwis może zawierać linki do stron zewnętrznych.</li>
+            <li>Administrator nie ponosi odpowiedzialności za treści i politykę prywatności stron zewnętrznych.</li>
+            <li>Przejście na stronę zewnętrzną następuje na własne ryzyko Użytkownika.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 9. Odpowiedzialność</h2>
+          <ol>
+            <li>Administrator dokłada starań, aby informacje w Serwisie były aktualne i prawdziwe, jednak nie gwarantuje ich kompletności.</li>
+            <li>Administrator nie ponosi odpowiedzialności za:
+              <ul>
+                <li>Czasową niedostępność Serwisu</li>
+                <li>Szkody wynikające z korzystania lub niemożności korzystania z Serwisu</li>
+                <li>Błędy w transmisji danych</li>
+                <li>Szkody spowodowane działaniem osób trzecich</li>
+              </ul>
+            </li>
+            <li>Korzystanie z informacji zamieszczonych w Serwisie następuje na własne ryzyko Użytkownika.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 10. Ochrona danych osobowych</h2>
+          <ol>
+            <li>Administrator przetwarza dane osobowe zgodnie z RODO oraz polskimi przepisami o ochronie danych.</li>
+            <li>Szczegółowe informacje o przetwarzaniu danych znajdują się w <a href="/polityka-prywatnosci">Polityce Prywatności</a>.</li>
+            <li>Administrator stosuje środki techniczne i organizacyjne zapewniające ochronę danych.</li>
+            <li>Dane z formularza kontaktowego przetwarzane są wyłącznie w celu obsługi zapytania.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 11. Newsletter (jeśli dostępny)</h2>
+          <ol>
+            <li>Zapis do newslettera jest dobrowolny i wymaga podania adresu e-mail.</li>
+            <li>Zgoda na newsletter może być wycofana w każdym momencie poprzez link w wiadomości lub kontakt z Administratorem.</li>
+            <li>Newsletter zawiera informacje handlowe w rozumieniu ustawy o świadczeniu usług drogą elektroniczną.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 12. Reklamacje dotyczące Serwisu</h2>
+          <ol>
+            <li>Reklamacje dotyczące funkcjonowania Serwisu należy zgłaszać na adres: {company.email}</li>
+            <li>Reklamacja powinna zawierać:
+              <ul>
+                <li>Dane kontaktowe zgłaszającego</li>
+                <li>Opis problemu</li>
+                <li>Okoliczności wystąpienia problemu</li>
+              </ul>
+            </li>
+            <li>Administrator rozpatruje reklamacje w terminie 14 dni od otrzymania.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 13. Postanowienia końcowe</h2>
+          <ol>
+            <li>Regulamin wchodzi w życie z dniem {lastUpdated}.</li>
+            <li>Administrator zastrzega sobie prawo do:
+              <ul>
+                <li>Zmiany Regulaminu</li>
+                <li>Czasowego wyłączenia Serwisu</li>
+                <li>Modyfikacji funkcjonalności Serwisu</li>
+                <li>Zakończenia działalności Serwisu</li>
+              </ul>
+            </li>
+            <li>O zmianach Regulaminu Użytkownicy będą informowani poprzez komunikat w Serwisie.</li>
+            <li>W sprawach nieuregulowanych stosuje się przepisy prawa polskiego.</li>
+            <li>Ewentualne spory będą rozstrzygane przez sąd właściwy dla siedziby Administratora.</li>
+            <li>Nieważność pojedynczych postanowień nie wpływa na ważność pozostałych.</li>
+            <li>Regulamin został sporządzony w języku polskim i tylko polska wersja jest wiążąca.</li>
+          </ol>
+        </section>
+
+        <section class="legal-section">
+          <h2>§ 14. Kontakt</h2>
+          <div class="contact-info">
+            <p><strong>{company.name}</strong></p>
+            <p>Adres: {company.address}</p>
+            <p>E-mail: <a href={`mailto:${company.email}`}>{company.email}</a></p>
+            <p>Telefon: <a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a></p>
+            <p>NIP: {company.nip}</p>
+            <p>REGON: {company.regon}</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding: 120px 5% 80px;
+    background: #f8f8f8;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .legal-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .legal-header h1 {
+    font-size: 3rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .last-updated {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .legal-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+  }
+
+  .legal-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .legal-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  h2 {
+    color: #1a1a1a;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #667eea;
+    display: inline-block;
+  }
+
+  p {
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 1rem;
+  }
+
+  ol, ul {
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  li {
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 0.5rem;
+  }
+
+  ul li {
+    list-style-type: disc;
+  }
+
+  ol li {
+    list-style-type: decimal;
+  }
+
+  li ul {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  strong {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  a {
+    color: #667eea;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+
+  .contact-info {
+    background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+    padding: 2rem;
+    border-radius: 15px;
+    border-left: 4px solid #667eea;
+    margin-top: 1rem;
+  }
+
+  .contact-info p {
+    margin-bottom: 0.75rem;
+    color: #333;
+  }
+
+  .contact-info strong {
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .legal-page {
+      padding: 100px 3% 60px;
+    }
+
+    .legal-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .legal-header h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    ol, ul {
+      padding-left: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .legal-content {
+      padding: 1.5rem 1rem;
+    }
+
+    .legal-header h1 {
+      font-size: 1.8rem;
+    }
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+import Navigation from './Navigation.astro';
+import { company } from '../../content/site-config';
+---
+
+<header class="header" id="header">
+  <nav class="nav">
+    <a href="/" class="logo">
+      <div class="logo-main">
+        <span class="logo-icon">▣</span>
+        {company.name}
+      </div>
+      <div class="logo-subtitle">
+        Meble na wymiar • Projektowanie • Realizacja
+      </div>
+    </a>
+
+    <Navigation />
+
+    <button
+      class="hamburger"
+      id="hamburger"
+      aria-label="Menu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+</header>
+
+<style>
+  .header {
+    @apply fixed top-0 w-full bg-white shadow-md z-50 transition-all duration-300;
+  }
+
+  .nav {
+    @apply flex justify-between items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto h-20;
+  }
+
+  .logo {
+    @apply flex flex-col items-start gap-1 no-underline;
+  }
+
+  .logo-main {
+    @apply flex items-center gap-2 text-2xl font-bold text-primary;
+  }
+
+  .logo-icon {
+    @apply text-secondary text-3xl;
+  }
+
+  .logo-subtitle {
+    @apply text-xs font-normal text-gray-600 opacity-80;
+  }
+
+  .hamburger {
+    @apply lg:hidden flex flex-col justify-center items-center w-10 h-10 bg-transparent border-0 cursor-pointer;
+  }
+
+  .hamburger span {
+    @apply block w-6 h-0.5 bg-primary transition-all duration-300;
+  }
+
+  .hamburger span:nth-child(2) {
+    @apply my-1;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    @apply rotate-45 translate-y-2;
+  }
+
+  .hamburger.active span:nth-child(2) {
+    @apply opacity-0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    @apply -rotate-45 -translate-y-2;
+  }
+
+  @media (max-width: 480px) {
+    .logo-subtitle {
+      @apply text-2xs ml-0 text-center;
+    }
+
+    .logo {
+      @apply items-center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    const header = document.querySelector('.header');
+
+    // Mobile menu toggle
+    hamburger?.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks?.classList.toggle('active');
+      hamburger.setAttribute(
+        'aria-expanded',
+        hamburger.classList.contains('active').toString()
+      );
+    });
+
+    // Header scroll effect
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll > 100) {
+        header?.classList.add('shadow-lg');
+      } else {
+        header?.classList.remove('shadow-lg');
+      }
+
+      lastScroll = currentScroll;
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (
+        !hamburger?.contains(e.target as Node) &&
+        !navLinks?.contains(e.target as Node)
+      ) {
+        hamburger?.classList.remove('active');
+        navLinks?.classList.remove('active');
+      }
+    });
+  });
+</script>

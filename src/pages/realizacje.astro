@@ -1,0 +1,1572 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Gallery data - pozostaje bez zmian
+const galleryData = [
+  // Kuchnie
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k6-8_opt.webp", 
+    category: "kuchnie"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuziel-6_opt.webp", 
+    category: "kuchnie"
+  },  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1ak-1_opt.webp", 
+    category: "kuchnie"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-5.jpg", 
+    category: "kuchnie"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuchsow-2-scaled.jpg", 
+    category: "kuchnie"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k11-8_opt.webp", 
+    category: "kuchnie"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/gras-1.jpg", 
+    category: "kuchnie"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kurambi-1_opt.webp", 
+    category: "kuchnie"
+  },
+  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuchsier-2.jpg", 
+    category: "kuchnie"
+  },   
+
+{ 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1740478531611-KA1-5_opt.webp", 
+    category: "kuchnie"
+  },   
+  
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876486-Clipboard_06-22-2025_224_opt.webp", 
+    category: "kuchnie"
+  },   
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876470-Clipboard_06-22-2025_220_opt.webp", 
+    category: "kuchnie"
+  },   
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876470-Clipboard_06-22-2025_220_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394198681-Clipboard_06-22-2025_04_opt.webp", 
+    category: "kuchnie"
+  },
+  
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393973078-Clipboard_06-22-2025_200_opt.webp", 
+    category: "kuchnie"
+  },
+  
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394198702-Clipboard_06-22-2025_07_opt.webp", 
+    category: "kuchnie"
+  },
+
+    { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394198921-Clipboard_06-22-2025_30_opt.webp", 
+    category: "kuchnie"
+  },
+
+    { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1740478531620-KA2-4-1_opt.webp", 
+    category: "kuchnie"
+  },
+
+
+      { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394198834-Clipboard_06-22-2025_17_opt.webp", 
+    category: "kuchnie"
+  },
+
+      { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393973199-Clipboard_06-22-2025_209_opt.webp", 
+    category: "kuchnie"
+  },
+
+        { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394099187-Clipboard_06-22-2025_141_opt.webp", 
+    category: "kuchnie"
+  },
+
+        { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393972768-Clipboard_06-22-2025_164_opt.webp", 
+    category: "kuchnie"
+  },
+
+        { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876550-Clipboard_06-22-2025_235_opt.webp", 
+    category: "kuchnie"
+  },
+
+        { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394199205-Clipboard_06-22-2025_60_opt.webp", 
+    category: "kuchnie"
+  },
+
+        { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393972667-Clipboard_06-22-2025_146_opt.webp", 
+    category: "kuchnie"
+  },
+
+
+        { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394099010-Clipboard_06-22-2025_127_opt.webp", 
+    category: "kuchnie"
+  },
+
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876460-Clipboard_06-22-2025_219_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394098971-Clipboard_06-22-2025_121_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876532-Clipboard_06-22-2025_232_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394274089-5_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394098475-Clipboard_06-22-2025_70_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393973054-Clipboard_06-22-2025_197_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876659-Clipboard_06-22-2025_247_opt.webp", 
+    category: "kuchnie"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394098515-Clipboard_06-22-2025_75_opt.webp", 
+    category: "kuchnie"
+  },
+
+  // Łazienki
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-12_opt.webp", 
+    category: "lazienki"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/ramiak-3_opt.webp", 
+    category: "lazienki"
+  },  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/3l-1_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991433-Zabudowy-7_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927990910-l9-6_opt_opt.webp", 
+    category: "lazienki"
+  },
+  
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927990918-lazadam-1_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991050-Maj-89_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991068-Meble-73-1_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991105-MEBLE-SYCZEN-89-of-91-scaled_opt.webp", 
+    category: "lazienki"
+  },
+
+  
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-14_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lop-7_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/l9-1_opt.webp", 
+    category: "lazienki"
+  },  
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-czerwiec-lipiec-51.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k-23.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lalak-3.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-21.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-65.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Maj-paka1-6.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-23.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lazienka-swic-2.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/bubla-2.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/s3.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Zdjecia-Meble-2025-luty-15-of-175_opt.webp", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kufczarn-3.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Maj-89.jpg", 
+    category: "lazienki"
+  },
+  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/stornka2.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-32.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-101.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-88-of-91-scaled.jpg", 
+    category: "lazienki"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-73-1.jpg", 
+    category: "lazienki"
+  },
+  
+  // Szafy
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/s56-2_opt.webp", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/gar-2_opt.webp", 
+    category: "szafy"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kam-3-1.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kor-1.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szaflys-2.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szafsitow-3.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/warszaf-3.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-Meble-II-zestaw-22.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/IMG_3103.jpg", 
+    category: "szafy"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/mebelki-21.jpg", 
+    category: "szafy"
+  },
+
+  
+  
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-155_opt.webp", 
+    category: "szafy"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-176_opt.webp", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-176_opt.webp", 
+    category: "szafy"
+  },
+  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szuba-3_opt.webp", 
+    category: "szafy"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/s56-2_opt.webp", 
+    category: "szafy"
+  },
+  
+  
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szuchdl-2_opt.webp", 
+    category: "szafy"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-63_opt.webp", 
+    category: "szafy"
+  },
+  
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-16-1.jpg", 
+    category: "szafy"
+  },
+
+
+      { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-czerwiec-lipiec-40.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szafgrom-1.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Zabudowy-15.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-styczen-7.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-23.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/grudzien-8.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/IMG_4641-scaled.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k-37.jpg", 
+    category: "szafy"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-87.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-87.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-12.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-czerwiec-lipiec-42.jpg", 
+    category: "szafy"
+  },
+  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Pawel-26.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/safa1-2.jpg", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/janlulk-5.jpg", 
+    category: "szafy"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1r-4_opt.webp", 
+    category: "szafy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/sdf-2_opt.webp", 
+    category: "szafy"
+  },
+
+
+  // Biurowe
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/b2-1_opt.webp", 
+    category: "biurowe"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/pigbiur-1-2.jpg", 
+    category: "biurowe"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/rec-1-2.jpg", 
+    category: "biurowe"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kam-3.jpg", 
+    category: "biurowe"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/skarp-1.jpg", 
+    category: "biurowe"
+  },
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Zdjecia-Meble-2025-luty-57-of-175_opt.webp", 
+    category: "biurowe"
+  },  
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/b2-2_opt.webp", 
+    category: "biurowe"
+  },  
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kam-5.jpg", 
+    category: "biurowe"
+  },  
+  
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/GP-1.jpg", 
+    category: "biurowe"
+  },  
+
+
+      { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-83.jpg", 
+    category: "biurowe"
+  },  
+
+      { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Witosa-10.jpg", 
+    category: "biurowe"
+  },  
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-38.jpg", 
+    category: "biurowe"
+  },
+  
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-80.jpg", 
+    category: "biurowe"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Biuro-Nieruchomosci-24.jpg", 
+    category: "biurowe"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Biuro-Nieruchomosci-19.jpg", 
+    category: "biurowe"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-69-of-91-scaled.jpg", 
+    category: "biurowe"
+  },
+
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-69-of-91-scaled.jpg", 
+    category: "biurowe"
+  },
+
+// Sypialnie
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/rybsyp-4.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Bag3.jpg", 
+    category: "sypialnie"
+  },
+
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/skar-5.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-45-of-91-scaled-1.jpg", 
+    category: "sypialnie"
+  },
+
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-29-2.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/sypdzie-3-1.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-51-2.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/IMG_3116-1.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/sypkraszew-1.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/IMG_3116.jpg", 
+    category: "sypialnie"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-55.jpg", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-47-of-91-scaled.jpg", 
+    category: "sypialnie"
+  },
+  
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/sypdzie-3.jpg", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-19.jpg", 
+    category: "sypialnie"
+  },
+
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/meble-4.jpg", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Batorego-19.jpg", 
+    category: "sypialnie"
+  },
+
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Grudzien-55_opt.webp", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Grudzien-60_opt.webp", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/lo-2_opt.webp", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1a-2_opt-1.webp", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1b-5_opt.webp", 
+    category: "sypialnie"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1b-2_opt-1.webp", 
+    category: "sypialnie"
+  },
+
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Zdjecia-Meble-2025-luty-97-of-175_opt.webp", 
+    category: "sypialnie"
+  },
+
+// Zabudowy  
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/ram1-4_opt.webp", 
+    category: "zabudowy"
+  },
+
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kam-3-1.jpg", 
+    category: "zabudowy"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-12.jpg", 
+    category: "zabudowy"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kor-1.jpg", 
+    category: "zabudowy"
+  },
+
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-15-1.jpg", 
+    category: "zabudowy"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szafgrom-2.jpg", 
+    category: "zabudowy"
+  },
+
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/janlulk-5.jpg", 
+    category: "zabudowy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/szafsitow-3.jpg", 
+    category: "zabudowy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/IMG_4641-scaled.jpg", 
+    category: "zabudowy"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/luk1-2_opt.webp", 
+    category: "zabudowy"
+  },
+
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/grudzien-8.jpg", 
+    category: "zabudowy"
+  },
+
+    { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-23.jpg", 
+    category: "zabudowy"
+  },
+
+// Łóżka
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/1a-3_opt-1.webp", 
+    category: "lozka"
+  },
+
+
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/skarpa-2-1.jpg", 
+    category: "lozka"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/rybsyp-4.jpg", 
+    category: "lozka"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Bag3.jpg", 
+    category: "lozka"
+  },
+
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/skar-5.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-45-of-91-scaled-1.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Batorego-11-1.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Batorego-23-1.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-29-2.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/sypdzie-3-1.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-Meble-27-1.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-52-2.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/IMG_3116-1.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/elJoABvndJo6EH4R.jpeg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Foto-55.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/sypkraszew-1.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-19.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/meble-4.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/MEBLE-SYCZEN-73-of-91-scaled.jpg", 
+    category: "lozka"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Maj-paka1-15.jpg", 
+    category: "lozka"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Batorego-23.jpg", 
+    category: "lozka"
+  },
+
+// Projektowanie
+  
+{ 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/06/IMG_1803.jpeg", 
+    category: "projekty"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/06/IMG_4412.jpeg", 
+    category: "projekty"
+  },
+
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektPROJEKT_JASKOLCZA_TORUN_27_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektPROJEKT_SALON_Z_ANEKSEM_SZABAT_12_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektRESTAURACJA_PANORAMA_10_opt.webp", 
+    category: "projekty"
+  },
+  
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektSYPIALNIA_PRF_2_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-10_1_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-17_1_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-3_1_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektWidok-6_1-2_opt.webp", 
+    category: "projekty"
+  },
+
+  { 
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Dorota-projektSLIWY_POKOJ_DZIECIECY_13_opt.webp", 
+    category: "projekty"
+  },
+  
+  //Wykończenia
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2025/09/Meble-Grudzien-48.jpg",
+   
+    category: "wykonczenia"
+  },
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-62-3.jpg",
+   
+    category: "wykonczenia"
+  },
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-czerwiec-lipiec-43-1.jpg",
+   
+    category: "wykonczenia"
+  },
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/k-30-1.jpg",
+   
+    category: "wykonczenia"
+  },
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuchadam-1-1.jpg",
+   
+    category: "wykonczenia"
+  },
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Pawel-26-1.jpg",
+   
+    category: "wykonczenia"
+  },
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/12/Meble-Wrzesien-40.jpg",
+   
+    category: "wykonczenia"
+  },
+  {
+   
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/12/Meble-Wrzesien-52.jpg",
+   
+    category: "wykonczenia"
+  }
+];
+
+
+const categories = [
+  { id: "wszystkie", label: "Wszystkie" },
+  { id: "kuchnie", label: "Kuchnie" },
+  { id: "szafy", label: "Szafy, garderoby" },
+  { id: "lazienki", label: "Łazienki" },
+  { id: "biurowe", label: "Biurowe" },
+  { id: "sypialnie", label: "Sypialnie" },
+  { id: "zabudowy", label: "Zabudowy" },
+  { id: "lozka", label: "Łóżka" },
+  { id: "projekty", label: "Projekty" },
+  { id: "wykonczenia", label: "Wykończenia" }
+];
+
+const ITEMS_PER_PAGE = 12;
+---
+
+<BaseLayout title="Realizacje - Meble na wymiar Bydgoszcz | Portfolio">
+  
+  <!-- Hero - ukryty na mobile -->
+  <section class="hero-section">
+    <h1>Nasze <span>realizacje</span></h1>
+    <p>Odkryj projekty, które stworzyliśmy dla naszych klientów</p>
+  </section>
+
+  <!-- Kategorie - RÓŻNE DLA DESKTOP I MOBILE -->
+  <nav class="categories-desktop">
+    <div class="categories-wrapper">
+      {categories.map((cat) => (
+        <button class="category-btn" data-category={cat.id}>
+          {cat.label}
+        </button>
+      ))}
+    </div>
+  </nav>
+
+  <!-- MOBILE FILTRY - MINIMALISTYCZNE -->
+  <nav class="categories-mobile">
+    <div class="mobile-filter-scroll">
+      {categories.map((cat) => (
+        <button class="mobile-filter-btn" data-category={cat.id}>
+          {cat.label}
+        </button>
+      ))}
+    </div>
+  </nav>
+
+  <!-- Galeria -->
+  <section class="gallery">
+    <div class="gallery-container">
+      <div class="gallery-grid" id="gallery">
+        <!-- Renderowane przez JS -->
+      </div>
+      
+      <div class="pagination" id="pagination">
+        <!-- Renderowane przez JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <button class="lightbox-prev" id="lightbox-prev">‹</button>
+    <button class="lightbox-next" id="lightbox-next">›</button>
+    <img class="lightbox-img" id="lightbox-img" alt="" />
+  </div>
+
+</BaseLayout>
+
+<script define:vars={{ galleryData, ITEMS_PER_PAGE }}>
+  let currentPage = 1;
+  let currentCategory = 'wszystkie';
+  let filteredData = [...galleryData];
+  let currentLightboxIndex = 0;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const initialHash = window.location.hash.slice(1) || 'wszystkie';
+    currentCategory = initialHash;
+    
+    filterGallery();
+    updateActiveTab();
+    setupCategoryButtons();
+    setupLightboxEvents();
+    
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.slice(1) || 'wszystkie';
+      if (hash !== currentCategory) {
+        currentCategory = hash;
+        currentPage = 1;
+        filterGallery();
+        updateActiveTab();
+      }
+    });
+  });
+
+  function setupCategoryButtons() {
+    // Desktop buttons
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const category = this.dataset.category;
+        window.location.hash = category;
+        currentCategory = category;
+        currentPage = 1;
+        filterGallery();
+        updateActiveTab();
+      });
+    });
+    
+    // Mobile buttons
+    document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const category = this.dataset.category;
+        window.location.hash = category;
+        currentCategory = category;
+        currentPage = 1;
+        filterGallery();
+        updateActiveTab();
+      });
+    });
+  }
+
+  function updateActiveTab() {
+    document.querySelectorAll('.category-btn, .mobile-filter-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.category === currentCategory);
+    });
+  }
+
+  function filterGallery() {
+    if (currentCategory === 'wszystkie') {
+      filteredData = [...galleryData];
+    } else {
+      filteredData = galleryData.filter(item => item.category === currentCategory);
+    }
+    renderGallery();
+    renderPagination();
+  }
+
+  function renderGallery() {
+    const gallery = document.getElementById('gallery');
+    if (!gallery) return;
+    
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    const items = filteredData.slice(start, end);
+    
+    gallery.innerHTML = items.map((item, index) => `
+      <div class="gallery-item" data-index="${start + index}">
+        <div class="gallery-item-inner">
+          <div class="image-container">
+            <img src="${item.src}" alt="Realizacja" loading="lazy">
+          </div>
+          <div class="gallery-overlay"></div>
+        </div>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', function() {
+        openLightbox(parseInt(this.dataset.index));
+      });
+    });
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+    const pagination = document.getElementById('pagination');
+    
+    if (!pagination) return;
+    
+    if (totalPages <= 1) {
+      pagination.innerHTML = '';
+      return;
+    }
+
+    let html = '';
+    
+    if (currentPage > 1) {
+      html += `<button class="pag-btn pag-prev" onclick="changePage(${currentPage - 1})">←</button>`;
+    }
+    
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+        html += `<button class="pag-btn pag-num ${i === currentPage ? 'pag-active' : ''}" onclick="changePage(${i})">${i}</button>`;
+      } else if (i === currentPage - 2 || i === currentPage + 2) {
+        html += `<span class="pag-dots">...</span>`;
+      }
+    }
+    
+    if (currentPage < totalPages) {
+      html += `<button class="pag-btn pag-next" onclick="changePage(${currentPage + 1})">→</button>`;
+    }
+
+    pagination.innerHTML = html;
+  }
+
+  window.changePage = function(page) {
+    const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      renderGallery();
+      renderPagination();
+      document.querySelector('.gallery').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function openLightbox(index) {
+    currentLightboxIndex = index;
+    const lightbox = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    
+    img.src = filteredData[index].src;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function navigateLightbox(dir) {
+    currentLightboxIndex = (currentLightboxIndex + dir + filteredData.length) % filteredData.length;
+    document.getElementById('lightbox-img').src = filteredData[currentLightboxIndex].src;
+  }
+
+  function setupLightboxEvents() {
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
+    document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox') closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('lightbox').classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+    });
+  }
+</script>
+
+<style>
+  /* Hero */
+  .hero-section {
+    margin-top: 80px;
+    padding: 60px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .hero-section h1 {
+    font-size: 3rem;
+    font-weight: 300;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+  }
+
+  .hero-section h1 span {
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-section p {
+    font-size: 1.1rem;
+    color: #666;
+  }
+
+  /* Kategorie DESKTOP */
+  .categories-desktop {
+    background: white;
+    font-size:12.2px;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 80px;
+    z-index: 40;
+  }
+
+  .categories-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .category-btn {
+    padding: 10px 24px;
+    background: white;
+    color: #666;
+    border: 2px solid #e5e7eb;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .category-btn:hover {
+    background: #f3f4f6;
+    border-color: #667eea;
+    color: #333;
+    transform: translateY(-2px);
+  }
+
+  .category-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: transparent;
+  }
+
+  /* MOBILE FILTRY - NOWE */
+  .categories-mobile {
+    display: none;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 80px;
+    z-index: 40;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-filter-scroll {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    min-width: max-content;
+  }
+
+  .mobile-filter-btn {
+    padding: 6px 14px;
+    background: white;
+    color: #666;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .mobile-filter-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+  }
+
+  /* Galeria */
+  .gallery {
+    padding: 40px 20px 80px;
+    background: #fafafa;
+    min-height: 100vh;
+  }
+
+  .gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+    margin-bottom: 60px;
+  }
+
+  .gallery-item {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    background: #222;
+  }
+
+  .gallery-item-inner {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    overflow: hidden;
+  }
+
+  .image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+  }
+
+  .gallery-item:hover .image-container img {
+    transform: scale(1.08);
+  }
+
+  .gallery-item:hover .gallery-overlay {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  /* PAGINACJA - NAPRAWIONA Z !IMPORTANT */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin-top: 40px;
+  }
+
+  .pag-btn {
+    min-width: 42px !important;
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    color: #374151 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .pag-btn:hover:not(.pag-active) {
+    background: #f3f4f6 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .pag-btn.pag-active {
+    background: #667eea !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4) !important;
+  }
+
+  .pag-btn.pag-prev,
+  .pag-btn.pag-next {
+    font-size: 18px !important;
+    color: #667eea !important;
+    background: white !important;
+  }
+
+  .pag-btn.pag-prev:hover,
+  .pag-btn.pag-next:hover {
+    background: #ede9fe !important;
+  }
+
+  .pag-dots {
+    color: #9ca3af;
+    padding: 0 4px;
+    font-size: 14px;
+    user-select: none;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox.active {
+    display: flex;
+  }
+
+  .lightbox-img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+
+  .lightbox-close,
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-close {
+    top: 30px;
+    right: 30px;
+  }
+
+  .lightbox-prev {
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox-next {
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox-close:hover,
+  .lightbox-prev:hover,
+  .lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .hero-section {
+      display: none !important;
+    }
+    
+    .categories-desktop {
+      display: none !important;
+    }
+    
+    .categories-mobile {
+      display: block !important;
+    }
+
+    .gallery {
+      margin-top: 0;
+      padding: 20px 10px 60px;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+    }
+
+    .pag-btn {
+      min-width: 38px !important;
+      height: 38px !important;
+      font-size: 13px !important;
+    }
+  }
+</style>

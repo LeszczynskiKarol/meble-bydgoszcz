@@ -1,0 +1,741 @@
+---
+import Reviews from '../components/sections/Reviews.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import type { GalleryImage } from '../lib/types';
+
+// Office furniture types data
+const officeTypes = [
+  {
+    title: "Biurka ergonomiczne",
+    description: "Regulowana wysokość, przestronne blaty, zarządzanie kablami",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-55-2.jpg",
+    features: ["Regulacja", "Kable", "Ergonomia"]
+  },
+  {
+    title: "Krzesła i fotele biurowe",
+    description: "Regulowane oparcie, podłokietniki, mechanizm synchroniczny",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Tu-40.jpg",
+    features: ["Komfort", "Regulacja", "Wsparcie"]
+  },
+  {
+    title: "Regały i biblioteczki",
+    description: "Systemy modułowe, różne wysokości, otwarte i zamknięte",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-79.jpg",
+    features: ["Modułowe", "Pojemne", "Eleganckie"]
+  },
+  {
+    title: "Meble gabinetowe",
+    description: "Luksusowe biurka prezesowskie, komody, szafy",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Biuro-Nieruchomosci-22.jpg",
+    features: ["Premium", "Trwałość", "Prestiż"]
+  },
+  {
+    title: "Stoły konferencyjne",
+    description: "Różne rozmiary, multimedia, eleganckie wykończenie",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Biuro-Nieruchomosci-19.jpg",
+    features: ["Multimedia", "Pojemność", "Design"]
+  },
+  {
+    title: "Stanowiska open space",
+    description: "Systemy modułowe, przegrody akustyczne, wspólne przestrzenie",
+    image: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Jupiter-6.jpg",
+    features: ["Modułowe", "Akustyka", "Elastyczne"]
+  }
+];
+
+// Features data
+const features = [
+  {
+    icon: "💼",
+    title: "Ergonomia pracy",
+    description: "Meble zaprojektowane z myślą o komforcie i zdrowiu. Regulowana wysokość, wsparcie kręgosłupa, prawidłowa postawa."
+  },
+  {
+    icon: "🎨",
+    title: "Indywidualny projekt",
+    description: "Dopasowanie do charakteru firmy i przestrzeni. Spójna aranżacja wspierająca funkcjonowanie i wizerunek."
+  },
+  {
+    icon: "⚙️",
+    title: "Funkcjonalność",
+    description: "Przemyślane rozwiązania - zarządzanie kablami, szuflady z pełnym wysuwem, inteligentne systemy przechowywania."
+  },
+  {
+    icon: "🏢",
+    title: "Dla każdego biura",
+    description: "Od małych gabinetów po duże open space. Optymalne wykorzystanie przestrzeni niezależnie od wielkości."
+  },
+  {
+    icon: "💎",
+    title: "Materiały premium",
+    description: "Najwyższej jakości płyty, metal, szkło. Trwałe i odporne na intensywne użytkowanie biurowe."
+  },
+  {
+    icon: "📐",
+    title: "Wizualizacja 3D",
+    description: "Zobacz dokładnie jak będzie wyglądać Twoje biuro. Wprowadzamy zmiany do pełnej akceptacji projektu."
+  }
+];
+
+// Process steps for office
+const officeProcessSteps = [
+  {
+    number: 1,
+    title: "Analiza potrzeb",
+    description: "Poznajemy charakter działalności, liczbę stanowisk i preferencje estetyczne firmy."
+  },
+  {
+    number: 2,
+    title: "Pomiar",
+    description: "Dokładne wymiary przestrzeni biurowej. Analiza rozmieszczenia stanowisk i komunikacji."
+  },
+  {
+    number: 3,
+    title: "Projekt",
+    description: "Funkcjonalny układ pomieszczenia z wizualizacją 3D. Dobór kolorów i materiałów."
+  },
+  {
+    number: 4,
+    title: "Produkcja",
+    description: "Własna stolarnia gwarantuje najwyższą jakość wykonania i terminowość."
+  },
+  {
+    number: 5,
+    title: "Montaż",
+    description: "Szybki i sprawny montaż bez zakłócania pracy biura. Dbałość o każdy szczegół."
+  }
+];
+
+// Gallery images
+const galleryImages: GalleryImage[] = [
+  {
+    id: "1",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-55-2.jpg",
+    category: "biura"
+  },
+  {
+    id: "2",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/pigbiur-1-2.jpg",
+    category: "biura"
+  },
+  {
+    id: "3",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/rec-1-2.jpg",
+    category: "biura"
+  },
+  {
+    id: "4",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/rec-5-2.jpg",
+    category: "biura"
+  },
+  {
+    id: "5",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/kam-5.jpg",
+    category: "biura"
+  },
+  {
+    id: "6",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/skarp-2.jpg",
+    category: "biura"
+  },
+  {
+    id: "7",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/GP-1.jpg",
+    category: "biura"
+  },
+  {
+    id: "8",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Kam2-2.jpg",
+    category: "biura"
+  },
+  {
+    id: "9",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-80.jpg",
+    category: "biura"
+  },
+  {
+    id: "10",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Biuro-Nieruchomosci-24.jpg",
+    category: "biura"
+  },
+  {
+    id: "11",
+    src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Jupiter-5.jpg",
+    category: "biura"
+  }
+];
+
+
+// Reviews data
+const reviews = [
+  {
+    name: "Adam Michalski - CEO TechSoft",
+    initials: "AM",
+    rating: 5,
+    text: "Kompleksowe wyposażenie naszego biura na 30 stanowisk. Projekt uwzględnił wszystkie nasze potrzeby. Ergonomiczne biurka znacznie poprawiły komfort pracy zespołu!",
+    date: "Tydzień temu"
+  },
+  {
+    name: "Karolina Błaszczyk - Kancelaria Prawna",
+    initials: "KB",
+    rating: 5,
+    text: "Meble gabinetowe najwyższej klasy! Drewno dębowe, eleganckie wykończenie. Gabinet robi wrażenie na klientach. Profesjonalizm od projektu po montaż.",
+    date: "2 tygodnie temu"
+  },
+  {
+    name: "Paweł Rutkowski - Agencja Marketingowa",
+    initials: "PR",
+    rating: 5,
+    text: "Open space dla kreatywnego zespołu wykonany perfekcyjnie! Modułowe stanowiska, świetna akustyka, nowoczesny design. Dokładnie tego szukaliśmy!",
+    date: "Miesiąc temu"
+  }
+];
+
+// Fallback reviews dla biur
+const fallbackOfficeReviews = [
+  {
+    id: "office-1",
+    author: "Adam Michalski - CEO TechSoft",
+    avatar: "AM",
+    rating: 5,
+    text: "Kompleksowe wyposażenie naszego biura na 30 stanowisk. Projekt uwzględnił wszystkie nasze potrzeby. Ergonomiczne biurka znacznie poprawiły komfort pracy zespołu!",
+    date: "Tydzień temu",
+    verified: true
+  },
+  {
+    id: "office-2",
+    author: "Karolina Błaszczyk - Kancelaria Prawna",
+    avatar: "KB",
+    rating: 5,
+    text: "Meble gabinetowe najwyższej klasy! Drewno dębowe, eleganckie wykończenie. Gabinet robi wrażenie na klientach. Profesjonalizm od projektu po montaż.",
+    date: "2 tygodnie temu",
+    verified: true
+  },
+  {
+    id: "office-3",
+    author: "Paweł Rutkowski - Agencja Marketingowa",
+    avatar: "PR",
+    rating: 5,
+    text: "Open space dla kreatywnego zespołu wykonany perfekcyjnie! Modułowe stanowiska, świetna akustyka, nowoczesny design. Dokładnie tego szukaliśmy!",
+    date: "Miesiąc temu",
+    verified: true
+  }
+];
+
+let googleReviews = null;
+let googleRating = null;
+let googleTotalReviews = null;
+
+if (import.meta.env.PROD) {
+  try {
+    const apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT;
+    if (apiEndpoint) {
+      const response = await fetch(apiEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        googleReviews = data.reviews;
+        googleRating = data.rating;
+        googleTotalReviews = data.totalReviews;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch Google reviews during build:', error);
+  }
+}
+
+const displayReviews = googleReviews || fallbackOfficeReviews;
+const displayRating = googleRating || 4.9;
+const displayTotalReviews = googleTotalReviews || 127;
+---
+
+<BaseLayout 
+title="Meble biurowe na wymiar Bydgoszcz - Biurka, krzesła, regały"
+description="Chcesz zlecić wykonanie mebli biurowych w Bydgoszczy? Powierz nam to zadanie!"
+keywords={[
+    "Meble biurowe na wymiar Bydgoszcz",    
+    "Meble biurowe Bydgoszcz",
+    "Projektowanie mebli biurowych Bydgoszcz",
+    "Montaż i projektowanie mebli biurowych Bydgoszcz",
+    "Montaż mebli biurowych Bydgoszcz"
+    ]}
+>
+  <!-- Hero Section -->
+  <Hero
+    title="Meble biurowe na wymiar <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Przestrzeń, która inspiruje. Ergonomiczne biurka, krzesła, regały i meble gabinetowe idealnie dopasowane do Twojego biura."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz realizacje biur →", href: "/realizacje#biura" }}
+    images={[
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/rec-2-2.jpg" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/skarp-1.jpg" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-na-wymiar-77.jpg" },
+      { src: "https://www.meblesystem.pl/wp-content/uploads/2024/04/Meble-Wrzesien-56-2.jpg" }
+    ]}
+    variant="office"
+  />
+
+  <!-- Office Types Section -->
+  <section class="office-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Rodzaje mebli biurowych w naszej ofercie</h2>
+        <p>Kompleksowe wyposażenie biur, gabinetów i przestrzeni pracowniczych</p>
+      </div>
+      <div class="office-types-grid">
+        {officeTypes.map((type) => (
+          <div class="office-type-card" style={`background-image: url('${type.image}');`}>
+            <div class="office-type-content">
+              <h3>{type.title}</h3>
+              <p>{type.description}</p>
+              <div class="office-type-features">
+                {type.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Dlaczego nasze meble biurowe?</h2>
+        <p>Elegancja i klasa w Twoim biurze</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Proces realizacji mebli biurowych</h2>
+        <p>Od koncepcji do gotowego biura na wymiar</p>
+      </div>
+      <div class="process-grid">
+        {officeProcessSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <Gallery
+    title="Nasze realizacje biur"
+    subtitle="Zobacz biura, które wyposażyliśmy dla firm w Bydgoszczy i okolicach"
+    images={galleryImages}
+    viewAllLink="/realizacje#biura"
+  />
+
+<Reviews
+  title="Opinie o naszych meblach biurowych"
+  subtitle="Zobacz, co mówią firmy o naszych realizacjach"
+  fallbackReviews={displayReviews}
+  rating={displayRating}
+  totalReviews={displayTotalReviews}
+  apiEndpoint={import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT}
+/>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Zdecyduj się na przestrzeń, która inspiruje!</h2>
+      <p>Zadzwoń lub napisz do nas i daj znać, jakich mebli biurowych potrzebujesz</p>
+      <div class="cta-buttons">
+        <Button
+          href="tel:+48576060832"
+          variant="primary"
+          size="large"
+          icon="📞"
+        >
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button
+          href="mailto:kontakt@meblesystem.pl"
+          variant="secondary"
+          size="large"
+        >
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Office Types Section */
+  .office-types {
+    padding: 5rem 5%;
+    background: var(--white);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color, #764ba2);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .office-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .office-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .office-types-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .office-type-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .office-type-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2)
+    );
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  .office-type-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .office-type-card:hover::before {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.1)
+    );
+  }
+
+  .office-type-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white, #ffffff);
+  }
+
+  .office-type-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .office-type-card:hover .office-type-content h3 {
+    transform: translateY(-5px);
+  }
+
+  .office-type-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .office-type-features {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .office-type-features span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 5rem 5%;
+    background: var(--accent-color, #f4f4f4);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    background: var(--white, #ffffff);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #2d5016, #5a8f2d);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white, #ffffff);
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .feature-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+  /* Process Section */
+  .process {
+    padding: 5rem 5%;
+    background: var(--white, #ffffff);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1200px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+  }
+
+  .process-card {
+    background: var(--white, #ffffff);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px rgba(45, 80, 22, 0.4);
+  }
+
+  .process-card h3 {
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .process-card p {
+    color: var(--text-light, #666);
+    line-height: 1.8;
+  }
+
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    top: -150px;
+    right: -150px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .cta-content h2 {
+    color: var(--white, #ffffff);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
