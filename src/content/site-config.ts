@@ -15,9 +15,9 @@ export const contact: ContactInfo = {
   phone: "576 060 832",
   email: "kontakt@meble-bydgoszcz.pl",
   address: {
-    street: "ul. Gdańska 31",
+    //street: "ul. Gdańska 31",
     city: "Bydgoszcz",
-    postalCode: "85-005",
+    //postalCode: "85-005",
     country: "Polska",
   },
   hours: {

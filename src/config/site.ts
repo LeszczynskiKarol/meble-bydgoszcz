@@ -25,25 +25,25 @@ export const siteConfig = {
   },
 
   address: {
-    street: "ul. Gdańska 15",
-    postalCode: "85-006",
+    //street: "ul. Gdańska 15",
+    //postalCode: "85-006",
     city: "Bydgoszcz",
     region: "kujawsko-pomorskie",
     country: "Polska",
-    googleMapsUrl: "https://maps.google.com/?q=Grand+Kuchnie+Bydgoszcz",
+    //googleMapsUrl: "https://maps.google.com/?q=Grand+Kuchnie+Bydgoszcz",
     coordinates: {
       lat: 53.1235,
       lng: 18.0084,
     },
   },
 
-  showroom: {
-    name: "Showroom Grand Kuchnie",
-    address: "ul. Gdańska 15, 85-006 Bydgoszcz",
-    area: "250 m²",
-    parking: "Bezpłatny parking dla klientów",
-    accessibility: "Obiekt przystosowany dla niepełnosprawnych",
-  },
+  //showroom: {
+  //name: "Showroom Grand Kuchnie",
+  //address: "ul. Gdańska 15, 85-006 Bydgoszcz",
+  //area: "250 m²",
+  //parking: "Bezpłatny parking dla klientów",
+  //accessibility: "Obiekt przystosowany dla niepełnosprawnych",
+  //},
 
   social: {
     facebook: "https://facebook.com/grandkuchnie",
