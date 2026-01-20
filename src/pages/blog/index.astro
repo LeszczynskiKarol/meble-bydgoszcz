@@ -1,0 +1,646 @@
+---
+// src/pages/blog/index.astro
+import { getCollection } from "astro:content";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Funkcja do tworzenia slug z kategorii
+function slugify(text: string): string {
+  const polishChars: Record<string, string> = {
+    'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
+    'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+    'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n',
+    'Ó': 'o', 'Ś': 's', 'Ź': 'z', 'Ż': 'z'
+  };
+  
+  return text
+    .toLowerCase()
+    .split('')
+    .map(char => polishChars[char] || char)
+    .join('')
+    .replace(/\s+/g, '-');
+}
+
+const allPosts = await getCollection("blog", ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+const posts = allPosts.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Wyróżnione posty
+const featuredPosts = posts.filter(post => post.data.featured).slice(0, 3);
+
+// Kategorie z liczbą artykułów
+const categories = posts.reduce(
+  (acc, post) => {
+    const cat = post.data.category;
+    acc[cat] = (acc[cat] || 0) + 1;
+    return acc;
+  },
+  {} as Record<string, number>
+);
+
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat("pl-PL", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(date);
+};
+
+const getReadingTime = (content: string) => {
+  const words = content.split(/\s+/).length;
+  return Math.ceil(words / 200);
+};
+
+// Schema.org dla strony bloga
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Blog Meble Bydgoszcz",
+  description: "Porady, inspiracje i trendy w projektowaniu mebli na wymiar. Dowiedz się więcej o materiałach, aranżacjach i realizacjach.",
+  url: "https://www.meble-bydgoszcz.pl/blog",
+  publisher: {
+    "@type": "Organization",
+    name: "Meble Bydgoszcz",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://www.meble-bydgoszcz.pl/logo.png"
+    }
+  }
+};
+---
+
+<BaseLayout
+  title="Blog o meblach na wymiar | Meble Bydgoszcz - Porady i inspiracje"
+  description="Porady, inspiracje i trendy w projektowaniu mebli na wymiar. Materiały, aranżacje i realizacje mebli w Bydgoszczy i okolicach."
+>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(blogSchema)}
+    slot="head"
+  />
+
+  <main class="blog-page">
+    <div class="container">
+      <!-- Hero Section -->
+      <header class="blog-hero">
+        <span class="hero-badge">Blog</span>
+        <h1>Porady i <span class="highlight">inspiracje</span></h1>
+        <p>
+          Odkryj świat nowoczesnych mebli na wymiar. Trendy, materiały, porady ekspertów i inspirujące realizacje.
+        </p>
+      </header>
+
+      <!-- Kategorie -->
+      <div class="categories-section">
+        <a
+          href="/blog"
+          class="category-pill active"
+        >
+          Wszystkie ({posts.length})
+        </a>
+        {Object.entries(categories).map(([category, count]) => (
+          <a
+            href={`/blog/kategoria/${slugify(category)}`}
+            class="category-pill"
+          >
+            {category} ({count})
+          </a>
+        ))}
+      </div>
+
+      {/* Wyróżnione artykuły */}
+      {featuredPosts.length > 0 && (
+        <section class="featured-section">
+          <h2 class="section-title">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            Wyróżnione artykuły
+          </h2>
+          <div class="featured-grid">
+            {featuredPosts.map((post, index) => (
+              <a
+                href={`/blog/${post.slug}`}
+                class={`featured-card ${index === 0 ? 'featured-main' : ''}`}
+              >
+                {post.data.image ? (
+                  <div class="card-image">
+                    <img
+                      src={post.data.image}
+                      alt={post.data.imageAlt || post.data.title}
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <div class="card-image placeholder">
+                    <span>{post.data.title.substring(0, 2).toUpperCase()}</span>
+                  </div>
+                )}
+                <div class="card-content">
+                  <div class="card-meta">
+                    <span class="card-category">{post.data.category}</span>
+                    <span class="card-date">{formatDate(post.data.publishDate)}</span>
+                  </div>
+                  <h3>{post.data.title}</h3>
+                  <p>{post.data.description}</p>
+                  <div class="card-footer">
+                    <span class="reading-time">{getReadingTime(post.body || "")} min czytania</span>
+                    <span class="read-more">Czytaj więcej →</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Wszystkie artykuły */}
+      <section class="all-posts-section">
+        <h2 class="section-title">Wszystkie artykuły</h2>
+        {posts.length === 0 ? (
+          <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <p class="empty-title">Artykuły pojawią się tutaj wkrótce.</p>
+            <p class="empty-subtitle">Przygotowujemy dla Ciebie wartościowe treści o meblach na wymiar.</p>
+          </div>
+        ) : (
+          <div class="posts-grid">
+            {posts.map((post) => (
+              <a href={`/blog/${post.slug}`} class="post-card">
+                {post.data.image ? (
+                  <div class="card-image">
+                    <img
+                      src={post.data.image}
+                      alt={post.data.imageAlt || post.data.title}
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <div class="card-image placeholder">
+                    <span>{post.data.title.substring(0, 2).toUpperCase()}</span>
+                  </div>
+                )}
+                <div class="card-content">
+                  <div class="card-meta">
+                    <span class="card-category">{post.data.category}</span>
+                    <span class="card-date">{formatDate(post.data.publishDate)}</span>
+                  </div>
+                  <h3>{post.data.title}</h3>
+                  <p>{post.data.description}</p>
+                  <div class="card-footer">
+                    <span class="reading-time">{getReadingTime(post.body || "")} min</span>
+                    <span class="read-more">→</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* CTA Section */}
+      <section class="cta-section">
+        <h2>Szukasz mebli na wymiar?</h2>
+        <p>
+          Skontaktuj się z nami i otrzymaj bezpłatną wycenę. Realizujemy projekty w Bydgoszczy i całym województwie kujawsko-pomorskim.
+        </p>
+        <div class="cta-buttons">
+          <a href="/kontakt" class="btn-primary">
+            Bezpłatna wycena
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="/realizacje" class="btn-secondary">
+            Zobacz realizacje
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .blog-page {
+    padding: 8rem 5% 5rem;
+    background: var(--white, #ffffff);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Hero */
+  .blog-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    color: var(--secondary-color, #764ba2);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-hero h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .blog-hero h1 {
+      font-size: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-hero h1 {
+      font-size: 3.75rem;
+    }
+  }
+
+  .blog-hero h1 .highlight {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .blog-hero p {
+    font-size: 1.125rem;
+    color: var(--text-light, #666);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 640px) {
+    .blog-hero p {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* Categories */
+  .categories-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .category-pill {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: var(--accent-color, #f4f4f4);
+    border: 1px solid #e5e5e5;
+    color: var(--text-light, #666);
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .category-pill:hover {
+    border-color: var(--secondary-color, #764ba2);
+    color: var(--secondary-color, #764ba2);
+  }
+
+  .category-pill.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-color: transparent;
+  }
+
+  /* Section Title */
+  .section-title {
+    font-size: 1.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-title .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--secondary-color, #764ba2);
+  }
+
+  /* Featured Section */
+  .featured-section {
+    margin-bottom: 4rem;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .featured-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .featured-main {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+
+  .featured-card,
+  .post-card {
+    display: block;
+    background: var(--white, #ffffff);
+    border: 1px solid #e5e5e5;
+    border-radius: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .featured-card:hover,
+  .post-card:hover {
+    border-color: var(--secondary-color, #764ba2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .card-image {
+    aspect-ratio: 16/9;
+    background: var(--accent-color, #f4f4f4);
+    overflow: hidden;
+  }
+
+  .featured-main .card-image {
+    aspect-ratio: 16/9;
+  }
+
+  @media (min-width: 768px) {
+    .featured-main .card-image {
+      aspect-ratio: 16/10;
+    }
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .featured-card:hover .card-image img,
+  .post-card:hover .card-image img {
+    transform: scale(1.05);
+  }
+
+  .card-image.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  }
+
+  .card-image.placeholder span {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(118, 75, 162, 0.3);
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .featured-main .card-content {
+    padding: 2rem;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-category {
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    color: var(--secondary-color, #764ba2);
+    border-radius: 0.25rem;
+  }
+
+  .card-date {
+    font-size: 0.75rem;
+    color: var(--text-light, #666);
+  }
+
+  .card-content h3 {
+    font-size: 1.125rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.3s ease;
+  }
+
+  .featured-main .card-content h3 {
+    font-size: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .featured-main .card-content h3 {
+      font-size: 1.875rem;
+    }
+  }
+
+  .featured-card:hover .card-content h3,
+  .post-card:hover .card-content h3 {
+    color: var(--secondary-color, #764ba2);
+  }
+
+  .card-content p {
+    font-size: 0.875rem;
+    color: var(--text-light, #666);
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .featured-main .card-content p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+  }
+
+  .reading-time {
+    color: var(--text-light, #666);
+  }
+
+  .read-more {
+    color: var(--secondary-color, #764ba2);
+    font-weight: 500;
+    transition: transform 0.3s ease;
+  }
+
+  .featured-card:hover .read-more,
+  .post-card:hover .read-more {
+    transform: translateX(4px);
+  }
+
+  /* All Posts */
+  .all-posts-section {
+    margin-bottom: 4rem;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .posts-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--accent-color, #f4f4f4);
+    border-radius: 1rem;
+  }
+
+  .empty-icon {
+    font-size: 3.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .empty-title {
+    font-size: 1.125rem;
+    color: var(--text-light, #666);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-subtitle {
+    color: rgba(102, 102, 102, 0.8);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.1));
+    border-radius: 1.5rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .cta-section {
+      padding: 4rem 3rem;
+    }
+  }
+
+  .cta-section h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .cta-section h2 {
+      font-size: 1.875rem;
+    }
+  }
+
+  .cta-section p {
+    color: var(--text-light, #666);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  @media (min-width: 640px) {
+    .cta-buttons {
+      flex-direction: row;
+    }
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(118, 75, 162, 0.3);
+  }
+
+  .btn-primary .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .btn-secondary {
+    background: var(--white, #ffffff);
+    border: 1px solid #e5e5e5;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--secondary-color, #764ba2);
+    color: var(--secondary-color, #764ba2);
+  }
+</style>

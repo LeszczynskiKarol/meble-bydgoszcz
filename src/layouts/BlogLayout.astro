@@ -1,0 +1,644 @@
+---
+// src/layouts/BlogLayout.astro
+import type { CollectionEntry } from "astro:content";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const {
+  title,
+  description,
+  publishDate,
+  updateDate,
+  author,
+  category,
+  tags,
+  image,
+  imageAlt,
+} = post.data;
+
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat("pl-PL", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+};
+
+// Czas czytania
+const getReadingTime = (content: string) => {
+  const words = content.split(/\s+/).length;
+  return Math.ceil(words / 200);
+};
+
+const readingTime = getReadingTime(post.body || "");
+
+// Funkcja do tworzenia slug z kategorii
+function slugify(text: string): string {
+  const polishChars: Record<string, string> = {
+    'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
+    'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+    'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n',
+    'Ó': 'o', 'Ś': 's', 'Ź': 'z', 'Ż': 'z'
+  };
+  
+  return text
+    .toLowerCase()
+    .split('')
+    .map(char => polishChars[char] || char)
+    .join('')
+    .replace(/\s+/g, '-');
+}
+
+// Schema.org Article
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description: description,
+  image: image ? `https://www.meble-bydgoszcz.pl${image}` : undefined,
+  author: {
+    "@type": "Organization",
+    name: author,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Meble Bydgoszcz",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://www.meble-bydgoszcz.pl/logo.png",
+    },
+  },
+  datePublished: publishDate.toISOString(),
+  dateModified: (updateDate || publishDate).toISOString(),
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `https://www.meble-bydgoszcz.pl/blog/${post.slug}`,
+  },
+};
+
+// Schema.org BreadcrumbList
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Strona główna",
+      item: "https://www.meble-bydgoszcz.pl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: "https://www.meble-bydgoszcz.pl/blog",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: `https://www.meble-bydgoszcz.pl/blog/${post.slug}`,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${title} | Blog Meble Bydgoszcz`}
+  description={description}
+  ogImage={image}
+>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(articleSchema)}
+    slot="head"
+  />
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbSchema)}
+    slot="head"
+  />
+
+  <main class="blog-post">
+    <article class="blog-article">
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li>
+            <a href="/">Strona główna</a>
+          </li>
+          <li>/</li>
+          <li>
+            <a href="/blog">Blog</a>
+          </li>
+          <li>/</li>
+          <li class="current">{title}</li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <header class="blog-header">
+        <div class="blog-meta">
+          <a
+            href={`/blog/kategoria/${slugify(category)}`}
+            class="category-badge"
+          >
+            {category}
+          </a>
+          <span class="date">{formatDate(publishDate)}</span>
+          <span class="reading-time">• {readingTime} min czytania</span>
+        </div>
+
+        <h1>{title}</h1>
+
+        <p class="blog-description">{description}</p>
+
+        {tags && tags.length > 0 && (
+          <div class="tags">
+            {tags.map((tag) => (
+              <span class="tag">#{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* Featured Image */}
+      {image && (
+        <div class="featured-image">
+          <img
+            src={image}
+            alt={imageAlt || title}
+            loading="eager"
+          />
+        </div>
+      )}
+
+      {/* Content */}
+      <div class="blog-content prose">
+        <slot />
+      </div>
+
+      {/* CTA Section */}
+      <div class="blog-cta">
+        <h3>Szukasz mebli na wymiar?</h3>
+        <p>
+          Skontaktuj się z nami i otrzymaj bezpłatną wycenę. Realizujemy projekty w Bydgoszczy i okolicach.
+        </p>
+        <a href="/kontakt" class="cta-button">
+          Bezpłatna wycena
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+
+      {/* Author & Share */}
+      <footer class="blog-footer">
+        <div class="author-info">
+          <div class="author-avatar">
+            <span>{author.split(" ").map((n) => n[0]).join("")}</span>
+          </div>
+          <div>
+            <p class="author-name">{author}</p>
+            <p class="author-role">Autor artykułu</p>
+          </div>
+        </div>
+
+        <div class="share-section">
+          <span>Udostępnij:</span>
+          <div class="share-buttons">
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=https://www.meble-bydgoszcz.pl/blog/${post.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-button facebook"
+              title="Udostępnij na Facebook"
+            >
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z" />
+              </svg>
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?url=https://www.meble-bydgoszcz.pl/blog/${post.slug}&text=${encodeURIComponent(title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-button twitter"
+              title="Udostępnij na Twitter"
+            >
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z" />
+              </svg>
+            </a>
+            <a
+              href={`https://www.linkedin.com/shareArticle?mini=true&url=https://www.meble-bydgoszcz.pl/blog/${post.slug}&title=${encodeURIComponent(title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-button linkedin"
+              title="Udostępnij na LinkedIn"
+            >
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .blog-post {
+    padding: 8rem 5% 5rem;
+    background: var(--white, #ffffff);
+  }
+
+  .blog-article {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs {
+    margin-bottom: 2rem;
+  }
+
+  .breadcrumbs ol {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-light, #666);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumbs a {
+    color: var(--text-light, #666);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .breadcrumbs a:hover {
+    color: var(--secondary-color, #764ba2);
+  }
+
+  .breadcrumbs .current {
+    color: var(--primary-color, #1a1a1a);
+    font-weight: 500;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Header */
+  .blog-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    color: var(--secondary-color, #764ba2);
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .category-badge:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  }
+
+  .date,
+  .reading-time {
+    font-size: 0.875rem;
+    color: var(--text-light, #666);
+  }
+
+  .blog-header h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .blog-header h1 {
+      font-size: 2.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-header h1 {
+      font-size: 3rem;
+    }
+  }
+
+  .blog-description {
+    font-size: 1.25rem;
+    color: var(--text-light, #666);
+    line-height: 1.7;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--accent-color, #f4f4f4);
+    color: var(--text-light, #666);
+    border-radius: 0.25rem;
+  }
+
+  /* Featured Image */
+  .featured-image {
+    margin-bottom: 2.5rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .featured-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* Content - Prose styles */
+  .blog-content {
+    color: var(--text-dark, #333);
+    line-height: 1.8;
+  }
+
+  .blog-content :global(h2) {
+    font-size: 1.75rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .blog-content :global(h3) {
+    font-size: 1.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-content :global(p) {
+    margin-bottom: 1.5rem;
+    color: var(--text-dark, #333);
+  }
+
+  .blog-content :global(ul),
+  .blog-content :global(ol) {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .blog-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-content :global(a) {
+    color: var(--secondary-color, #764ba2);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .blog-content :global(a:hover) {
+    color: #5a3a7d;
+  }
+
+  .blog-content :global(strong) {
+    font-weight: 600;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .blog-content :global(blockquote) {
+    border-left: 4px solid var(--secondary-color, #764ba2);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--text-light, #666);
+  }
+
+  .blog-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+  }
+
+  .blog-content :global(th),
+  .blog-content :global(td) {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .blog-content :global(th) {
+    background: var(--accent-color, #f4f4f4);
+    font-weight: 600;
+    color: var(--primary-color, #1a1a1a);
+  }
+
+  .blog-content :global(tr:hover) {
+    background: rgba(118, 75, 162, 0.03);
+  }
+
+  .blog-content :global(img) {
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .blog-content :global(code) {
+    background: var(--accent-color, #f4f4f4);
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  .blog-content :global(pre) {
+    background: var(--primary-color, #1a1a1a);
+    color: #f8f8f2;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .blog-content :global(pre code) {
+    background: transparent;
+    padding: 0;
+  }
+
+  /* CTA Section */
+  .blog-cta {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.1));
+    border-radius: 1rem;
+    border: 1px solid rgba(118, 75, 162, 0.2);
+    text-align: center;
+  }
+
+  .blog-cta h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color, #1a1a1a);
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-cta p {
+    color: var(--text-light, #666);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: var(--white, #ffffff);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(118, 75, 162, 0.3);
+  }
+
+  .cta-button .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* Footer */
+  .blog-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .blog-footer {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .author-avatar {
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.2));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .author-avatar span {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--secondary-color, #764ba2);
+  }
+
+  .author-name {
+    font-weight: 500;
+    color: var(--primary-color, #1a1a1a);
+    margin: 0;
+  }
+
+  .author-role {
+    font-size: 0.875rem;
+    color: var(--text-light, #666);
+    margin: 0;
+  }
+
+  .share-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .share-section > span {
+    font-size: 0.875rem;
+    color: var(--text-light, #666);
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .share-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--accent-color, #f4f4f4);
+    color: var(--text-light, #666);
+    transition: all 0.3s ease;
+  }
+
+  .share-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .share-button.facebook:hover {
+    background: #e7f0ff;
+    color: #1877f2;
+  }
+
+  .share-button.twitter:hover {
+    background: #e8f5fe;
+    color: #1da1f2;
+  }
+
+  .share-button.linkedin:hover {
+    background: #e7f0ff;
+    color: #0077b5;
+  }
+</style>
