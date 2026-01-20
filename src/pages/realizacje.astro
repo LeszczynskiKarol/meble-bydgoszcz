@@ -1539,7 +1539,7 @@ const ITEMS_PER_PAGE = 12;
     background: rgba(255, 255, 255, 0.2);
   }
 
-  /* MOBILE */
+  /* MOBILE - ZAKTUALIZOWANE: 2x większy odstęp od belki kategorii */
   @media (max-width: 768px) {
     .hero-section {
       display: none !important;
@@ -1555,7 +1555,8 @@ const ITEMS_PER_PAGE = 12;
 
     .gallery {
       margin-top: 0;
-      padding: 20px 10px 60px;
+      /* Na desktop jest 40px padding-top, na mobile 2x więcej = 80px */
+      padding: 80px 10px 60px;
     }
 
     .gallery-grid {

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 70" width="260" height="70">
+  
+  <!-- Logo icon - mniejszy kwadrat -->
+  <g transform="translate(12, 12)">
+    <!-- Zewnętrzny fioletowy kwadrat -->
+    <rect x="0" y="0" width="32" height="32" fill="#8B5DB0"/>
+    <!-- Biała ramka -->
+    <rect x="5" y="5" width="22" height="22" fill="#FFFFFF"/>
+    <!-- Wewnętrzny fioletowy kwadrat -->
+    <rect x="10" y="10" width="12" height="12" fill="#8B5DB0"/>
+  </g>
+  
+  <!-- Tekst główny - obok kwadratu -->
+  <text x="52" y="35" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#1a1a1a">
+    Meble-Bydgoszcz.pl
+  </text>
+  
+  <!-- Podtytuł - pod kwadratem i tekstem -->
+  <text x="12" y="58" font-family="Inter, Arial, sans-serif" font-size="9" fill="#666666">
+    Meble na wymiar • Projektowanie • Realizacja
+  </text>
+</svg>
