@@ -140,14 +140,29 @@ declare module 'astro:content' {
 	>;
 
 	type ContentEntryMap = {
-		"blog": Record<string, {
-  id: string;
-  slug: string;
+		"blog": {
+"bledy-w-projektowaniu-kuchni.md": {
+	id: "bledy-w-projektowaniu-kuchni.md";
+  slug: "bledy-w-projektowaniu-kuchni";
   body: string;
   collection: "blog";
-  data: InferEntrySchema<"blog">;
-  render(): Render[".md"];
-}>;
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"kuchnia-l-u-czy-z-wyspa.md": {
+	id: "kuchnia-l-u-czy-z-wyspa.md";
+  slug: "kuchnia-l-u-czy-z-wyspa";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"mala-kuchnia-w-bloku.md": {
+	id: "mala-kuchnia-w-bloku.md";
+  slug: "mala-kuchnia-w-bloku";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+};
 
 	};
 

@@ -151,7 +151,6 @@ export const siteConfig = {
   },
 
   api: {
-    baseUrl: process.env.PUBLIC_API_URL || "https://api.grandkuchnie.pl",
     timeout: 10000,
     retryAttempts: 3,
   },
@@ -162,13 +161,6 @@ export const siteConfig = {
     emailjsServiceId: "service_xxxxxxx",
     emailjsTemplateId: "template_xxxxxxx",
     emailjsUserId: "user_xxxxxxxxxxxxxxx",
-  },
-
-  chatbot: {
-    enabled: true,
-    provider: "tawk", // tawk, crisp, messenger, etc.
-    tawkPropertyId: "xxxxxxxxxxxxxxxx",
-    tawkWidgetId: "xxxxxxxxxxxxx",
   },
 };
 
