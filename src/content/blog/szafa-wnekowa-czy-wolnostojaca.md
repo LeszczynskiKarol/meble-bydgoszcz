@@ -13,7 +13,7 @@ tags:
     "garderoba",
     "meble do sypialni",
   ]
-image: "../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wnekowa-czy-wolnostojaca.jpg"
+image: "../../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wnekowa-czy-wolnostojaca.jpg"
 imageAlt: "Nowoczesna szafa wnękowa z drzwiami przesuwnymi w sypialni"
 featured: true
 draft: false
@@ -51,7 +51,7 @@ draft: false
 
 <p>Sypialnie na poddaszu to przestrzenie, gdzie przewaga szafy wnękowej jest najbardziej widoczna. Skosy dachowe drastycznie ograniczają możliwość ustawienia standardowych mebli. Szafa wolnostojąca o wysokości dwustu dwudziestu centymetrów po prostu nie zmieści się pod skosem, a nawet jeśli uda się ją ustawić przy ściance kolankowej, wykorzysta zaledwie ułamek dostępnej przestrzeni. Tymczasem zabudowa na wymiar może podążać za linią dachu, tworząc szafę o zmiennej wysokości — wyższą przy ścianie szczytowej i stopniowo obniżającą się pod skosem. Dzięki temu nawet niska przestrzeń pod okapem może służyć jako miejsce na buty, szuflady lub pojemne kosze na pościel.</p>
 
-<img src="../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wnekowa.jpg" />
+<img src="../../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wnekowa.jpg" />
 
 <h2>Estetyka i wpływ na wygląd sypialni</h2>
 
@@ -67,7 +67,7 @@ draft: false
 
 <p>Kwestia finansowa to często decydujący czynnik, dlatego warto spojrzeć na nią uczciwie, uwzględniając zarówno koszt początkowy, jak i perspektywę długoterminową.</p>
 
-<img src="../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wolnostojaca.jpg" />
+<img src="../../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wolnostojaca.jpg" />
 
 <p>Szafa wolnostojąca jest tańsza na starcie. Prosty, ale solidny mebel dwudrzwiowy w przyzwoitej jakości można kupić już za tysiąc dwieście do dwóch tysięcy pięciuset złotych. Szafa trzydrzwiowa z lustrem i szufladami to koszt od dwóch tysięcy pięciuset do pięciu tysięcy złotych. Nie wymaga też kosztów montażu (poza ewentualnym złożeniem mebla, które można wykonać samodzielnie) ani czasu oczekiwania na realizację zamówienia. Można ją kupić dziś i korzystać z niej już jutro.</p>
 
@@ -168,7 +168,7 @@ draft: false
 <p>Płyta laminowana to najpopularniejszy materiał na korpusy i fronty szaf, zarówno wnękowych, jak i wolnostojących. Oferuje ogromny wybór kolorów i wzorów — od gładkich białych powierzchni po realistyczne imitacje drewna, betonu czy kamienia. Dobrej jakości laminat jest odporny na zarysowania, wilgoć i promieniowanie UV. Kluczowa jest grubość płyty — szafy na wymiar wykonujemy standardowo z płyty osiemnastomilimetrowej na ściany boczne i półki, a na elementy nośne stosujemy płytę dwudziestopięciomilimetrową, co zapewnia solidność konstrukcji nawet przy dużych obciążeniach.</p>
 
 <p>Płyta MDF lakierowana to materiał, który pozwala uzyskać efekt gładkiej, jednolitej powierzchni w dowolnym kolorze — od subtelnych pasteli po głębokie, nasycone odcienie. Fronty lakierowane w połysku lub macie nadają sypialni nowoczesny, luksusowy charakter. Wadą jest wyższa cena i większa wrażliwość na uderzenia w porównaniu z laminatem.</p>
-<img src="../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wnekowa-garderoba.jpg" />
+<img src="../../images/blog/szafa-wnekowa-czy-wolnostojaca/szafa-wnekowa-garderoba.jpg" />
 
 <p>Fornir naturalny to cienka warstwa prawdziwego drewna naklejona na płytę MDF lub sklejkę. Łączy wygląd i szlachetność litego drewna z praktycznością i stabilnością wymiarową materiałów drewnopochodnych. Fornirowane fronty z dębu, orzecha czy jesionu wyglądają zjawiskowo i wpisują się w trend naturalnych, ciepłych materiałów, który dominuje w aranżacjach wnętrz. To rozwiązanie premium, ale efekt wizualny jest wart dodatkowego nakładu.</p>
 
