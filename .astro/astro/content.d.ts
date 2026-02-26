@@ -162,6 +162,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"szafa-wnekowa-czy-wolnostojaca.md": {
+	id: "szafa-wnekowa-czy-wolnostojaca.md";
+  slug: "szafa-wnekowa-czy-wolnostojaca";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 };
 
 	};
