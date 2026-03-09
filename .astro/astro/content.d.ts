@@ -141,9 +141,30 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"blog": {
+"biurko-na-wymiar-domowe-biuro.md": {
+	id: "biurko-na-wymiar-domowe-biuro.md";
+  slug: "biurko-na-wymiar-domowe-biuro";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 "bledy-w-projektowaniu-kuchni.md": {
 	id: "bledy-w-projektowaniu-kuchni.md";
   slug: "bledy-w-projektowaniu-kuchni";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"garderoba-na-wymiar-projektowanie.md": {
+	id: "garderoba-na-wymiar-projektowanie.md";
+  slug: "garderoba-na-wymiar-projektowanie";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"ile-kosztuja-meble-na-wymiar-2026.md": {
+	id: "ile-kosztuja-meble-na-wymiar-2026.md";
+  slug: "ile-kosztuja-meble-na-wymiar-2026";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
@@ -162,9 +183,44 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"materialy-na-meble-na-wymiar.md": {
+	id: "materialy-na-meble-na-wymiar.md";
+  slug: "materialy-na-meble-na-wymiar";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"meble-do-sypialni-na-wymiar.md": {
+	id: "meble-do-sypialni-na-wymiar.md";
+  slug: "meble-do-sypialni-na-wymiar";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"meble-lazienkowe-na-wymiar-trendy-2026.md": {
+	id: "meble-lazienkowe-na-wymiar-trendy-2026.md";
+  slug: "meble-lazienkowe-na-wymiar-trendy-2026";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 "szafa-wnekowa-czy-wolnostojaca.md": {
 	id: "szafa-wnekowa-czy-wolnostojaca.md";
   slug: "szafa-wnekowa-czy-wolnostojaca";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"zabudowa-przedpokoju-na-wymiar.md": {
+	id: "zabudowa-przedpokoju-na-wymiar.md";
+  slug: "zabudowa-przedpokoju-na-wymiar";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"zabudowa-sciany-w-salonie-na-wymiar.md": {
+	id: "zabudowa-sciany-w-salonie-na-wymiar.md";
+  slug: "zabudowa-sciany-w-salonie-na-wymiar";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
