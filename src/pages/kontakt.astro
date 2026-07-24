@@ -47,9 +47,6 @@ const contactReasons = [
   },
 ];
 
-// KONFIGURACJA CLOUDINARY
-const CLOUDINARY_CLOUD_NAME = "drpll3ho2";
-const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
 ---
 
 <BaseLayout title="Kontakt - Meble na wymiar Bydgoszcz">
@@ -119,6 +116,18 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
                 name="user_email"
                 required
                 placeholder="jan.kowalski@email.pl"
+              />
+            </div>
+
+            <!-- Honeypot antyspamowy — ukryte pole, wypełniają tylko boty -->
+            <div style="position:absolute; left:-9999px;" aria-hidden="true">
+              <label for="company">Firma</label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                tabindex="-1"
+                autocomplete="off"
               />
             </div>
 
@@ -260,18 +269,36 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
   </section>
 </BaseLayout>
 
-<!-- Cloudinary Upload Widget -->
-<script
-  src="https://upload-widget.cloudinary.com/global/all.js"
-  type="text/javascript"></script>
-
-<script define:vars={{ CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET }}>
+<script>
   // ========================================
-  // KONFIGURACJA
+  // KONFIGURACJA — backend meblowe-portfolio (SES + DynamoDB + presign S3)
   // ========================================
-  const API_ENDPOINT =
-    "https://4xz7pkbd51.execute-api.eu-north-1.amazonaws.com/prod/send";
+  const CONTACT_ENDPOINT =
+    "https://elk3bw9gj4.execute-api.eu-central-1.amazonaws.com/contact-form";
+  const PRESIGN_ENDPOINT =
+    "https://elk3bw9gj4.execute-api.eu-central-1.amazonaws.com/form-presign";
   const DOMAIN = "meble-bydgoszcz.pl";
+  const MAX_FILE_SIZE = 10 * 1024 * 1024;
+  const MAX_FILES = 5;
+
+  // Lead source detection (utm_source > referrer classification)
+  function __leadSource() {
+    try {
+      const p = new URLSearchParams(location.search);
+      const u = p.get("utm_source");
+      if (u) return u;
+      const r = document.referrer;
+      if (!r) return "direct";
+      const h = new URL(r).hostname;
+      if (h.includes(location.hostname)) return "direct";
+      if (/google\./.test(h)) return "google";
+      if (/bing\./.test(h)) return "bing";
+      if (/facebook|fb\.|instagram|t\.co/.test(h)) return "social";
+      return h;
+    } catch (e) {
+      return "referral";
+    }
+  }
 
   // Phone click tracking
   document.addEventListener("DOMContentLoaded", function () {
@@ -290,63 +317,79 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
     });
   });
 
-  // Store uploaded file URLs
-  let uploadedFiles = [];
+  // Wybrane pliki (obiekty File) — upload przez presign dopiero przy wysyłce
+  let selectedFiles = [];
 
-  // Initialize Cloudinary Upload Widget
-  const myWidget = cloudinary.createUploadWidget(
-    {
-      cloudName: CLOUDINARY_CLOUD_NAME,
-      uploadPreset: CLOUDINARY_UPLOAD_PRESET,
-      sources: ["local", "url", "camera"],
-      multiple: true,
-      maxFiles: 5,
-      maxFileSize: 10485760,
-      resourceType: "auto",
-      clientAllowedFormats: ["jpg", "jpeg", "png", "pdf", "doc", "docx"],
-      showPoweredBy: false,
-      language: "pl",
-    },
-    (error, result) => {
-      if (!error && result && result.event === "success") {
-        const fileInfo = {
-          url: result.info.secure_url,
-          name: result.info.original_filename,
-          size: result.info.bytes,
-          format: result.info.format,
-        };
-        uploadedFiles.push(fileInfo);
-        displayUploadedFile(fileInfo);
-      }
+  const ALLOWED_EXT = /\.(jpe?g|png|webp|heic|pdf|docx?)$/i;
+
+  // Ukryty input plików zamiast widgetu Cloudinary
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.multiple = true;
+  fileInput.accept = "image/*,.pdf,.doc,.docx";
+  fileInput.style.display = "none";
+  document.body.appendChild(fileInput);
+  fileInput.addEventListener("change", () => {
+    addFiles(fileInput.files);
+    fileInput.value = "";
+  });
+
+  function addFiles(fileList) {
+    for (const file of Array.from(fileList)) {
+      if (selectedFiles.length >= MAX_FILES) break;
+      if (!ALLOWED_EXT.test(file.name)) continue;
+      if (file.size > MAX_FILE_SIZE) continue;
+      if (selectedFiles.some((f) => f.name === file.name && f.size === file.size))
+        continue;
+      selectedFiles.push(file);
+      displayUploadedFile(file);
     }
-  );
+  }
 
-  // Display uploaded file
-  function displayUploadedFile(fileInfo) {
+  // Wpis na liście plików
+  function displayUploadedFile(file) {
     const container = document.getElementById("uploaded-files");
     const fileElement = document.createElement("div");
     fileElement.className = "uploaded-file";
     fileElement.innerHTML = `
       <div class="file-info">
         <span class="file-icon">📎</span>
-        <span class="file-name">${fileInfo.name}.${fileInfo.format}</span>
-        <span class="file-size">${formatFileSize(fileInfo.size)}</span>
+        <span class="file-name">${file.name}</span>
+        <span class="file-size">${formatFileSize(file.size)}</span>
       </div>
-      <button type="button" class="remove-file" data-url="${fileInfo.url}">✕</button>
+      <button type="button" class="remove-file">✕</button>
     `;
     container.appendChild(fileElement);
 
     fileElement
       .querySelector(".remove-file")
       .addEventListener("click", function () {
-        removeFile(this.dataset.url, fileElement);
+        selectedFiles = selectedFiles.filter((f) => f !== file);
+        fileElement.remove();
       });
   }
 
-  // Remove file
-  function removeFile(url, element) {
-    uploadedFiles = uploadedFiles.filter((f) => f.url !== url);
-    element.remove();
+  // Upload jednego pliku: presign -> PUT na S3 -> {key, name, size}
+  async function uploadFile(file) {
+    const presignRes = await fetch(PRESIGN_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        domain: DOMAIN,
+        filename: file.name,
+        contentType: file.type || "application/octet-stream",
+        size: file.size,
+      }),
+    });
+    if (!presignRes.ok) throw new Error("Błąd przygotowania uploadu");
+    const { uploadUrl, key } = await presignRes.json();
+    const putRes = await fetch(uploadUrl, {
+      method: "PUT",
+      headers: { "Content-Type": file.type || "application/octet-stream" },
+      body: file,
+    });
+    if (!putRes.ok) throw new Error("Błąd uploadu: " + file.name);
+    return { key, name: file.name, size: file.size };
   }
 
   // Format file size
@@ -358,10 +401,10 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   }
 
-  // Open upload widget
+  // Otwarcie wyboru plików
   document.getElementById("upload-btn").addEventListener("click", function (e) {
     e.preventDefault();
-    myWidget.open();
+    fileInput.click();
   });
 
   // Drag and drop
@@ -379,7 +422,7 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
   uploadArea.addEventListener("drop", (e) => {
     e.preventDefault();
     uploadArea.classList.remove("drag-over");
-    myWidget.open();
+    if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
   });
 
   // Handle form submission
@@ -401,33 +444,32 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
       // Get form data
       const formData = new FormData(this);
 
-      // Prepare attachments HTML
-      const attachmentsHtml =
-        uploadedFiles.length > 0
-          ? uploadedFiles
-              .map(
-                (f) => `
-          <div style="margin-bottom: 12px; padding: 12px; background: white; border-radius: 8px; border: 1px solid #e5e7eb;">
-            <a href="${f.url}" style="color: #667eea; text-decoration: none; font-weight: 600;" target="_blank">
-              📎 ${f.name}.${f.format} (${formatFileSize(f.size)})
-            </a>
-          </div>
-        `
-              )
-              .join("")
-          : "";
-
       try {
-        const response = await fetch(API_ENDPOINT, {
+        // Załączniki: presign -> S3, po kolei
+        const attachments = [];
+        for (const file of selectedFiles) {
+          attachments.push(await uploadFile(file));
+        }
+
+        // Jedna wysyłka: e-mail SES + zapis leada w panelu (z UTM/źródłem)
+        const __utm = new URLSearchParams(location.search);
+        const response = await fetch(CONTACT_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            domain: DOMAIN,
             name: formData.get("user_name"),
             email: formData.get("user_email"),
-            phone: formData.get("user_phone"),
-            message: formData.get("message"),
-            attachments: attachmentsHtml,
-            domain: DOMAIN,
+            phone: formData.get("user_phone") || "",
+            message: formData.get("message") || "",
+            company: formData.get("company") || "", // honeypot
+            attachments,
+            source: __leadSource(),
+            referrer: document.referrer || "",
+            utm_source: __utm.get("utm_source") || "",
+            utm_medium: __utm.get("utm_medium") || "",
+            utm_campaign: __utm.get("utm_campaign") || "",
+            landing: location.pathname,
           }),
         });
 
@@ -441,10 +483,12 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
           form_location: "contact_page",
           form_details: {
             has_phone: formData.get("user_phone") !== "",
-            has_attachments: uploadedFiles.length > 0,
-            attachment_count: uploadedFiles.length,
+            has_attachments: selectedFiles.length > 0,
+            attachment_count: selectedFiles.length,
           },
         });
+        // Nazwa zgodna z listą REAL_CONV panelu (pull-ga4) — liczona jako konwersja
+        window.dataLayer.push({ event: "generate_lead" });
 
         formStatus.innerHTML = `
         <div class="alert success">
@@ -460,7 +504,7 @@ const CLOUDINARY_UPLOAD_PRESET = "meble-bydgoszcz";
 
         // Reset form
         document.getElementById("contact-form").reset();
-        uploadedFiles = [];
+        selectedFiles = [];
         document.getElementById("uploaded-files").innerHTML = "";
 
         setTimeout(() => {

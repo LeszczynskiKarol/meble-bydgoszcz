@@ -37,21 +37,26 @@ export interface Review {
   verified?: boolean;
 }
 
+// Schemat galerii zgodny z centralnym galleries.json (panel AWS).
+// Standardowy schemat portfolio: { src, alt?, category? } — nazwy pól spójne
+// z pozostałymi stronami portfolio Karola.
+// Obrazy docelowo pobierane z media.torweb.pl/<domena>/galleries.json;
+// obecnie hostowane na S3 (piszemy.com.pl) — do zmiany na etapie migracji.
 export interface GalleryImage {
-  id: string;
   src: string;
-  alt: string;
-  category:
-    | "kuchnie"
-    | "szafy"
-    | "garderoby"
-    | "zabudowy"
-    | "sypialnie"
-    | "lazienki"
-    | "biuro";
+  alt?: string;
+  // typowe kategorie: kuchnie | szafy | garderoby | zabudowy | sypialnie |
+  // lazienki | biuro | lozka | biurowe — pole trzymane jako string dla spójności
+  // z centralnym galleries.json (bez sztywnej unii).
+  category?: string;
+  // pola legacy zachowane dla kompatybilności ze starszymi danymi
+  id?: string;
   title?: string;
   description?: string;
 }
+
+// Alias zgodny z nazewnictwem centralnym (galleries.json / pozostałe strony portfolio)
+export type PortfolioImage = GalleryImage;
 
 export interface KitchenType {
   id: string;
