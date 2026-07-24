@@ -1,0 +1,87 @@
+---
+// src/pages/404.astro — strona błędu; S3 website ErrorDocument wskazuje 404.html
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Nie znaleziono strony (404)"
+  description="Strona, której szukasz, nie istnieje. Zobacz nasze realizacje mebli na wymiar w Bydgoszczy lub skontaktuj się z nami."
+>
+  <section class="notfound">
+    <p class="notfound-code">404</p>
+    <h1>Ta strona nie istnieje</h1>
+    <p class="notfound-text">
+      Adres jest nieaktualny albo wkradła się literówka. Zobacz, co robimy — albo
+      napisz do nas, pomożemy znaleźć to, czego szukasz.
+    </p>
+    <div class="notfound-actions">
+      <a class="notfound-btn notfound-btn-primary" href="/realizacje/">Nasze realizacje</a>
+      <a class="notfound-btn" href="/">Strona główna</a>
+      <a class="notfound-btn" href="/kontakt/">Kontakt</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 140px 24px 100px;
+    text-align: center;
+  }
+
+  .notfound-code {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 16px;
+  }
+
+  .notfound h1 {
+    font-size: 28px;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+
+  .notfound-text {
+    color: #666;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .notfound-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .notfound-btn {
+    padding: 10px 24px;
+    border: 2px solid #e5e7eb;
+    border-radius: 50px;
+    color: #666;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .notfound-btn:hover {
+    border-color: #667eea;
+    color: #333;
+  }
+
+  .notfound-btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: transparent;
+  }
+
+  .notfound-btn-primary:hover {
+    color: white;
+    opacity: 0.9;
+  }
+</style>

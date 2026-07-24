@@ -1,7 +1,5 @@
 node_modules
 .env
 .astro
-.git
-.github
 .vscode
-.dist
+dist

@@ -12,6 +12,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   site: "https://www.meble-bydgoszcz.pl",
   output: "static",
+  integrations: [
+    react(),
+    tailwind({
+      applyBaseStyles: false,
+    }),
+    sitemap(),
+    compress({
+      HTML: true,
+      CSS: true,
+      JavaScript: true,
+      Image: false,
+      SVG: true,
+    }),
+  ],
   vite: {
     resolve: {
       alias: {
@@ -37,41 +51,6 @@ export default defineConfig({
       exclude: ["astro:content"],
     },
   },
-  integrations: [
-    react(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    sitemap({
-      customPages: [
-        "https://www.meble-bydgoszcz.pl/",
-        "https://www.meble-bydgoszcz.pl/kuchnie",
-        "https://www.meble-bydgoszcz.pl/szafy-garderoby",
-        "https://www.meble-bydgoszcz.pl/zabudowy",
-        "https://www.meble-bydgoszcz.pl/sypialnie",
-        "https://www.meble-bydgoszcz.pl/lozka",
-        "https://www.meble-bydgoszcz.pl/lazienki",
-        "https://www.meble-bydgoszcz.pl/meble-biurowe",
-        "https://www.meble-bydgoszcz.pl/projektowanie",
-        "https://www.meble-bydgoszcz.pl/wykonczenia",
-        "https://www.meble-bydgoszcz.pl/realizacje",
-        "https://www.meble-bydgoszcz.pl/kontakt",
-      ],
-      i18n: {
-        defaultLocale: "pl",
-        locales: {
-          pl: "pl-PL",
-        },
-      },
-    }),
-    compress({
-      HTML: true,
-      CSS: true,
-      JavaScript: true,
-      Image: false,
-      SVG: true,
-    }),
-  ],
   image: {
     remotePatterns: [
       {
@@ -83,20 +62,6 @@ export default defineConfig({
         hostname: "www.meblesystem.pl",
       },
     ],
-  },
-  vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            "react-vendor": ["react", "react-dom"],
-          },
-        },
-      },
-    },
-    optimizeDeps: {
-      exclude: ["astro:content"],
-    },
   },
   build: {
     inlineStylesheets: "auto",

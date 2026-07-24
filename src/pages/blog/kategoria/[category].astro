@@ -65,7 +65,11 @@ export async function getStaticPaths() {
     "FAQ",
   ];
 
-  return ALL_CATEGORIES.map((category) => ({
+  // Buduj strony tylko dla kategorii z min. 1 wpisem — puste kategorie
+  // tworzyły thin pages, sieroty w sitemapie (audyt 2026-07-25).
+  return ALL_CATEGORIES.filter((category) =>
+    posts.some((post) => post.data.category === category)
+  ).map((category) => ({
     params: { category: slugify(category) },
     props: {
       categoryName: category,
