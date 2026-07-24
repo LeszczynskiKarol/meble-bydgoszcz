@@ -15,9 +15,9 @@ export const contact: ContactInfo = {
   phone: "576 060 832",
   email: "kontakt@meble-bydgoszcz.pl",
   address: {
-    //street: "ul. Gdańska 31",
-    city: "Bydgoszcz",
-    //postalCode: "85-005",
+    street: "ul. Batorego 92 F",
+    city: "Toruń",
+    postalCode: "87-100",
     country: "Polska",
   },
   hours: {
@@ -64,7 +64,7 @@ export const seo = {
 export const images = {
   cdn: {
     baseUrl: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/",
-    fallbackUrl: "https://www.meblesystem.pl/wp-content/uploads/2024/04/",
+    fallbackUrl: "https://media.meblesystem.pl/meblesystem.pl/",
   },
   optimization: {
     formats: ["webp", "avif"],

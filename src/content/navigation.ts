@@ -9,6 +9,7 @@ export const navItems: NavItem[] = [
     dropdown: [
       { label: "Kuchnie", href: "/kuchnie" },
       { label: "Szafy i garderoby", href: "/szafy-garderoby" },
+      { label: "Garderoby", href: "/garderoby" },
       { label: "Zabudowy", href: "/zabudowy" },
       { label: "Sypialnie", href: "/sypialnie" },
       { label: "Łóżka", href: "/lozka" },

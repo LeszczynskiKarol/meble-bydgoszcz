@@ -1,0 +1,424 @@
+---
+// src/pages/garderoby.astro — dedykowana strona pod klaster "garderoby bydgoszcz"
+// (audyt SEO 2026-07-25: ~260 wyświetleń/28 dni bez własnej strony docelowej)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import type { GalleryImage } from '../lib/types';
+
+const wardrobeTypes = [
+  {
+    title: "Garderoba wnękowa",
+    description:
+      "Zabudowa od ściany do ściany i od podłogi po sufit. Wnęka, która dziś stoi pusta, mieści więcej niż dwie wolnostojące szafy.",
+    image: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/lo-1_opt-1.webp",
+    features: ["100% wnęki", "Zabudowa skosów", "Fronty na wymiar"],
+  },
+  {
+    title: "Pokój garderobiany",
+    description:
+      "Osobne pomieszczenie z regałami, drążkami i wyspą na drobiazgi. Projektujemy układ tak, żeby każda półka miała swoje zadanie.",
+    image: "https://media.meblesystem.pl/meblesystem.pl/szafy-mdf-lakierowany/Zdjecia-Meble-2025-luty-II-18-of-42_opt.webp",
+    features: ["Układ na miarę", "Wyspa i siedzisko", "Lustro i oświetlenie"],
+  },
+  {
+    title: "Garderoba otwarta",
+    description:
+      "Bez frontów — wszystko widać od razu. Sprawdza się w sypialni i przy przedpokoju, gdy zależy Ci na szybkim dostępie do ubrań.",
+    image: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/lo-4_opt.webp",
+    features: ["Szybki dostęp", "Lekka bryła", "Niższy koszt"],
+  },
+  {
+    title: "Garderoba z drzwiami przesuwnymi",
+    description:
+      "Drzwi przesuwne nie potrzebują miejsca na otwarcie, a duże tafle luster optycznie powiększają pomieszczenie.",
+    image: "https://media.meblesystem.pl/meblesystem.pl/szafy-plyta-laminowana/aleks-3.jpg",
+    features: ["Oszczędność miejsca", "Lustra", "Cicha praca"],
+  },
+];
+
+const features = [
+  {
+    icon: "👔",
+    title: "Systemy organizacji",
+    description:
+      "Drążki na dwóch wysokościach, pantografy, szuflady z organizerami, kosze cargo i półki na buty — układ dopasowany do zawartości Twojej szafy, nie odwrotnie.",
+  },
+  {
+    icon: "💡",
+    title: "Oświetlenie LED",
+    description:
+      "Taśmy LED z czujnikami ruchu w półkach i drążkach podświetlanych. Widzisz całą zawartość garderoby również wieczorem, bez zapalania górnego światła.",
+  },
+  {
+    icon: "📐",
+    title: "Skosy, wnęki, słupy",
+    description:
+      "Garderoba na poddaszu albo wnęka z rurą w rogu to dla nas standardowe zlecenie. Mierzymy z dokładnością do centymetra i wykorzystujemy każdą nietypową przestrzeń.",
+  },
+  {
+    icon: "🖥️",
+    title: "Projekt 3D przed produkcją",
+    description:
+      "Zanim cokolwiek wytniemy, oglądasz swoją garderobę w wizualizacji 3D. Zmiany wprowadzamy do momentu, aż układ będzie dokładnie taki, jak chcesz.",
+  },
+];
+
+const processSteps = [
+  {
+    number: 1,
+    title: "Konsultacja i pomiar",
+    description:
+      "Przyjeżdżamy, mierzymy przestrzeń i rozmawiamy o tym, co ma się w garderobie zmieścić — od sukienek po walizki.",
+  },
+  {
+    number: 2,
+    title: "Projekt 3D",
+    description:
+      "Przygotowujemy wizualizację z rozplanowaniem drążków, półek i szuflad. Poprawiamy, aż zaakceptujesz każdy detal.",
+  },
+  {
+    number: 3,
+    title: "Produkcja",
+    description:
+      "Garderobę wykonujemy we własnej stolarni z materiałów wybranych w projekcie — płyty, MDF lakierowany lub ich łączenia.",
+  },
+  {
+    number: 4,
+    title: "Montaż",
+    description:
+      "Montujemy całość u Ciebie, regulujemy fronty i systemy przesuwne, zabieramy po sobie opakowania.",
+  },
+];
+
+const galleryImages: GalleryImage[] = [
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/Zdjecia-Meble-2025-luty-II-7-of-42_opt.webp", category: "garderoby" },
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/lo-1_opt-1.webp", category: "garderoby" },
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/lo-4_opt.webp", category: "garderoby" },
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/lo-3_opt-1.webp", category: "garderoby" },
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-mdf-lakierowany/Zdjecia-Meble-2025-luty-II-18-of-42_opt.webp", category: "garderoby" },
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-mdf-lakierowany/ram1-1_opt.webp", category: "garderoby" },
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-plyta-laminowana/aleks-3.jpg", category: "garderoby" },
+  { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-plyta-laminowana/Meble-W-10.jpg", category: "garderoby" },
+];
+---
+
+<BaseLayout
+  title="Garderoby na wymiar Bydgoszcz"
+  description="Garderoby na wymiar w Bydgoszczy — wnękowe, otwarte, pokoje garderobiane. Projekt 3D, własna produkcja i montaż. Umów bezpłatną wycenę."
+  keywords={[
+    "garderoby na wymiar Bydgoszcz",
+    "garderoby Bydgoszcz",
+    "garderoby na zamówienie Bydgoszcz",
+    "zabudowa garderoby Bydgoszcz",
+    "pokój garderobiany Bydgoszcz",
+  ]}
+>
+  <Hero
+    title="Garderoby na wymiar <span class='highlight'>Bydgoszcz</span>"
+    subtitle=""
+    description="Projektujemy i produkujemy garderoby na wymiar — wnękowe, otwarte i całe pokoje garderobiane. Od pomiaru, przez projekt 3D, po montaż w Bydgoszczy i okolicach."
+    ctaPrimary={{ text: "📞 Darmowa wycena", href: "/kontakt" }}
+    ctaSecondary={{ text: "Zobacz realizacje →", href: "/realizacje#szafy" }}
+    images={[
+      { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/Zdjecia-Meble-2025-luty-II-7-of-42_opt.webp", alt: "Garderoba na wymiar Bydgoszcz" },
+      { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-mdf-lakierowany/Zdjecia-Meble-2025-luty-II-18-of-42_opt.webp", alt: "Pokój garderobiany na wymiar Bydgoszcz" },
+      { src: "https://media.meblesystem.pl/meblesystem.pl/szafy-laczone-materialy/lo-1_opt-1.webp", alt: "Garderoba wnękowa Bydgoszcz" },
+    ]}
+    variant="bedroom"
+  />
+
+  <!-- Rodzaje garderob -->
+  <section class="wardrobe-types">
+    <div class="container">
+      <div class="section-header">
+        <h2>Jaką garderobę możemy dla Ciebie zrobić?</h2>
+        <p>Cztery najczęściej zamawiane układy — każdy projektujemy od zera pod Twoją przestrzeń</p>
+      </div>
+      <div class="types-grid">
+        {wardrobeTypes.map((type) => (
+          <div class="type-card" style={`background-image: url('${type.image}');`}>
+            <div class="type-content">
+              <h3>{type.title}</h3>
+              <p>{type.description}</p>
+              <div class="type-features">
+                {type.features.map((feature) => (
+                  <span>{feature}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="types-note">
+        Szukasz raczej klasycznej szafy? Zobacz naszą ofertę
+        <a href="/szafy-garderoby">szaf na wymiar</a> — przesuwnych, uchylnych i do zabudowy.
+      </p>
+    </div>
+  </section>
+
+  <!-- Cechy -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Co wyróżnia nasze garderoby</h2>
+        <p>Szczegóły, które na co dzień robią największą różnicę</p>
+      </div>
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Proces -->
+  <section class="process">
+    <div class="container">
+      <div class="section-header">
+        <h2>Od pomiaru do gotowej garderoby</h2>
+        <p>Cały proces trwa zwykle 4-6 tygodni</p>
+      </div>
+      <div class="process-grid">
+        {processSteps.map((step) => (
+          <div class="process-card">
+            <div class="process-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Galeria -->
+  <Gallery
+    title="Realizacje garderob i szaf na wymiar"
+    subtitle="Zobacz zabudowy, które wykonaliśmy dla klientów w Bydgoszczy, Toruniu i okolicach"
+    images={galleryImages}
+    viewAllLink="/realizacje#szafy"
+  />
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Umów bezpłatny pomiar i wycenę</h2>
+      <p>Zadzwoń albo napisz — projekt 3D garderoby przygotujemy bez opłat</p>
+      <div class="cta-buttons">
+        <Button href="tel:+48576060832" variant="primary" size="large" icon="📞">
+          Zadzwoń: 576 060 832
+        </Button>
+        <Button href="/kontakt" variant="secondary" size="large">
+          Napisz do nas
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.2rem;
+    color: #1a1a1a;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header p {
+    color: #666;
+  }
+
+  /* Rodzaje */
+  .wardrobe-types {
+    padding: 5rem 5%;
+    background: #fff;
+  }
+
+  .types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .type-card {
+    position: relative;
+    min-height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .type-content {
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    color: #fff;
+  }
+
+  .type-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .type-content p {
+    font-size: 0.92rem;
+    opacity: 0.9;
+    margin-bottom: 0.75rem;
+  }
+
+  .type-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .type-features span {
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .types-note {
+    margin-top: 2.5rem;
+    text-align: center;
+    color: #555;
+  }
+
+  .types-note a {
+    color: #764ba2;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  /* Cechy */
+  .features {
+    padding: 5rem 5%;
+    background: #f8f9fb;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+  }
+
+  .feature-card p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Proces */
+  .process {
+    padding: 5rem 5%;
+    background: #fff;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .process-card {
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .process-number {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .process-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+  }
+
+  .process-card p {
+    color: #666;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-content p {
+    opacity: 0.92;
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .section-header h2 {
+      font-size: 1.7rem;
+    }
+
+    .type-card {
+      min-height: 320px;
+    }
+  }
+</style>

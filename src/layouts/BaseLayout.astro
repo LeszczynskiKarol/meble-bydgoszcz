@@ -126,11 +126,17 @@ const canonicalURL = canonical || new URL(currentPath, Astro.site).toString();
       "telephone": "+48 576 060 832",
       "address": {
         "@type": "PostalAddress",
-        
-        "addressLocality": "Bydgoszcz",
-        
+        "streetAddress": "ul. Batorego 92 F",
+        "addressLocality": "Toruń",
+        "postalCode": "87-100",
         "addressCountry": "PL"
       },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 53.0411,
+        "longitude": 18.6216
+      },
+      "areaServed": ["Bydgoszcz", "Toruń", "kujawsko-pomorskie"],
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -139,7 +145,7 @@ const canonicalURL = canonical || new URL(currentPath, Astro.site).toString();
       },
       "priceRange": "$$",
       "sameAs": [
-        "https://www.facebook.com/profile.php?id=61576849590169&ref=pl_edit_xav_ig_profile_page_web#",
+        "https://www.facebook.com/profile.php?id=61576849590169",
         "https://www.instagram.com/grandkuchnie"
       ]
     })} />

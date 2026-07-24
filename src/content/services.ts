@@ -27,7 +27,7 @@ export const services: Service[] = [
     title: "Łazienki na wymiar",
     description: "Funkcjonalne, stylowe i trwałe łazienki na wymiar",
     image:
-      "https://www.meblesystem.pl/wp-content/uploads/2024/04/lazobokchelm-2-6.jpg",
+      "https://media.meblesystem.pl/meblesystem.pl/lazienki-lakier/lazobokchelm-2-6.jpg",
     href: "/lazienki",
     category: "meble",
   },
@@ -45,7 +45,7 @@ export const services: Service[] = [
     title: "Sypialnie i łóżka",
     description: "Wygodne, wytrzymałe i piękne łóżka i sypialnie na wymiar",
     image:
-      "https://www.meblesystem.pl/wp-content/uploads/2024/04/lo-1_opt.webp",
+      "https://media.meblesystem.pl/meblesystem.pl/sypialnie/lo-1_opt.webp",
     href: "/sypialnie",
     category: "meble",
   },
@@ -54,7 +54,7 @@ export const services: Service[] = [
     title: "Meble biurowe",
     description: "Wyposażenie biur i wnętrz firmowych na lata",
     image:
-      "https://www.meblesystem.pl/wp-content/uploads/2024/04/Biuro-Nieruchomosci-18.jpg",
+      "https://media.meblesystem.pl/meblesystem.pl/biura/Biuro-Nieruchomosci-18.jpg",
     href: "/meble-biurowe",
     category: "meble",
   },
@@ -72,7 +72,7 @@ export const services: Service[] = [
     title: "Wykończenia wnętrz",
     description: "Wykończamy pod klucz mieszkania, domy, biura",
     image:
-      "https://www.meblesystem.pl/wp-content/uploads/2024/04/kuchadam-1-1.jpg",
+      "https://media.meblesystem.pl/meblesystem.pl/dom-czernikowo/kuchadam-1-1.jpg",
     href: "/wykonczenia",
     category: "uslugi",
   },

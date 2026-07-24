@@ -487,8 +487,9 @@ const contactReasons = [
             attachment_count: selectedFiles.length,
           },
         });
-        // Nazwa zgodna z listą REAL_CONV panelu (pull-ga4) — liczona jako konwersja
-        window.dataLayer.push({ event: "generate_lead" });
+        // form_submission = istniejący key event w GA4 (property 505145465)
+        // i pozycja z listy REAL_CONV panelu (pull-ga4) — liczony jako konwersja
+        window.dataLayer.push({ event: "form_submission" });
 
         formStatus.innerHTML = `
         <div class="alert success">

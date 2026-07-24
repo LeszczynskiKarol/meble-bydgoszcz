@@ -171,4 +171,4 @@ draft: false
 
 <p>Garderoba na wymiar to inwestycja, która zmienia codzienną rutynę — poranne ubieranie się staje się przyjemnością zamiast nerwowego przeszukiwania szafy. Kluczem do sukcesu jest przemyślany podział na strefy (wieszanie, składanie, buty, dodatki), odpowiednie wymiary dopasowane do Twojej garderoby ubrań i dobre oświetlenie, które pozwala widzieć wszystko wyraźnie. Niezależnie od tego, czy planujesz garderobę w osobnym pokoju, czy wydzielasz ją z sypialni — meble na wymiar pozwalają wykorzystać każdy centymetr przestrzeni i stworzyć miejsce, w którym Twoje ubrania są nareszcie uporządkowane, widoczne i zadbane.</p>
 
-<p>Zapraszamy do kontaktu — bezpłatnie zmierzymy przestrzeń, zaproponujemy układ garderoby i zaprojektujemy zabudowę dopasowaną do Twojej garderoby ubrań i Twojego stylu życia.</p>
+<p>Zapraszamy do kontaktu — bezpłatnie zmierzymy przestrzeń, zaproponujemy układ garderoby i zaprojektujemy zabudowę dopasowaną do Twojej garderoby ubrań i Twojego stylu życia. Zobacz też naszą ofertę <a href="/garderoby">garderob na wymiar w Bydgoszczy</a> i <a href="/realizacje#szafy">realizacje zabudów</a>.</p>

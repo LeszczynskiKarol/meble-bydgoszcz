@@ -1013,7 +1013,7 @@ const categories = [
 const ITEMS_PER_PAGE = 12;
 ---
 
-<BaseLayout title="Realizacje - Meble na wymiar Bydgoszcz | Portfolio">
+<BaseLayout title="Realizacje mebli na wymiar Bydgoszcz">
   
   <!-- Hero - ukryty na mobile -->
   <section class="hero-section">
@@ -1047,7 +1047,25 @@ const ITEMS_PER_PAGE = 12;
   <section class="gallery">
     <div class="gallery-container">
       <div class="gallery-grid" id="gallery">
-        <!-- Renderowane przez JS -->
+        <!-- Pierwsza strona renderowana statycznie (LCP bez czekania na JS);
+             JS przejmuje przy filtrach/paginacji -->
+        {galleryData.slice(0, ITEMS_PER_PAGE).map((item, i) => (
+          <div class="gallery-item" data-index={i}>
+            <div class="gallery-item-inner">
+              <div class="image-container">
+                <img
+                  src={item.src}
+                  alt={`${(item.category || "meble").replace(/^./, (c) => c.toUpperCase())} na wymiar — realizacja Meble Bydgoszcz`}
+                  width="600"
+                  height="600"
+                  loading={i < 4 ? "eager" : "lazy"}
+                  fetchpriority={i === 0 ? "high" : undefined}
+                />
+              </div>
+              <div class="gallery-overlay" />
+            </div>
+          </div>
+        ))}
       </div>
       
       <div class="pagination" id="pagination">
@@ -1146,7 +1164,7 @@ const ITEMS_PER_PAGE = 12;
       <div class="gallery-item" data-index="${start + index}">
         <div class="gallery-item-inner">
           <div class="image-container">
-            <img src="${item.src}" alt="Realizacja" loading="lazy">
+            <img src="${item.src}" alt="${(item.category || 'meble')} na wymiar — realizacja Meble Bydgoszcz" width="600" height="600" loading="lazy">
           </div>
           <div class="gallery-overlay"></div>
         </div>
