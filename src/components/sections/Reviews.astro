@@ -1,22 +1,29 @@
 ---
-import type { Review } from '../../lib/types';
+// Reviews.astro — opinie Google renderowane W BUILDZIE ze snapshotu
+// src/data/google-reviews.json (wizytówka Meble System — wspólna dla marki).
+// Odświeżanie snapshotu: `npm run reviews:refresh` (wymaga GOOGLE_PLACES_API_KEY).
+// Zasady Places API: opinii nie wolno cache'ować bezterminowo — snapshot trzeba
+// regularnie odświeżać. Szczegóły: komentarz w scripts/fetch-google-reviews.mjs.
+import placeData from '../../data/google-reviews.json';
 
 export interface Props {
   title: string;
   subtitle?: string;
-  apiEndpoint?: string;
 }
 
-const { 
-  title, 
-  subtitle,
-  apiEndpoint = import.meta.env.PUBLIC_REVIEWS_API_ENDPOINT 
-} = Astro.props;
+const { title, subtitle } = Astro.props;
 
-// NIE pobieraj podczas buildu - tylko placeholder
+const reviews = placeData.reviews ?? [];
+const rating: number | null = placeData.rating ?? null;
+const totalReviews: number | null = placeData.userRatingCount ?? null;
+const mapsUrl =
+  placeData.googleMapsUri ??
+  `https://www.google.com/maps/place/?q=place_id:${placeData.placeId}`;
+const progress = rating ? (rating / 5) * 565 : 0;
+const TRUNCATE = 200;
 ---
 
-<section class="reviews" data-api-endpoint={apiEndpoint}>
+<section class="reviews">
   <div class="reviews-container">
     <div class="section-header">
       <h2>{title}</h2>
@@ -27,15 +34,15 @@ const {
       <div class="rating-badge">
         <svg class="rating-circle" viewBox="0 0 200 200">
           <circle cx="100" cy="100" r="90" fill="none" stroke="#e5e7eb" stroke-width="8"/>
-          <circle 
+          <circle
             class="rating-progress"
-            cx="100" 
-            cy="100" 
-            r="90" 
-            fill="none" 
-            stroke="url(#gradient)" 
+            cx="100"
+            cy="100"
+            r="90"
+            fill="none"
+            stroke="url(#gradient)"
             stroke-width="8"
-            stroke-dasharray="565 565"
+            stroke-dasharray={`${progress} 565`}
             stroke-linecap="round"
             transform="rotate(-90 100 100)"
           />
@@ -47,43 +54,69 @@ const {
           </defs>
         </svg>
         <div class="rating-content">
-          <div class="reviews-rating" data-rating>-.-</div>
-          <div class="reviews-stars" data-stars>
-            {[...Array(5)].map(() => (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#e5e7eb">
+          <div class="reviews-rating">{rating ? rating.toFixed(1) : "-"}</div>
+          <div class="reviews-stars">
+            {[...Array(5)].map((_, i) => (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill={rating && i < Math.round(rating) ? "#fbbf24" : "#e5e7eb"}>
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
             ))}
           </div>
           <div class="reviews-count">
-            <strong data-total-reviews>-</strong> opinii Google
+            <strong>{totalReviews ?? "-"}</strong> opinii Google
           </div>
         </div>
       </div>
     </div>
 
-    <div class="reviews-loading">
-      <div class="loading-spinner"></div>
-      <p>Ładowanie opinii z Google...</p>
+    <div class="reviews-grid">
+      {reviews.map((review) => (
+        <div class="review-card">
+          <div class="review-header">
+            {review.authorPhoto ? (
+              <img src={review.authorPhoto} alt={review.author} class="review-avatar-img" loading="lazy" referrerpolicy="no-referrer" />
+            ) : (
+              <div class="review-avatar"><span>{(review.author || "U").slice(0, 1)}</span></div>
+            )}
+            <div class="review-info">
+              <h4>
+                {review.authorUri ? (
+                  <a href={review.authorUri} target="_blank" rel="noopener noreferrer nofollow">{review.author}</a>
+                ) : (
+                  review.author
+                )}
+              </h4>
+              <div class="review-meta">
+                <div class="review-stars" style="display: flex; flex-direction: row; gap: 2px;">
+                  {[...Array(5)].map((_, i) => (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill={i < (review.rating ?? 0) ? "#fbbf24" : "#e5e7eb"} style="display: inline-block;">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+                <time class="review-date" datetime={review.publishTime}>{review.relativeTime}</time>
+              </div>
+            </div>
+          </div>
+          <p class="review-text" data-full-text={review.text}>
+            <span class="text-content">{review.text.length > TRUNCATE ? review.text.slice(0, TRUNCATE) + "..." : review.text}</span>
+            {review.text.length > TRUNCATE && (
+              <button class="expand-btn" data-expand style="display: inline; margin-left: 8px;">Rozwiń</button>
+            )}
+          </p>
+          <div class="verified-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#22c55e">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+            </svg>
+            <a href={review.googleMapsUri} target="_blank" rel="noopener noreferrer nofollow">Opinia w Google</a>
+          </div>
+        </div>
+      ))}
     </div>
 
-    <div class="reviews-grid" data-reviews-container style="display: none;">
-      <!-- Opinie będą załadowane przez JavaScript -->
-    </div>
-
-    <div class="reviews-footer" style="display: none;">
-      <button 
-        class="load-more-btn"
-        data-load-more
-        style="display: none;"
-      >
-        <span>Zobacz kolejne opinie</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M7 10l5 5 5-5z"/>
-        </svg>
-      </button>
-      <a 
-        href={`https://www.google.com/maps/place/?q=place_id:${import.meta.env.PUBLIC_GOOGLE_PLACE_ID}`}
+    <div class="reviews-footer">
+      <a
+        href={mapsUrl}
         target="_blank"
         rel="noopener noreferrer"
         class="google-reviews-link"
@@ -101,170 +134,21 @@ const {
 </section>
 
 <script>
-  // Wszystko dzieje się po załadowaniu strony - nie podczas buildu!
-  let allReviews = [];
-  let currentIndex = 0;
-  const reviewsPerPage = 3;
-
-  function createReviewHTML(review) {
-    const shortText = review.text ? review.text.slice(0, 200) : '';
-    const needsExpand = review.text && review.text.length > 200;
-    
-    return `
-      <div class="review-card">
-        <div class="review-header">
-          ${review.profilePhoto ? 
-            `<img src="${review.profilePhoto}" alt="${review.author}" class="review-avatar-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-             <div class="review-avatar" style="display:none;">
-              <span>${review.avatar || 'U'}</span>
-            </div>` :
-            `<div class="review-avatar">
-              <span>${review.avatar || 'U'}</span>
-            </div>`
-          }
-          <div class="review-info">
-            <h4>${review.author}</h4>
-            <div class="review-meta">
-              <div class="review-stars" style="display: flex; flex-direction: row; gap: 2px;">
-                ${Array(5).fill('').map((_, i) => `
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="${i < review.rating ? '#fbbf24' : '#e5e7eb'}" style="display: inline-block;">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                `).join('')}
-              </div>
-              <span class="review-date">${review.date}</span>
-            </div>
-          </div>
-        </div>
-        <p class="review-text" data-full-text="${(review.text || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;')}">
-          <span class="text-content">${shortText}${needsExpand ? '...' : ''}</span>
-          ${needsExpand ? ' <button class="expand-btn" data-expand style="display: inline; margin-left: 8px;">Rozwiń</button>' : ''}
-        </p>
-        ${review.verified ? `
-          <div class="verified-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#22c55e">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-            </svg>
-            Zweryfikowana opinia Google
-          </div>
-        ` : ''}
-      </div>
-    `;
-  }
-
-  function handleExpandButtons() {
-    document.querySelectorAll('[data-expand]').forEach(btn => {
-      if (btn.hasListener) return;
-      btn.hasListener = true;
-      
-      btn.addEventListener('click', function() {
-        const textEl = this.parentElement;
-        const fullText = textEl.dataset.fullText;
-        const textContent = textEl.querySelector('.text-content');
-        
-        if (this.textContent === 'Rozwiń') {
-          textContent.textContent = fullText;
-          this.textContent = 'Zwiń';
-        } else {
-          textContent.textContent = fullText.slice(0, 200) + '...';
-          this.textContent = 'Rozwiń';
-        }
-      });
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', async () => {
-    const section = document.querySelector('.reviews');
-    const apiEndpoint = section?.getAttribute('data-api-endpoint');
-    const loadMoreBtn = document.querySelector('[data-load-more]');
-    const container = document.querySelector('[data-reviews-container]');
-    const loadingEl = document.querySelector('.reviews-loading');
-    const footerEl = document.querySelector('.reviews-footer');
-    
-    if (!apiEndpoint || !container) {
-      loadingEl.innerHTML = '<p class="error">Błąd konfiguracji API</p>';
-      return;
-    }
-
-    try {
-      const response = await fetch(apiEndpoint);
-      if (!response.ok) throw new Error('API Error');
-      
-      const data = await response.json();
-      allReviews = data.reviews || [];
-      
-      // Ukryj loading
-      loadingEl.style.display = 'none';
-      
-      // Aktualizuj rating
-      const ratingEl = document.querySelector('[data-rating]');
-      const totalEl = document.querySelector('[data-total-reviews]');
-      const progressCircle = document.querySelector('.rating-progress');
-      
-      if (ratingEl && data.rating) {
-        ratingEl.textContent = data.rating.toFixed(1);
-        
-        // Animacja progress circle
-        if (progressCircle) {
-          const progress = (data.rating / 5) * 565;
-          progressCircle.style.strokeDasharray = `${progress} 565`;
-        }
-        
-        // Aktualizuj gwiazdki
-        const starsContainer = document.querySelector('[data-stars]');
-        if (starsContainer) {
-          starsContainer.innerHTML = Array(5).fill('').map((_, i) => `
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="${i < Math.floor(data.rating) ? '#fbbf24' : '#e5e7eb'}">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-          `).join('');
-        }
-      }
-      
-      if (totalEl) {
-        totalEl.textContent = data.totalReviews || '0';
-      }
-      
-      // Wyświetl opinie
-      if (allReviews.length > 0) {
-        const initialReviews = allReviews.slice(0, 3);
-        container.innerHTML = initialReviews.map(review => createReviewHTML(review)).join('');
-        container.style.display = 'grid';
-        footerEl.style.display = 'flex';
-        currentIndex = 3;
-        
-        handleExpandButtons();
-        
-        // Pokaż przycisk jeśli jest więcej opinii
-        if (allReviews.length > 3) {
-          loadMoreBtn.style.display = 'inline-flex';
-        }
+  // Jedyna logika klienta: rozwijanie długich opinii.
+  document.querySelectorAll(".review-text [data-expand]").forEach((btn) => {
+    btn.addEventListener("click", function (this: HTMLButtonElement) {
+      const textEl = this.closest(".review-text") as HTMLElement;
+      const full = textEl?.dataset.fullText || "";
+      const span = textEl?.querySelector(".text-content");
+      if (!span) return;
+      if (this.textContent === "Rozwiń") {
+        span.textContent = full;
+        this.textContent = "Zwiń";
       } else {
-        container.innerHTML = '<p class="no-reviews">Brak opinii do wyświetlenia</p>';
-        container.style.display = 'block';
+        span.textContent = full.slice(0, 200) + "...";
+        this.textContent = "Rozwiń";
       }
-      
-    } catch (error) {
-      console.error('Error:', error);
-      loadingEl.innerHTML = '<p class="error">Nie udało się załadować opinii. Spróbuj później.</p>';
-    }
-
-    // Obsługa przycisku "Zobacz kolejne"
-    if (loadMoreBtn) {
-      loadMoreBtn.addEventListener('click', () => {
-        if (currentIndex < allReviews.length) {
-          const nextReviews = allReviews.slice(currentIndex, currentIndex + reviewsPerPage);
-          const newHTML = nextReviews.map(review => createReviewHTML(review)).join('');
-          container.insertAdjacentHTML('beforeend', newHTML);
-          currentIndex += reviewsPerPage;
-          handleExpandButtons();
-          
-          if (currentIndex >= allReviews.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-      });
-    }
+    });
   });
 </script>
 
