@@ -83,7 +83,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: "13",
-    src: "https://media.meblesystem.pl/meblesystem.pl/lazienki-lakier/lazobokchelm-2-6.jpg",
+    src: "https://media.meblesystem.pl/meblesystem.pl/lazienki-lakier/lazobokchelm-2-6.webp",
     alt: "Meble łazienkowe na wymiar Bydgoszcz",
     category: "lazienki",
   },
@@ -101,7 +101,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: "16",
-    src: "https://media.meblesystem.pl/meblesystem.pl/biura/rec-1-2.jpg",
+    src: "https://media.meblesystem.pl/meblesystem.pl/biura/rec-1-2.webp",
     alt: "Meble biurowe na wymiar Bydgoszcz",
     category: "biurowe",
   },

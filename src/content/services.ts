@@ -27,7 +27,7 @@ export const services: Service[] = [
     title: "Łazienki na wymiar",
     description: "Funkcjonalne, stylowe i trwałe łazienki na wymiar",
     image:
-      "https://media.meblesystem.pl/meblesystem.pl/lazienki-lakier/lazobokchelm-2-6.jpg",
+      "https://media.meblesystem.pl/meblesystem.pl/lazienki-lakier/lazobokchelm-2-6.webp",
     href: "/lazienki",
     category: "meble",
   },
@@ -54,7 +54,7 @@ export const services: Service[] = [
     title: "Meble biurowe",
     description: "Wyposażenie biur i wnętrz firmowych na lata",
     image:
-      "https://media.meblesystem.pl/meblesystem.pl/biura/Biuro-Nieruchomosci-18.jpg",
+      "https://media.meblesystem.pl/meblesystem.pl/biura/Biuro-Nieruchomosci-18.webp",
     href: "/meble-biurowe",
     category: "meble",
   },
@@ -72,7 +72,7 @@ export const services: Service[] = [
     title: "Wykończenia wnętrz",
     description: "Wykończamy pod klucz mieszkania, domy, biura",
     image:
-      "https://media.meblesystem.pl/meblesystem.pl/dom-czernikowo/kuchadam-1-1.jpg",
+      "https://media.meblesystem.pl/meblesystem.pl/dom-czernikowo/kuchadam-1-1.webp",
     href: "/wykonczenia",
     category: "uslugi",
   },
