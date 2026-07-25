@@ -63,7 +63,7 @@ export const services: Service[] = [
     title: "Projektowanie wnętrz",
     description: "Profesjonalne aranżacje wnętrz na indywidualne zamówienie",
     image:
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1751701550495-IMG_1815.jpeg",
+      "https://media.meblesystem.pl/meble-bydgoszcz.pl/site-media/IMG_1815.webp",
     href: "/projektowanie",
     category: "uslugi",
   },
