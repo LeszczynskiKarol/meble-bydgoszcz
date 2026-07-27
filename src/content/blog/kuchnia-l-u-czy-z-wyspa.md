@@ -13,7 +13,7 @@ tags:
     "wyspa kuchenna",
     "meble kuchenne",
   ]
-image: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394198618-9_opt.webp"
+image: "https://media.meblesystem.pl/shared/kuchnie/1756394198618-9_opt.webp"
 imageAlt: "Kuchnia w kształcie L, U czy z wyspą"
 featured: true
 draft: false

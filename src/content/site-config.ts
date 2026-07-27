@@ -63,7 +63,7 @@ export const seo = {
 
 export const images = {
   cdn: {
-    baseUrl: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/",
+    baseUrl: "https://media.meblesystem.pl/shared/kuchnie/",
     fallbackUrl: "https://media.meblesystem.pl/meblesystem.pl/",
   },
   optimization: {

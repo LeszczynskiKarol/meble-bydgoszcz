@@ -143,10 +143,10 @@ export const siteConfig = {
     appleTouchIcon: "/apple-touch-icon.png",
     defaultOgImage: "/images/og-default.jpg",
     heroImages: [
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394098858-Clipboard_06-22-2025_107_opt.webp",
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991105-MEBLE-SYCZEN-89-of-91-scaled_opt.webp",
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1755073547211-szafgozdz-1_opt.webp",
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1748596199233-1a,k%20(3)_opt.webp",
+      "https://media.meblesystem.pl/shared/kuchnie/1756394098858-Clipboard_06-22-2025_107_opt.webp",
+      "https://media.meblesystem.pl/shared/kuchnie/1754927991105-MEBLE-SYCZEN-89-of-91-scaled_opt.webp",
+      "https://media.meblesystem.pl/shared/kuchnie/1755073547211-szafgozdz-1_opt.webp",
+      "https://media.meblesystem.pl/shared/kuchnie/1748596199233-1a,k%20(3)_opt.webp",
     ],
   },
 

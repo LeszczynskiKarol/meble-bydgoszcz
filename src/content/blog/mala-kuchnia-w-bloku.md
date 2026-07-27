@@ -13,7 +13,7 @@ tags:
     "mała kuchnia",
     "meble kuchenne",
   ]
-image: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394198643-12_opt.webp"
+image: "https://media.meblesystem.pl/shared/kuchnie/1756394198643-12_opt.webp"
 imageAlt: "Mała kuchnia"
 featured: true
 draft: false

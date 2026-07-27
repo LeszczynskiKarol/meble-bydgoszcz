@@ -9,7 +9,7 @@ export const services: Service[] = [
     description:
       "Funkcjonalne i piękne kuchnie dopasowane do Twojej przestrzeni",
     image:
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756393876723-Clipboard_06-22-2025_258_opt.webp",
+      "https://media.meblesystem.pl/shared/kuchnie/1756393876723-Clipboard_06-22-2025_258_opt.webp",
     href: "/kuchnie",
     category: "meble",
   },
@@ -18,7 +18,7 @@ export const services: Service[] = [
     title: "Szafy i garderoby",
     description: "Pojemne szafy wnękowe i eleganckie garderoby",
     image:
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1755073546861-Meble-Marzec-14_opt.webp",
+      "https://media.meblesystem.pl/shared/kuchnie/1755073546861-Meble-Marzec-14_opt.webp",
     href: "/szafy-garderoby",
     category: "meble",
   },
@@ -36,7 +36,7 @@ export const services: Service[] = [
     title: "Zabudowy wnęk",
     description: "Maksymalne wykorzystanie każdego centymetra",
     image:
-      "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1755073546966-Meble-Tu-12_opt.webp",
+      "https://media.meblesystem.pl/shared/kuchnie/1755073546966-Meble-Tu-12_opt.webp",
     href: "/zabudowy",
     category: "meble",
   },

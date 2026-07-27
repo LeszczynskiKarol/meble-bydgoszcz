@@ -27,7 +27,7 @@ export const portfolioItems: PortfolioItem[] = [
     location: "Bydgoszcz, Fordon",
     completionDate: "2024-12",
     images: {
-      main: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1756394098858-Clipboard_06-22-2025_107_opt.webp",
+      main: "https://media.meblesystem.pl/shared/kuchnie/1756394098858-Clipboard_06-22-2025_107_opt.webp",
       gallery: [
         "/portfolio/kuchnia-fordon-1.jpg",
         "/portfolio/kuchnia-fordon-2.jpg",
@@ -57,7 +57,7 @@ export const portfolioItems: PortfolioItem[] = [
     location: "Bydgoszcz, Centrum",
     completionDate: "2024-11",
     images: {
-      main: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1754927991105-MEBLE-SYCZEN-89-of-91-scaled_opt.webp",
+      main: "https://media.meblesystem.pl/shared/kuchnie/1754927991105-MEBLE-SYCZEN-89-of-91-scaled_opt.webp",
       gallery: [
         "/portfolio/garderoba-centrum-1.jpg",
         "/portfolio/garderoba-centrum-2.jpg",
@@ -83,7 +83,7 @@ export const portfolioItems: PortfolioItem[] = [
     location: "Bydgoszcz, Wyżyny",
     completionDate: "2024-10",
     images: {
-      main: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1755073547211-szafgozdz-1_opt.webp",
+      main: "https://media.meblesystem.pl/shared/kuchnie/1755073547211-szafgozdz-1_opt.webp",
       gallery: [
         "/portfolio/salon-wyzyny-1.jpg",
         "/portfolio/salon-wyzyny-2.jpg",
@@ -113,7 +113,7 @@ export const portfolioItems: PortfolioItem[] = [
     location: "Bydgoszcz, Bartodzieje",
     completionDate: "2024-09",
     images: {
-      main: "https://s3.eu-north-1.amazonaws.com/piszemy.com.pl/grandkuchnie/1748596199233-1a,k%20(3)_opt.webp",
+      main: "https://media.meblesystem.pl/shared/kuchnie/1748596199233-1a,k%20(3)_opt.webp",
       gallery: [
         "/portfolio/sypialnia-bartodzieje-1.jpg",
         "/portfolio/sypialnia-bartodzieje-2.jpg",

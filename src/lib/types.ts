@@ -41,7 +41,7 @@ export interface Review {
 // Standardowy schemat portfolio: { src, alt?, category? } — nazwy pól spójne
 // z pozostałymi stronami portfolio Karola.
 // Obrazy docelowo pobierane z media.torweb.pl/<domena>/galleries.json;
-// obecnie hostowane na S3 (piszemy.com.pl) — do zmiany na etapie migracji.
+// hostowane w centralnej bibliotece media.meblesystem.pl (migracja 2026-07-27).
 export interface GalleryImage {
   src: string;
   alt?: string;
